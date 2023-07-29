@@ -1,0 +1,13 @@
+#服务端口号
+server:
+  port: 8090
+  tomcat:
+    uri-encoding: utf-8
+#日志配置文件以及日志级别
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    root: info
+spring:
+  application:
+    name: trans-serve # 服务名称

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>${APP_NAME}</contextName>
+
+    <springProperty name="APP_NAME" scope="context" source="spring.application.name"/>
+    <property name="log.path" value="logs/${APP_NAME}"/>
+    <property name="LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} [${APP_NAME}] [%-5level] [%thread] [%file:%line] %logger %msg%n"/>
+    <property name="ENCODING" value="UTF-8"/>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${APP_NAME}]){blue} %clr([%-5level]){yellow} %clr([%thread]){orange} %clr(%logger){cyan} %m%n"/>
+    <!--控制台打印日志-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>%{ENCODING}</charset>
+        </encoder>
+    </appender>
+    <!--文件打印日志-->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志路径-->
+        <file>${log.path}/log.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>%{ENCODING}</charset>
+        </encoder>
+        <!-- 设置滚动日志记录的滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志归档路径以及格式 -->
+            <fileNamePattern>${log.path}/%d{yyyy-MM-dd}/log-rolling-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--归档日志文件保留的最大数量-->
+            <maxHistory>15</maxHistory>
+
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ERROR_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/error.log</file>
+        <append>true</append>
+        <!--错误日志单独存放一份-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>%{ENCODING}</charset>
+        </encoder>
+        <!-- 设置滚动日志记录的滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志归档路径以及格式 -->
+            <fileNamePattern>${log.path}/%d{yyyy-MM-dd}/error-rolling-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--归档日志文件保留的最大数量-->
+            <maxHistory>15</maxHistory>
+
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.wybase" level="DEBUG"/>
+    <logger name="exception" level="ERROR"/>
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ROLLING_FILE"/>
+            <appender-ref ref="ERROR_ROLLING_FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="ERROR">
+            <appender-ref ref="ROLLING_FILE"/>
+            <appender-ref ref="ERROR_ROLLING_FILE"/>
+        </root>
+    </springProfile>
+
+</configuration>
