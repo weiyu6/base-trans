@@ -11,3 +11,10 @@ logging:
 spring:
   application:
     name: trans-serve # 服务名称
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.24.10:3306/trans?serverTimezone=UTC&characterEncoding=utf-8
+      username: root
+      password: password

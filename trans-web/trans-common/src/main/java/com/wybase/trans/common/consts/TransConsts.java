@@ -9,6 +9,11 @@ public class TransConsts {
     private TransConsts(){
 
     }
+
+    /**
+     * 切点路径
+     */
+    public static final String AOP_POINTCUT_EXPRESSION = "execution(* com.wybase.trans.serve.controller.*.*.*(..)) || execution(* com.wybase.trans.serve.controller.*.*(..))";
     /**
      * 记录状态：0-正常、1-已删除
      */
