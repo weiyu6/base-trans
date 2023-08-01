@@ -1,11 +1,17 @@
 package com.wybase.trans.serve.config;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.common.consts.TransHeardConsts;
 import com.wybase.trans.serve.entity.generate.TblTransRecordEntity;
 import com.wybase.trans.serve.service.TransRecordService;
 import com.wybase.trans.serve.util.IPUtils;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -17,6 +23,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -35,12 +42,15 @@ public class ControllerAspect {
 
     /**
      * 交易前处理，校验请求流水、登记交易流水信息等操作
-     * @param point
      */
     @Before(TransConsts.AOP_POINTCUT_EXPRESSION)
     public void before(JoinPoint point) {
         logger.info("ControllerAspect.before begin >>>>>>>>>");
         try {
+            Signature signature = point.getSignature();
+            // 交易id
+            String method = signature.getName();
+
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             String ipAddr = IPUtils.getIpAddr(request) == null ? "" : IPUtils.getIpAddr(request);// 请求ip地址
@@ -51,27 +61,23 @@ public class ControllerAspect {
             String os = map.get("OS") == null ? "" : map.get("OS");
             // 浏览器
             String browser = map.get("BROWSER") == null ? "" : map.get("BROWSER");
-
+            String chnl = request.getHeader("Chnl") == null ? "" : request.getHeader("Chnl");
+            String tokenUserId = request.getHeader("TokenUserId");
+            String tokenUserName = request.getHeader("tokenUserName");
             LocalDateTime dateTime = LocalDateTime.now();
             String transDate = dateTime.toLocalDate().toString();
             long snowFlakeId = IdUtil.getSnowflakeNextId();
             String transRecdId = String.format("%s%020d", transDate, snowFlakeId).replace("-", "");
-
+            logger.info("交易流水号：{}", transRecdId);
             TblTransRecordEntity transRecord = new TblTransRecordEntity();
             transRecord.setTransRecdId(transRecdId);
-            // transRecord.setReqRecdNum("");
-            // transRecord.setGlobRecdNum("");
-            // transRecord.setUserName("");
-            transRecord.setUserId("tokenUserId");
-            transRecord.setUserName("tokenUserName");
+            transRecord.setUserId(tokenUserId);
+            transRecord.setUserName(tokenUserName);
             transRecord.setTransDate(dateTime);
             transRecord.setReqDate(dateTime);
-            transRecord.setChnl("chnl");
-            // transRecord.setChnlSrc("");
-            transRecord.setMethod("method");
+            transRecord.setChnl(chnl);
+            transRecord.setMethod(method);
             transRecord.setIpAddr(ipAddr);
-            // transRecord.setMacAddr("");
-            // transRecord.setIpSrc("");
             transRecord.setUrl(url);
             transRecord.setReqType(type);
             transRecord.setOs(os);
@@ -79,12 +85,53 @@ public class ControllerAspect {
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_2);
             transRecord.setRecdStat(TransConsts.RECD_STAT_0);
             logger.info("transRecord:{}", transRecord);
-            boolean save = transRecordService.save(transRecord);
+            transRecordService.save(transRecord);
 
+            TransContext.init();
+            TransContext.setField(TransHeardConsts.START_DATE_TIME, dateTime);
+            TransContext.setField(TransHeardConsts.TRANS_RECORD, transRecord);
         } catch (Exception e) {
             logger.info("解析失败：", e);
         }
-
         logger.info("ControllerAspect.end begin >>>>>>>>>");
+    }
+
+    /**
+     * 交易成功处理，更新交易流水状态为交易成功
+     */
+    @AfterReturning(TransConsts.AOP_POINTCUT_EXPRESSION)
+    public void afterReturning() {
+        logger.info("ControllerAspect.afterReturning");
+        // 获取当前时间设为此交易结束时间
+        LocalDateTime endDateTime = LocalDateTime.now();
+        LocalDateTime startDateTime = (LocalDateTime) TransContext.getField(TransHeardConsts.START_DATE_TIME);
+        Duration between = LocalDateTimeUtil.between(startDateTime, endDateTime);
+        Long consumTime = between.toMillis();
+        logger.info("交易开始时间:{}，交易结束时间:{}，交易耗时:{}", startDateTime, endDateTime, consumTime);
+        TblTransRecordEntity transRecord = (TblTransRecordEntity) TransContext.getField(TransHeardConsts.TRANS_RECORD);
+        if (ObjectUtil.isNotEmpty(transRecord)) {
+            transRecord.setConsumTime(consumTime.intValue());
+            transRecord.setTransStatus(TransConsts.TRANS_STATUS_1);
+            transRecordService.updateById(transRecord, true);
+        }
+    }
+
+    /**
+     * 交易失败处理，更新交易流水状态为交易失败
+     */
+    @AfterThrowing(TransConsts.AOP_POINTCUT_EXPRESSION)
+    public void afterThrowing() {
+        logger.info("ControllerAspect.afterThrowing");
+        LocalDateTime endDateTime = LocalDateTime.now();
+        LocalDateTime startDateTime = (LocalDateTime) TransContext.getField(TransHeardConsts.START_DATE_TIME);
+        Duration between = LocalDateTimeUtil.between(startDateTime, endDateTime);
+        Long consumTime = between.toMillis();
+        logger.info("交易开始时间:{}，交易结束时间:{}，交易耗时:{}", startDateTime, endDateTime, consumTime);
+        TblTransRecordEntity transRecord = (TblTransRecordEntity) TransContext.getField(TransHeardConsts.TRANS_RECORD);
+        if (ObjectUtil.isNotEmpty(transRecord)) {
+            transRecord.setConsumTime(consumTime.intValue());
+            transRecord.setTransStatus(TransConsts.TRANS_STATUS_0);
+            transRecordService.updateById(transRecord, true);
+        }
     }
 }

@@ -53,4 +53,8 @@ public class TransHeardConsts {
      * 交易开始时间
      */
     public static final String START_DATE_TIME = "startDateTime";
+    /**
+     * 交易流水表
+     */
+    public static final String TRANS_RECORD = "transRecord";
 }
