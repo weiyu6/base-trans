@@ -40,6 +40,7 @@ public class MybatisFlexGenerator {
 //        globalConfig.enableController();
         globalConfig.enableService();
         globalConfig.enableServiceImpl();
+        globalConfig.enableMapperXml();
 
         // 注释配置 JavadocConfig
         globalConfig.getJavadocConfig()
@@ -52,6 +53,7 @@ public class MybatisFlexGenerator {
                 .setServicePackage("com.wybase.trans.serve.service")
                 .setServiceImplPackage("com.wybase.trans.serve.service.impl")
                 .setEntityPackage("com.wybase.trans.serve.entity.generate")
+                .setMapperXmlPath(System.getProperty("user.dir") + "/trans-serve/src/main/java/"+"com/wybase/trans/serve/mapper/generate")
                 .setMapperPackage("com.wybase.trans.serve.mapper.generate");
 
         //设置表前缀和只生成哪些表，setGenerateTable 未配置时，生成所有表
@@ -71,7 +73,10 @@ public class MybatisFlexGenerator {
         globalConfig.getMapperConfig()
                 .setClassPrefix("Tbl")
                 .setClassSuffix("Mapper");
-
+        // MapperXml 生成配置 MapperXmlConfig
+        globalConfig.getMapperXmlConfig()
+                .setFilePrefix("Tbl")
+                .setFileSuffix("Mapper");
         return globalConfig;
     }
 }
