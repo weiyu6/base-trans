@@ -60,23 +60,28 @@ public class MybatisFlexGenerator {
         Set<String> tables = new HashSet<>();
         tables.add("b_sys_log");
         tables.add("b_trans_record");
+        tables.add("b_user");
         globalConfig.getStrategyConfig()
                 .setTablePrefix("b_")
                 .setGenerateTables(tables);
 
         // Entity 生成配置 EntityConfig
         globalConfig.getEntityConfig()
-                .setClassPrefix("Tbl")
+//                .setClassPrefix("Tbl")
                 .setClassSuffix("Entity");
 
         // Mapper 生成配置 MapperConfig
         globalConfig.getMapperConfig()
-                .setClassPrefix("Tbl")
+//                .setClassPrefix("Tbl")
                 .setClassSuffix("Mapper");
         // MapperXml 生成配置 MapperXmlConfig
         globalConfig.getMapperXmlConfig()
-                .setFilePrefix("Tbl")
+//                .setFilePrefix("Tbl")
                 .setFileSuffix("Mapper");
+
+        globalConfig.getServiceConfig()
+                .setClassPrefix("I");
+
         return globalConfig;
     }
 }

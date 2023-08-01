@@ -1,6 +1,6 @@
 package com.wybase.trans.serve.mapper.custom;
 
-import com.wybase.trans.serve.entity.generate.TblSysLogEntity;
+import com.wybase.trans.serve.entity.generate.SysLogEntity;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  * @date 2023/7/29
  */
 public interface TestMapper {
-    public List<TblSysLogEntity> list();
+    public List<SysLogEntity> list();
 }

@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
  * 日志表 实体类。
  *
  * @author weiyu
- * @since 2023-07-29
+ * @since 2023-08-01
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(value = "b_sys_log")
-public class TblSysLogEntity implements Serializable {
+public class SysLogEntity implements Serializable {
     /**
      * 日志ID
      */

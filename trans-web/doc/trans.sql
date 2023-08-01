@@ -60,3 +60,40 @@ create table if not exists b_sys_log
     primary key (log_id)
 ) engine = innodb
   default charset = utf8mb4 comment = '日志表';
+
+create table if not exists b_user
+(
+    user_id            varchar(32)  not null comment '用户id',
+    user_nm            varchar(256) not null comment '用户名',
+    pass_word          varchar(32)  not null comment '密码',
+    nick_nm            varchar(256)          default null comment '昵称',
+    gender             varchar(1)            default null comment '性别(1:男2:女)',
+    avatar             varchar(128)          default null comment '个人头像',
+    birthday           date                  default null comment '出生年月日',
+    email              varchar(64)           default null comment '邮箱',
+    valid_code         varchar(256)          default null comment '邮箱验证码',
+    mobile             varchar(64)           default null comment '手机',
+    qq_num             varchar(16)           default null comment 'qq号',
+    wechat_num         varchar(64)           default null comment '微信号',
+    summy              varchar(256)          default null comment '自我简介最多150字',
+    login_count        int(11)               default 0 comment '登录次数',
+    last_login_time    datetime              default null comment '最后登录时间',
+    last_login_ip      varchar(64)           default null comment '最后登录ip',
+    source             varchar(256)          default null comment '资料来源',
+    uuid               varchar(256)          default null comment '平台uuid',
+    profession         varchar(256)          default null comment '职业',
+    comment_stat       varchar(1)   not null default 1 comment '评论状态 1:正常 0:禁言',
+    ip_src             varchar(256)          default null comment 'ip来源',
+    browser            varchar(256)          default null comment '浏览器',
+    os                 varchar(256)          default null comment '操作系统',
+    start_email_notice varchar(1)   not null default '0' comment '是否开启邮件通知 1:开启 0:关闭',
+    user_tag           varchar(1)   not null default '0' comment '用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员 等',
+    role_id            varchar(256) not null comment '角色ID',
+    loading_valid      varchar(1)   not null default '0' comment '是否通过加载校验【0 未通过，1 已通过】',
+    trans_recd_num     varchar(36)  not null comment '交易流水号',
+    create_time        datetime     not null default current_timestamp comment '创建时间',
+    update_time        datetime     not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    recd_stat          varchar(2)   not null default '0' comment '记录状态：0-正常，1-删除',
+    primary key (user_id)
+) engine = innodb
+  default charset = utf8mb4 comment ='用户表';

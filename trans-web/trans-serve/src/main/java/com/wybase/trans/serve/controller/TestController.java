@@ -4,9 +4,9 @@ import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
-import com.wybase.trans.serve.entity.generate.TblSysLogEntity;
+import com.wybase.trans.serve.entity.generate.SysLogEntity;
 import com.wybase.trans.serve.mapper.custom.TestMapper;
-import com.wybase.trans.serve.service.SysLogService;
+import com.wybase.trans.serve.service.ISysLogService;
 import com.wybase.trans.serve.vo.TestVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class TestController {
     private TestMapper mapper;
 
     @Autowired
-    private SysLogService sysLogService;
+    private ISysLogService sysLogService;
 
     @GetMapping("/test")
     public Result test(@RequestParam(required = false) String flag) {
@@ -45,7 +45,7 @@ public class TestController {
         if ("1".equals(flag)) {
             throw new TransException(ResultCodeEnum.FAIL, "");
         }
-        List<TblSysLogEntity> list = mapper.list();
+        List<SysLogEntity> list = mapper.list();
         return Result.fail().data("info", list);
     }
 
@@ -55,8 +55,8 @@ public class TestController {
         logger.info("vo:{}", vo);
         String username = vo.getUsername();
         String age = vo.getAge();
-        TblSysLogEntity sysLog = new TblSysLogEntity();
-        sysLog.setLogId("123");
+        SysLogEntity sysLog = new SysLogEntity();
+        sysLog.setLogId("1234");
         sysLog.setUserId("1");
         sysLog.setUserNm("1");
         sysLog.setChnl("1");
