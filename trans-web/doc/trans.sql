@@ -97,3 +97,78 @@ create table if not exists b_user
     primary key (user_id)
 ) engine = innodb
   default charset = utf8mb4 comment ='用户表';
+
+/*==============================================================*/
+/* table: b_enum_list                                           */
+/*==============================================================*/
+create table if not exists b_enum_list
+(
+    enum_id   varchar(32) not null comment '枚举id',
+    seq       int         not null comment '序号',
+    key_id    varchar(256) comment '枚举key',
+    key_nm    varchar(256) comment '枚举描述',
+    remark    varchar(256) comment '备注',
+    recd_stat varchar(2) comment '记录状态：0-正常，1-删除',
+    primary key (enum_id, seq)
+) engine = innodb
+  default charset = utf8mb4 comment ='枚举列表';
+
+/*==============================================================*/
+/* Table: b_menu                                                */
+/*==============================================================*/
+create table if not exists b_menu
+(
+    menu_id          varchar(32) not null comment '菜单ID',
+    high_lvl_id      varchar(32) not null comment '上级菜单ID',
+    menu_lvl         varchar(2)  not null comment '菜单级别',
+    menu_nm          varchar(32) comment '菜单名称',
+    menu_type        varchar(2) comment '类型(1:菜单,2:按钮)',
+    permission_value varchar(64) comment '权限值',
+    path             varchar(128) comment '访问路径',
+    component        varchar(128) comment '组件路径',
+    icon             varchar(64) comment '图标',
+    sort             int(11)              default 100 comment '排序字段，越小越靠前',
+    menu_stat        varchar(2) comment '菜单状态(0:禁止,1:正常)',
+    summy            varchar(128) comment '简介',
+    link_flg         varchar(2)  not null comment '外部链接标志(0-否，1-是)',
+    create_time      datetime             default CURRENT_TIMESTAMP comment '创建时间',
+    update_time      datetime             default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+    recd_stat        varchar(2)  not null default '0' comment '记录状态：0-正常，1-删除',
+    primary key (menu_id),
+    index idx_b_menu_highLvl_id (high_lvl_id) using btree
+) engine = innodb
+  default charset = utf8mb4 comment = '菜单表';
+
+/*==============================================================*/
+/* Table: t_role                                                */
+/*==============================================================*/
+create table if not exists b_role
+(
+    role_id     varchar(32) not null comment '角色ID',
+    role_nm     varchar(64) comment '角色名称',
+    role_code   varchar(32) comment '角色编码',
+    role_stat   varchar(2) comment '角色状态：0-正常，1-停用',
+    summy       varchar(128) comment '简介',
+    create_time datetime             default CURRENT_TIMESTAMP comment '创建时间',
+    update_time datetime             default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+    recd_stat   varchar(2)  not null default '0' comment '记录状态：0-正常，1-删除',
+    primary key (role_id)
+) engine = innodb
+  default charset = utf8mb4 comment = '角色表';
+
+/*==============================================================*/
+/* Table: b_role_menu                                           */
+/*==============================================================*/
+create table if not exists b_role_menu_relatn
+(
+    rmr_id      varchar(32) not null comment '角色菜单ID',
+    role_id     varchar(32) not null comment '角色ID',
+    menu_id     varchar(32) not null comment '菜单ID',
+    create_time datetime             default CURRENT_TIMESTAMP comment '创建时间',
+    update_time datetime             default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+    recd_stat   varchar(2)  not null default '0' comment '记录状态：0-正常，1-删除',
+    primary key (rmr_id),
+    index idx_t_role_menu_roleid (role_id),
+    index idx_t_role_menu_menuid (menu_id)
+) engine = innodb
+  default charset = utf8mb4 comment = '角色菜单关联表';
