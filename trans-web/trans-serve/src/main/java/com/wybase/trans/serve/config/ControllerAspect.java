@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.consts.TransHeardConsts;
-import com.wybase.trans.serve.entity.generate.TransRecordEntity;
+import com.wybase.trans.serve.entity.generate.TransRecord;
 import com.wybase.trans.serve.service.ITransRecordService;
 import com.wybase.trans.serve.util.IPUtils;
 import org.aspectj.lang.JoinPoint;
@@ -69,7 +69,7 @@ public class ControllerAspect {
             long snowFlakeId = IdUtil.getSnowflakeNextId();
             String transRecdId = String.format("%s%020d", transDate, snowFlakeId).replace("-", "");
             logger.info("交易流水号：{}", transRecdId);
-            TransRecordEntity transRecord = new TransRecordEntity();
+            TransRecord transRecord = new TransRecord();
             transRecord.setTransRecdId(transRecdId);
             transRecord.setUserId(tokenUserId);
             transRecord.setUserName(tokenUserName);
@@ -108,7 +108,7 @@ public class ControllerAspect {
         Duration between = LocalDateTimeUtil.between(startDateTime, endDateTime);
         Long consumTime = between.toMillis();
         logger.info("交易开始时间:{}，交易结束时间:{}，交易耗时:{}", startDateTime, endDateTime, consumTime);
-        TransRecordEntity transRecord = (TransRecordEntity) TransContext.getField(TransHeardConsts.TRANS_RECORD);
+        TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
         if (ObjectUtil.isNotEmpty(transRecord)) {
             transRecord.setConsumTime(consumTime.intValue());
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_1);
@@ -127,7 +127,7 @@ public class ControllerAspect {
         Duration between = LocalDateTimeUtil.between(startDateTime, endDateTime);
         Long consumTime = between.toMillis();
         logger.info("交易开始时间:{}，交易结束时间:{}，交易耗时:{}", startDateTime, endDateTime, consumTime);
-        TransRecordEntity transRecord = (TransRecordEntity) TransContext.getField(TransHeardConsts.TRANS_RECORD);
+        TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
         if (ObjectUtil.isNotEmpty(transRecord)) {
             transRecord.setConsumTime(consumTime.intValue());
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_0);
