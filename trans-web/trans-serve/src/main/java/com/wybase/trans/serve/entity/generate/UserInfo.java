@@ -11,17 +11,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 用户表 实体类。
+ * 用户信息表 实体类。
  *
  * @author weiyu
- * @since 2023-08-01
+ * @since 2023-08-05
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(value = "b_user")
-public class UserEntity implements Serializable {
+@Table(value = "b_user_info")
+public class UserInfo implements Serializable {
     /**
      * 用户id
      */

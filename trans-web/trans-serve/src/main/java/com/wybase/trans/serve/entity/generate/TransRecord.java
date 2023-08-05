@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
  * 交易流水表 实体类。
  *
  * @author weiyu
- * @since 2023-08-01
+ * @since 2023-08-05
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(value = "b_trans_record")
-public class TransRecordEntity implements Serializable {
+public class TransRecord implements Serializable {
     /**
      * 交易流水号
      */
