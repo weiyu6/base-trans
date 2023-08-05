@@ -1,5 +1,5 @@
 -- user 用户表
-INSERT INTO `trans`.`b_user`(`user_id`, `user_nm`, `pass_word`, `nick_nm`, `gender`, `avatar`, `birthday`, `email`, `valid_code`, `mobile`, `qq_num`, `wechat_num`, `summy`, `login_count`, `last_login_time`, `last_login_ip`, `source`, `uuid`, `profession`, `comment_stat`, `ip_src`, `browser`, `os`, `start_email_notice`, `user_tag`, `role_id`, `loading_valid`, `trans_recd_num`, `create_time`, `update_time`, `recd_stat`)
+INSERT INTO `trans`.`b_user_info`(`user_id`, `user_nm`, `pass_word`, `nick_nm`, `gender`, `avatar`, `birthday`, `email`, `valid_code`, `mobile`, `qq_num`, `wechat_num`, `summy`, `login_count`, `last_login_time`, `last_login_ip`, `source`, `uuid`, `profession`, `comment_stat`, `ip_src`, `browser`, `os`, `start_email_notice`, `user_tag`, `role_id`, `loading_valid`, `trans_recd_num`, `create_time`, `update_time`, `recd_stat`)
 VALUES ('u252015231142727680', 'admin', '27D0D9438E43F2A6F15C4792255B8D78', '赵子龙', '1', 'https://wylearn-file.oss-cn-qingdao.aliyuncs.com/2022-04-03/258230308216770560-logo-3.png', '1990-02-16', 'zzl@email.com', '', '15899996666', '123456', 'zzlnb', '吾乃常山赵子龙是也', 35, '2022-04-03 23:38:52', '127.0.0.1', 'meet', '', '3', '1', '', 'Chrome-99.0.4844.74', 'Windows', '1', '2', '2|', '1', '2022040300258230329150541824', '2022-03-17 20:02:31', '2022-04-03 23:38:52', '0');
 
 -- b_enum_list枚举列表

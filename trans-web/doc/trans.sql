@@ -61,7 +61,7 @@ create table if not exists b_sys_log
 ) engine = innodb
   default charset = utf8mb4 comment = '日志表';
 
-create table if not exists b_user
+create table if not exists b_user_info
 (
     user_id            varchar(32)  not null comment '用户id',
     user_nm            varchar(256) not null comment '用户名',
@@ -94,9 +94,10 @@ create table if not exists b_user
     create_time        datetime     not null default current_timestamp comment '创建时间',
     update_time        datetime     not null default current_timestamp on update current_timestamp(0) comment '更新时间',
     recd_stat          varchar(2)   not null default '0' comment '记录状态：0-正常，1-删除',
-    primary key (user_id)
+    primary key (user_id),
+    unique index idx_user_info_username (user_nm)
 ) engine = innodb
-  default charset = utf8mb4 comment ='用户表';
+  default charset = utf8mb4 comment ='用户信息表';
 
 /*==============================================================*/
 /* table: b_enum_list                                           */
