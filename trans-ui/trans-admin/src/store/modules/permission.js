@@ -1,14 +1,14 @@
-import {asyncRoutes, constantRoutes} from '@/router'
-import {getToken} from '@/utils/auth'
+import { constantRoutes } from '@/router'
+import { getToken } from '@/utils/auth'
 import Layout from '@/layout'
-import menu from "@/api/meetblog/menu";
+import menu from '@/api/meetblog/menu'
+
 /**
  * Use meta.role to determine if the current user has permission
  * @param roles
  * @param route
  */
 function hasPermission(roles, route) {
-  let path = route.path;
   if (route.meta && route.meta.roles) {
     return roles.some(role => route.meta.roles.includes(role))
   } else {
@@ -24,7 +24,7 @@ function hasPermission(roles, route) {
 export function filterAsyncRoutes(routes, roles) {
   const res = []
   routes.forEach(route => {
-    const tmp = {...route}
+    const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -49,30 +49,31 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({commit}, roles) {
+  generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       const loadMenuData = []
 
-      var sear = {}
-      sear.token = getToken();
+      const sear = {}
+      sear.token = getToken()
       menu.getMenuTree(sear).then(res => {
-
-
-        let data = res.data.menuTree
+        debugger
+        let data = []
+        data = res.data.data.menuTree
         Object.assign(loadMenuData, data)
-        let asyncRoutes = []
+        const asyncRoutes = []
         generaMenu(asyncRoutes, data)
 
         let accessedRoutes
-        if (roles.includes('3')) {
-          accessedRoutes = asyncRoutes || []
-        } else {
-          accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-        }
+        // if (roles.includes('3')) {
+        //   accessedRoutes = asyncRoutes || []
+        // } else {
+        //   accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+        // }
+        // eslint-disable-next-line prefer-const
+        accessedRoutes = asyncRoutes || []
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
-      });
-
+      })
     })
   }
 }
@@ -98,7 +99,7 @@ export function generaMenu(routes, data) {
       name: item.menuNm,
       meta: { title: item.menuNm, icon: item.icon }
     }
-    if(item.linkFlg !='0'){
+    if (item.linkFlg !== '0') {
       menu = {
         path: item.path,
         // hidden: true,

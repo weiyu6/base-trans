@@ -11,6 +11,6 @@ export function setToken(token) {
 }
 
 export function removeToken() {
-  //删除登陆时添加在cookies中的用户role
+  // 删除登陆时添加在cookies中的用户role
   return Cookies.remove(TokenKey)
 }

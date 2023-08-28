@@ -1,5 +1,5 @@
-import { login, logout, getInfo,getButtonMap } from '@/api/user'
-import {getToken, setToken, removeToken} from '@/utils/auth'
+import { login, logout, getInfo, getButtonMap } from '@/api/user'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -54,15 +54,13 @@ const actions = {
   // 获取按钮列表
   getButtonMap({ commit }) {
     return new Promise((resolve, reject) => {
-
-      var searchObj={}
+      var searchObj = {}
       searchObj.token = state.token
       getButtonMap(searchObj).then(response => {
-
-        const  data  = response.data
-        let buttonList = data.buttonList
-        let map = new Map();
-        for(let a=0; a<buttonList.length; a++) {
+        const data = response.data
+        const buttonList = data.buttonList
+        const map = new Map()
+        for (let a = 0; a < buttonList.length; a++) {
           map.set(buttonList[a].path, buttonList[a])
         }
         commit('SET_BUTTON_MAP', map)
@@ -75,17 +73,19 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      var searchObj={}
+      var searchObj = {}
 
       searchObj.token = state.token
       getInfo(searchObj).then(response => {
-        const { data } = response
+        debugger
+        const data = response.data
         // token信息不存在，则重新登录
-        if (!data.token) {
+        if (!data.info.token) {
           reject('登录信息已失效，请重新登录')
         }
 
-        const { roles, name, avatar } = data
+        debugger
+        const { roles, name, avatar } = data.info
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -105,7 +105,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      var searchObj={}
+      var searchObj = {}
       searchObj.token = state.token
       logout(searchObj).then(() => {
         removeToken() // must remove  token  first
