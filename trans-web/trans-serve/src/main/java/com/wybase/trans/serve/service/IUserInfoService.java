@@ -11,4 +11,9 @@ import com.wybase.trans.serve.entity.generate.UserInfo;
  */
 public interface IUserInfoService extends IService<UserInfo> {
 
+    /**
+     * 查询用户总数
+     * @return
+     */
+    long userCount();
 }

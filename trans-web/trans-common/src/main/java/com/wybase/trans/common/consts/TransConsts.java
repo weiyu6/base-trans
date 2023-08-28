@@ -34,5 +34,32 @@ public class TransConsts {
      * 交易状态码：0-交易失败、1-交易成功、2-交易处理中
      */
     public static final String TRANS_STATUS_2 = "2";
-    
+    /**
+     * 角色ID:0-普通用户，1-管理员，2-超级管理员
+     */
+    public static final String ROLE_ID_0 = "0";
+    /**
+     * 角色ID:0-普通用户，1-管理员，2-超级管理员
+     */
+    public static final String ROLE_ID_1 = "1";
+    /**
+     * 角色ID:0-普通用户，1-管理员，2-超级管理员
+     */
+    public static final String ROLE_ID_2 = "2";
+    /**
+     * 菜单类型(1-菜单,2-按钮)
+     */
+    public static final String MENU_TYPE_1 = "1";
+    /**
+     * 菜单类型(1-菜单,2-按钮)
+     */
+    public static final String MENU_TYPE_2 = "2";
+    /**
+     * 菜单状态(0:禁止,1:正常)
+     */
+    public static final String MENU_STAT_0 = "0";
+    /**
+     * 菜单状态(0:禁止,1:正常)
+     */
+    public static final String MENU_STAT_1 = "1";
 }
