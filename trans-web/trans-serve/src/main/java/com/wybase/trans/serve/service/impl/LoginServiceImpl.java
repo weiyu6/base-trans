@@ -1,6 +1,5 @@
 package com.wybase.trans.serve.service.impl;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wybase.trans.base.exception.TransException;
@@ -8,6 +7,8 @@ import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransHeardConsts;
 import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.dao.UserInfoDao;
+import com.wybase.trans.serve.dto.LoginInput;
+import com.wybase.trans.serve.dto.LoginOutput;
 import com.wybase.trans.serve.entity.generate.UserInfo;
 import com.wybase.trans.serve.service.ILoginService;
 import com.wybase.trans.serve.service.IUserInfoService;
@@ -18,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author weiyu
@@ -36,6 +39,12 @@ public class LoginServiceImpl implements ILoginService {
     @Autowired
     private PwdUtil pwdUtil;
 
+    /**
+     * 登录
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
     @Override
     public JSONObject login(String username, String password) {
         logger.debug("LoginServiceImpl.login begin >>>>>>>> [username:{}, password:{}]", username, password);
@@ -56,7 +65,7 @@ public class LoginServiceImpl implements ILoginService {
             throw new TransException(ResultCodeEnum.LOGIN_PASSWORD_ERROR);
         }
 //        String token = JwtUtil.createToken(userId, username);
-        String token = IdUtil.simpleUUID();
+        String token = userId;
 //        // 将token存放到redis中
 //        String key = TransConsts.USER_LOGIN_TOKEN_ID + userId;
 //        boolean result = redisUtil.set(key, token, 2, TimeUnit.HOURS);
@@ -76,5 +85,55 @@ public class LoginServiceImpl implements ILoginService {
         object.put("token", token);
         object.put("userId", userId);
         return object;
+    }
+
+    /**
+     * 获取用户信息
+     * @param input 输入参数
+     * @return
+     */
+    @Override
+    public LoginOutput info(LoginInput input) {
+        logger.debug("LoginServiceImpl.info input:{}", input);
+        String token = input.getToken();
+        String userId = token;
+        // String userIdInput = input.getUserId();
+        LoginOutput loginRes = new LoginOutput();
+        // 从Redis中获取token
+//        String key = TransConsts.USER_LOGIN_TOKEN_ID + userId;
+//        token = (String) redisUtil.get(key);
+//        if (CommUtil.isEmpty(token)) {
+//            log.error("token不存在或已失效");
+//            // throw new TransException(ResultCodeEnum.REDIS_USER_TOKEN_ERROR);
+//            return loginRes;
+//        }
+
+        // 判断发起请求的用户id与解析token获取的用户id是否一致，不一致则不正确
+
+        // if (CommUtil.notEquals(userIdInput, userId)) {
+        //     log.error("用户信息不正确");
+        //     return loginRes;
+        // }
+        UserInfo user = userInfoService.getById(userId);
+        if (ObjectUtil.isEmpty(user)) {
+            throw new TransException(ResultCodeEnum.LOGIN_USERNM_ERROR);
+        }
+        String nickNm = user.getNickNm();
+        String avatar = user.getAvatar();
+        String userTag = user.getUserTag();
+        // 用户信息校验结束后，更新缓存失效时间
+//        boolean result = redisUtil.expire(key, 2, TimeUnit.HOURS);
+//        if (!result) {
+//            log.error("Redis写入失败！");
+//            throw new TransException(ResultCodeEnum.TRAN100703);
+//        }
+        loginRes.setName(nickNm);
+        loginRes.setAvatar(avatar);
+        loginRes.setToken(token);
+        // TODO 简单权限管理，后续增加详细权限设置
+        List<String> roles = new CopyOnWriteArrayList<>();
+        roles.add(userTag);
+        loginRes.setRoles(roles);
+        return loginRes;
     }
 }

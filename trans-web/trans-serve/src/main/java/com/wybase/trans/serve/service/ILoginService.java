@@ -1,6 +1,8 @@
 package com.wybase.trans.serve.service;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.wybase.trans.serve.dto.LoginInput;
+import com.wybase.trans.serve.dto.LoginOutput;
 
 /**
  * 登录注册服务
@@ -9,5 +11,18 @@ import com.alibaba.fastjson2.JSONObject;
  */
 public interface ILoginService {
 
+    /**
+     * 登录
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
     JSONObject login(String username, String password);
+
+    /**
+     * 获取用户信息
+     * @param input 输入参数
+     * @return
+     */
+    LoginOutput info(LoginInput input);
 }

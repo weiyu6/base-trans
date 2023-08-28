@@ -4,7 +4,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
-
+import com.wybase.trans.serve.dto.LoginInput;
+import com.wybase.trans.serve.dto.LoginOutput;
 import com.wybase.trans.serve.service.ILoginService;
 import com.wybase.trans.serve.vo.LoginVo;
 import org.apache.commons.lang3.StringUtils;
@@ -28,9 +29,8 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
-
     @PostMapping("/login")
-    public Result login(@RequestBody LoginVo loginVo){
+    public Result login(@RequestBody LoginVo loginVo) {
         logger.info("LoginController.login begin >>>>>>>>>>>>>>>>>>>");
         logger.info("request:{}", loginVo);
         String username = loginVo.getUsername();
@@ -43,15 +43,20 @@ public class LoginController {
         }
         // 校验用户信息，并获取token
         JSONObject object = loginService.login(username, password);
-        String token = object.getString("token");
-        String userId = object.getString("userId");
-
-
-//
-//        LoginResponse response = new LoginResponse();
-//        response.setToken(token);
-//        response.setUserId(userId);
-//        log.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
+        logger.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
         return Result.ok().data(object);
+    }
+
+    @PostMapping("/info")
+    public Result info(@RequestBody LoginVo loginVo) {
+        logger.debug("LoginController.info begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", loginVo);
+        //String tokenHear = request.getHeader("tokenHear");
+        String token = loginVo.getToken();
+        LoginInput input = new LoginInput();
+        input.setToken(token);
+        LoginOutput loginRes = loginService.info(input);
+        logger.debug("LoginController.info end:<<<<<<<<<<<<<<<<<");
+        return Result.ok().data("info", loginRes);
     }
 }
