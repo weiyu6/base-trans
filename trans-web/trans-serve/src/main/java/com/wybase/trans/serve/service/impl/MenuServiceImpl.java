@@ -80,6 +80,38 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     }
 
     /**
+     * 查询按钮列表
+     */
+    @Override
+    public MenuOutput buttonList(MenuInput serviceInput) {
+        logger.debug("MenuServiceImpl.buttonList begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("serviceInput:{}", serviceInput);
+        MenuOutput serviceOutput = new MenuOutput();
+        String token = serviceInput.getToken();
+        List<MenuExtend> menuExtendList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(token)) {
+            String userId = token;
+            // 根据userid查询出用户所拥有的角色
+            UserInfo user = userInfoService.getById(userId);
+            String roleId = user.getRoleId();
+            String[] roleIds = roleId.split("\\|");
+            // 用户级别包含2-超级管理员，则查询出所有菜单列表,用于显示
+            if (Arrays.asList(roleIds).contains(TransConsts.ROLE_ID_2)) {
+                menuExtendList = menuDao.menuListAll(TransConsts.MENU_TYPE_2, TransConsts.MENU_STAT_1);
+            } else {
+                // 根据角色ID查询出所拥有的菜单
+                menuExtendList = menuDao.menuListByRoleIds(roleIds, TransConsts.MENU_TYPE_2);
+            }
+
+        } else {
+            menuExtendList = menuDao.menuListAll(TransConsts.MENU_TYPE_1, null);
+        }
+        serviceOutput.setButtonList(menuExtendList);
+        logger.debug("MenuServiceImpl.buttonList end:<<<<<<<<<<<<<<<<<");
+        return serviceOutput;
+    }
+
+    /**
      * 使用迭代为菜单添加子菜单
      * @param menu
      * @param menuExtendList

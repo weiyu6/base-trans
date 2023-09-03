@@ -136,4 +136,9 @@ public class LoginServiceImpl implements ILoginService {
         loginRes.setRoles(roles);
         return loginRes;
     }
+
+    @Override
+    public void logout(String token) {
+
+    }
 }

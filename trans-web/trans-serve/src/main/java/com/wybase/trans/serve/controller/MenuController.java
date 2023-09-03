@@ -28,7 +28,6 @@ public class MenuController {
     private IMenuService menuService;
     /**
      * 查询菜单树形列表
-     * @param request
      */
     @PostMapping("/menutree")
     public Result menutree(@RequestBody(required = false) MenuVo request) {
@@ -38,6 +37,20 @@ public class MenuController {
         BeanUtils.copyProperties(request, serviceInput);
         MenuOutput output = menuService.menuListAll(serviceInput);
         logger.debug("MenuController.menulist end:<<<<<<<<<<<<<<<<<");
-        return Result.ok().data("data", output);
+        return Result.ok().data("info", output);
+    }
+
+    /**
+     * 查询按钮列表
+     */
+    @PostMapping("/buttonList")
+    public Result buttonList(@RequestBody MenuVo request) {
+        logger.debug("MenuController.buttonList begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput serviceInput = new MenuInput();
+        BeanUtils.copyProperties(request, serviceInput);
+        MenuOutput output = menuService.buttonList(serviceInput);
+        logger.debug("MenuController.buttonList end:<<<<<<<<<<<<<<<<<");
+        return Result.ok().data("info", output);
     }
 }

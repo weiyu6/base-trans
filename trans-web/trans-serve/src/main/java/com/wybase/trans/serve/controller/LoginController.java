@@ -59,4 +59,14 @@ public class LoginController {
         logger.debug("LoginController.info end:<<<<<<<<<<<<<<<<<");
         return Result.ok().data("info", loginRes);
     }
+
+    @PostMapping("/logout")
+    public Result logout(@RequestBody LoginVo request) {
+        logger.debug("LoginController.logout begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        String token = request.getToken();
+        loginService.logout(token);
+        logger.debug("LoginController.logout end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
 }

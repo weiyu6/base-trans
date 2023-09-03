@@ -13,8 +13,12 @@ import com.wybase.trans.serve.entity.generate.Menu;
 public interface IMenuService extends IService<Menu> {
     /**
      * 查询菜单列表
-     * @param serviceInput
      * @return
      */
     MenuOutput menuListAll(MenuInput serviceInput);
+
+    /**
+     * 查询按钮列表
+     */
+    MenuOutput buttonList(MenuInput serviceInput);
 }

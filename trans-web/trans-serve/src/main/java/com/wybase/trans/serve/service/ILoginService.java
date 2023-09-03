@@ -25,4 +25,10 @@ public interface ILoginService {
      * @return
      */
     LoginOutput info(LoginInput input);
+
+    /**
+     * 退出登录
+     * @param token
+     */
+    void logout(String token);
 }
