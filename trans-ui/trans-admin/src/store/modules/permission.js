@@ -58,20 +58,20 @@ const actions = {
       menu.getMenuTree(sear).then(res => {
         debugger
         let data = []
-        data = res.data.data.menuTree
+        data = res.data.info.menuTree
         Object.assign(loadMenuData, data)
         const asyncRoutes = []
         generaMenu(asyncRoutes, data)
 
         let accessedRoutes
-        // if (roles.includes('3')) {
-        //   accessedRoutes = asyncRoutes || []
-        // } else {
-        //   accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-        // }
+        if (roles.includes('3')) {
+          accessedRoutes = asyncRoutes || []
+        } else {
+          accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+        }
         // eslint-disable-next-line prefer-const
-        accessedRoutes = asyncRoutes || []
         commit('SET_ROUTES', accessedRoutes)
+        // 会将accessedRoutes返回给调用
         resolve(accessedRoutes)
       })
     })
