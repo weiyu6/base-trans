@@ -139,6 +139,6 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public void logout(String token) {
-
+        // TODO document why this method is empty
     }
 }

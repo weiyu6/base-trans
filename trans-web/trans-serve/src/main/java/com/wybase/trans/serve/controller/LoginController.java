@@ -44,7 +44,7 @@ public class LoginController {
         // 校验用户信息，并获取token
         JSONObject object = loginService.login(username, password);
         logger.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
-        return Result.ok().data(object);
+        return Result.ok(object);
     }
 
     @PostMapping("/info")
@@ -57,7 +57,7 @@ public class LoginController {
         input.setToken(token);
         LoginOutput loginRes = loginService.info(input);
         logger.debug("LoginController.info end:<<<<<<<<<<<<<<<<<");
-        return Result.ok().data("info", loginRes);
+        return Result.ok(loginRes);
     }
 
     @PostMapping("/logout")

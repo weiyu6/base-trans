@@ -37,7 +37,7 @@ public class MenuController {
         BeanUtils.copyProperties(request, serviceInput);
         MenuOutput output = menuService.menuListAll(serviceInput);
         logger.debug("MenuController.menulist end:<<<<<<<<<<<<<<<<<");
-        return Result.ok().data("info", output);
+        return Result.ok(output);
     }
 
     /**
@@ -51,6 +51,6 @@ public class MenuController {
         BeanUtils.copyProperties(request, serviceInput);
         MenuOutput output = menuService.buttonList(serviceInput);
         logger.debug("MenuController.buttonList end:<<<<<<<<<<<<<<<<<");
-        return Result.ok().data("info", output);
+        return Result.ok(output);
     }
 }

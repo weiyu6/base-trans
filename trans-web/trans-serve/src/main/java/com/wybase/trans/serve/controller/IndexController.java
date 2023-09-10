@@ -24,10 +24,10 @@ public class IndexController {
     private IIndexService indexService;
 
     @PostMapping("/init")
-    public Result init() {
+    public Result<IndexOutput> init() {
         logger.debug("IndexController.init begin:>>>>>>>>>>>>>>>>>>>");
         IndexOutput output = indexService.init();
         logger.debug("IndexController.init end:<<<<<<<<<<<<<<<<<");
-        return Result.ok().data("data",output);
+        return Result.ok(output);
     }
 }
