@@ -58,7 +58,7 @@ const actions = {
       searchObj.token = state.token
       getButtonMap(searchObj).then(response => {
         const data = response.data
-        const buttonList = data.info.buttonList
+        const buttonList = data.buttonList
         const map = new Map()
         for (let a = 0; a < buttonList.length; a++) {
           map.set(buttonList[a].path, buttonList[a])
@@ -78,7 +78,7 @@ const actions = {
       searchObj.token = state.token
       getInfo(searchObj).then(response => {
         debugger
-        const data = response.data.info
+        const data = response.data
         // token信息不存在，则重新登录
         if (!data.token) {
           reject('登录信息已失效，请重新登录')

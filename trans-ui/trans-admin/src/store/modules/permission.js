@@ -58,7 +58,7 @@ const actions = {
       menu.getMenuTree(sear).then(res => {
         debugger
         let data = []
-        data = res.data.info.menuTree
+        data = res.data.menuTree
         Object.assign(loadMenuData, data)
         const asyncRoutes = []
         generaMenu(asyncRoutes, data)
