@@ -8,6 +8,8 @@ import com.wybase.trans.serve.dto.LoginInput;
 import com.wybase.trans.serve.dto.LoginOutput;
 import com.wybase.trans.serve.service.ILoginService;
 import com.wybase.trans.serve.vo.LoginVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/8/5
  */
+@Api(value = "登录服务", tags = "登录服务")
 @RestController
 @RequestMapping("/online/auth")
 public class LoginController {
@@ -29,6 +32,7 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
+    @ApiOperation(value = "登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginVo loginVo) {
         logger.info("LoginController.login begin >>>>>>>>>>>>>>>>>>>");
@@ -47,6 +51,7 @@ public class LoginController {
         return Result.ok(object);
     }
 
+    @ApiOperation(value = "获取用户信息")
     @PostMapping("/info")
     public Result info(@RequestBody LoginVo loginVo) {
         logger.debug("LoginController.info begin >>>>>>>>>>>>>>>>>>>");
@@ -60,6 +65,7 @@ public class LoginController {
         return Result.ok(loginRes);
     }
 
+    @ApiOperation(value = "退出登录")
     @PostMapping("/logout")
     public Result logout(@RequestBody LoginVo request) {
         logger.debug("LoginController.logout begin >>>>>>>>>>>>>>>>>>>");

@@ -5,6 +5,8 @@ import com.wybase.trans.serve.dto.MenuInput;
 import com.wybase.trans.serve.dto.MenuOutput;
 import com.wybase.trans.serve.service.IMenuService;
 import com.wybase.trans.serve.vo.MenuVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/8/28
  */
+@Api(value = "菜单服务", tags = "菜单服务")
 @RestController
 @RequestMapping("/online/menu")
 public class MenuController {
@@ -26,9 +29,11 @@ public class MenuController {
 
     @Autowired
     private IMenuService menuService;
+
     /**
      * 查询菜单树形列表
      */
+    @ApiOperation(value = "查询菜单树形列表")
     @PostMapping("/menutree")
     public Result menutree(@RequestBody(required = false) MenuVo request) {
         logger.debug("MenuController.menulist begin:>>>>>>>>>>>>>>>>>>>");
@@ -43,6 +48,7 @@ public class MenuController {
     /**
      * 查询按钮列表
      */
+    @ApiOperation(value = "查询按钮列表")
     @PostMapping("/buttonList")
     public Result buttonList(@RequestBody MenuVo request) {
         logger.debug("MenuController.buttonList begin:>>>>>>>>>>>>>>>>>>>");
