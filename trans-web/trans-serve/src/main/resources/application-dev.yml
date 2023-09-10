@@ -3,6 +3,8 @@ server:
   port: 8090
   tomcat:
     uri-encoding: utf-8
+  servlet:
+    context-path: /base-trans
 #日志配置文件以及日志级别
 logging:
   config: classpath:logback-spring.xml
