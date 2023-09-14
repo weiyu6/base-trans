@@ -23,3 +23,5 @@ spring:
 util:
   properties:
     pwdKey: MEET_BLOG_SECRET_KEY_
+    tokenSignKey: m1e2e3t4b5l6o7g8
+    tokenExpiration: 259200

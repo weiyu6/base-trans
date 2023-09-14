@@ -2,6 +2,7 @@ package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.common.util.JwtUtil;
 import com.wybase.trans.serve.dao.MenuDao;
 import com.wybase.trans.serve.dto.MenuInput;
 import com.wybase.trans.serve.dto.MenuOutput;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ import java.util.stream.Collectors;
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
     private static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
-
+    @Value("${util.properties.tokenSignKey:m1e2e3t4b5l6o7g8}")
+    private String tokenSignKey;
     @Autowired
     private IUserInfoService userInfoService;
 
@@ -44,8 +47,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         String token = serviceInput.getToken();
         List<MenuExtend> menuExtendList = new ArrayList<>();
         if (StringUtils.isNotEmpty(token)) {
-//            String userId = JwtUtil.getUserId(token);
-            String userId = token;
+            String userId = JwtUtil.getUserId(token, tokenSignKey);
             // 根据userid查询出用户所拥有的角色
             UserInfo user = userInfoService.getById(userId);
             String roleId = user.getRoleId();
@@ -90,7 +92,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         String token = serviceInput.getToken();
         List<MenuExtend> menuExtendList = new ArrayList<>();
         if (StringUtils.isNotEmpty(token)) {
-            String userId = token;
+            String userId = JwtUtil.getUserId(token, tokenSignKey);
             // 根据userid查询出用户所拥有的角色
             UserInfo user = userInfoService.getById(userId);
             String roleId = user.getRoleId();

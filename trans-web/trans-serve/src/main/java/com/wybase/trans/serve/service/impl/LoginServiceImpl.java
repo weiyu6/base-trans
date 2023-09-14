@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransHeardConsts;
+import com.wybase.trans.common.util.JwtUtil;
 import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.dao.UserInfoDao;
 import com.wybase.trans.serve.dto.LoginInput;
@@ -16,6 +17,7 @@ import com.wybase.trans.serve.util.PwdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,6 +31,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class LoginServiceImpl implements ILoginService {
     private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+
+    @Value("${util.properties.tokenSignKey:m1e2e3t4b5l6o7g8}")
+    private String tokenSignKey;
+
+    @Value("${util.properties.tokenExpiration:259200}")
+    private long tokenExpiration;
 
     @Autowired
     private IUserInfoService userInfoService;
@@ -57,15 +65,15 @@ public class LoginServiceImpl implements ILoginService {
         }
         String userId = userInfo.getUserId();
         String oldPwd = userInfo.getPassWord();
-//        // 密码校验
+        // 密码校验
         boolean pwdChk = pwdUtil.pwdChk(userId, password, oldPwd);
-        // boolean pwdChk = MD5Util.pwdChk(password, oldPwd);
+
         if (!pwdChk) {
             logger.error("密码错误");
             throw new TransException(ResultCodeEnum.LOGIN_PASSWORD_ERROR);
         }
-//        String token = JwtUtil.createToken(userId, username);
-        String token = userId;
+        String token = JwtUtil.createToken(userId, username, tokenSignKey, tokenExpiration);
+
 //        // 将token存放到redis中
 //        String key = TransConsts.USER_LOGIN_TOKEN_ID + userId;
 //        boolean result = redisUtil.set(key, token, 2, TimeUnit.HOURS);
@@ -96,7 +104,7 @@ public class LoginServiceImpl implements ILoginService {
     public LoginOutput info(LoginInput input) {
         logger.debug("LoginServiceImpl.info input:{}", input);
         String token = input.getToken();
-        String userId = token;
+        String userId = JwtUtil.getUserId(token, tokenSignKey);
         // String userIdInput = input.getUserId();
         LoginOutput loginRes = new LoginOutput();
         // 从Redis中获取token
