@@ -56,7 +56,6 @@ const actions = {
       const sear = {}
       sear.token = getToken()
       menu.getMenuTree(sear).then(res => {
-        debugger
         let data = []
         data = res.data.menuTree
         Object.assign(loadMenuData, data)

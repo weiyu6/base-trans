@@ -53,10 +53,10 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       // name: 'dashboard',// name为空就不会显示在标签栏导航
-      component: () => import('@/views/dashboard/index'),
+      component: () => import('@/views/dashboard/index')
       // meta: {title: '仪表盘', icon: 'dashboard'}
     }]
-  },
+  }
 
 ]
 
@@ -71,25 +71,25 @@ export const asyncRoutes = [
     redirect: '/blog/blog',
     name: '博客管理',
     alwaysShow: true,
-    meta: {title: '博客管理', icon: 'form'},
+    meta: { title: '博客管理', icon: 'form' },
     children: [
       {
         path: 'blog',
         name: '博客',
         component: () => import('@/views/meetblog/blog/blog'),
-        meta: {title: '博客', icon: 'el-icon-reading'}
+        meta: { title: '博客', icon: 'el-icon-reading' }
       },
       {
         path: 'classfc',
         name: '分类',
         component: () => import('@/views/meetblog/blog/classfc'),
-        meta: {title: '分类', icon: 'el-icon-reading'}
+        meta: { title: '分类', icon: 'el-icon-reading' }
       },
       {
         path: 'tag',
         name: '标签',
         component: () => import('@/views/meetblog/blog/tag'),
-        meta: {title: '标签', icon: 'el-icon-reading'}
+        meta: { title: '标签', icon: 'el-icon-reading' }
       }
     ]
   },
@@ -99,13 +99,13 @@ export const asyncRoutes = [
     redirect: '/user/userList',
     name: '用户管理',
     alwaysShow: true,
-    meta: {title: '用户管理', icon: 'form'},
+    meta: { title: '用户管理', icon: 'form' },
     children: [
       {
         path: 'userList',
         name: '用户列表',
         component: () => import('@/views/meetblog/user/userList'),
-        meta: {title: '用户列表', icon: 'el-icon-user'}
+        meta: { title: '用户列表', icon: 'el-icon-user' }
       }
     ]
   },
@@ -115,25 +115,25 @@ export const asyncRoutes = [
     redirect: '/auth/menuList',
     name: '权限管理',
     alwaysShow: true,
-    meta: {title: '权限管理', icon: 'form'},
+    meta: { title: '权限管理', icon: 'form' },
     children: [
       {
         path: 'role',
         name: '角色管理',
         component: () => import('@/views/meetblog/auth/role'),
-        meta: {title: '角色管理', icon: 'el-icon-user'}
+        meta: { title: '角色管理', icon: 'el-icon-user' }
       },
       {
         path: 'menuList',
         name: '菜单管理',
         component: () => import('@/views/meetblog/auth/menuList'),
-        meta: {title: '菜单管理', icon: 'el-icon-user'}
+        meta: { title: '菜单管理', icon: 'el-icon-user' }
       },
       {
         path: 'buttonList',
         name: '按钮管理',
         component: () => import('@/views/meetblog/auth/buttonList'),
-        meta: {title: '菜单管理', icon: 'el-icon-user'}
+        meta: { title: '菜单管理', icon: 'el-icon-user' }
       }
     ]
   },
@@ -143,19 +143,19 @@ export const asyncRoutes = [
     redirect: '/transinfo/syslogList',
     name: '操作信息',
     alwaysShow: true,
-    meta: {title: '操作信息', icon: 'el-icon-notebook-1'},
+    meta: { title: '操作信息', icon: 'el-icon-notebook-1' },
     children: [
       {
         path: 'transRecdList',
         name: '交易记录',
         component: () => import('@/views/meetblog/transinfo/transRecdList'),
-        meta: {title: '交易记录列表', icon: 'el-icon-notebook-2'}
+        meta: { title: '交易记录列表', icon: 'el-icon-notebook-2' }
       },
       {
         path: 'syslogList',
         name: '日志列表',
         component: () => import('@/views/meetblog/transinfo/syslogList'),
-        meta: {title: '日志列表', icon: 'el-icon-s-data'}
+        meta: { title: '日志列表', icon: 'el-icon-s-data' }
       }
     ]
   },
@@ -165,55 +165,55 @@ export const asyncRoutes = [
     redirect: '/monitor/nacos',
     name: '监控中心',
     alwaysShow: true,
-    meta: {title: '监控中心', icon: 'el-icon-monitor'},
+    meta: { title: '监控中心', icon: 'el-icon-monitor' },
     children: [
       {
         path: 'http://192.168.111.10:8848/nacos/#',
         name: 'Nacos',
-        meta: {title: 'Nacos', icon: 'el-icon-sell'}
+        meta: { title: 'Nacos', icon: 'el-icon-sell' }
       },
       {
         path: 'http://192.168.111.10:9100/#/dashboard',
         name: 'Sentinel',
-        meta: {title: 'Sentinel', icon: 'el-icon-box'}
+        meta: { title: 'Sentinel', icon: 'el-icon-box' }
       },
       {
         path: 'http://192.168.111.10:9411/zipkin/',
         name: 'zipkin',
-        meta: {title: 'zipkin', icon: 'el-icon-bank-card'}
-      },
+        meta: { title: 'zipkin', icon: 'el-icon-bank-card' }
+      }
     ]
   },
   {
     path: 'external-link',
     component: Layout,
     name: 'Menu1',
-    meta: {title: '外链', icon: 'el-icon-link'},
+    meta: { title: '外链', icon: 'el-icon-link' },
     children: [
       {
         // path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
         path: 'https://panjiachen.gitee.io/vue-element-admin-site/zh/',
-        meta: {title: 'External Link', icon: 'link'}
+        meta: { title: 'External Link', icon: 'link' }
       },
       {
         path: 'https://element.eleme.cn/2.13/#/zh-CN/component/installation',
-        meta: {title: 'ElmentUI', icon: 'el-icon-postcard'}
+        meta: { title: 'ElmentUI', icon: 'el-icon-postcard' }
       },
       {
         path: 'http://demoadmin.moguit.cn/#/',
-        meta: {title: '蘑菇博客后管', icon: 'el-icon-postcard'}
-      },
+        meta: { title: '蘑菇博客后管', icon: 'el-icon-postcard' }
+      }
 
     ]
   },
 
   // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
 

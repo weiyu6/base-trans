@@ -1,13 +1,20 @@
 <template>
   <div class="tags-view-container">
-    <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
-      <router-link ref='tag' class="tags-view-item" :class="isActive(tag)?'active':''" v-for="tag in Array.from(visitedViews)"
-        :to="tag" :key="tag.path" @contextmenu.prevent.native="openMenu(tag,$event)">
-        {{tag.title}}
-        <span class='el-icon-close' @click.prevent.stop='closeSelectedTag(tag)'></span>
+    <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+      <router-link
+        v-for="tag in Array.from(visitedViews)"
+        ref="tag"
+        :key="tag.path"
+        class="tags-view-item"
+        :class="isActive(tag)?'active':''"
+        :to="tag"
+        @contextmenu.prevent.native="openMenu(tag,$event)"
+      >
+        {{ tag.title }}
+        <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
-    <ul class='contextmenu' v-show="visible" :style="{left:left+'px',top:top+'px'}">
+    <ul v-show="visible" class="contextmenu" :style="{left:left+'px',top:top+'px'}">
       <li @click="closeSelectedTag(selectedTag)">关闭</li>
       <li @click="closeOthersTags">关闭其他</li>
       <li @click="closeAllTags">关闭所有</li>

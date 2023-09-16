@@ -7,7 +7,7 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money" @click="">
-            <svg-icon icon-class="people" class-name="card-panel-icon"/>
+            <svg-icon icon-class="people" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">用户名：</div>
@@ -20,46 +20,45 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-people" @click="click('2')">
-            <svg-icon icon-class="peoples" class-name="card-panel-icon"/>
+            <svg-icon icon-class="peoples" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">用户数:</div>
-            <count-to class="card-panel-num" :startVal="0" :endVal="userCount" :duration="2600"></count-to>
+            <count-to class="card-panel-num" :start-val="0" :end-val="userCount" :duration="2600" />
           </div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-shoppingCard" @click="click('3')">
-            <svg-icon icon-class="form" class-name="card-panel-icon"/>
+            <svg-icon icon-class="form" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">文章数:</div>
-            <count-to class="card-panel-num" :startVal="0" :endVal="blogCount" :duration="3600"></count-to>
+            <count-to class="card-panel-num" :start-val="0" :end-val="blogCount" :duration="3600" />
           </div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-message" @click="click('4')">
-            <svg-icon icon-class="message" class-name="card-panel-icon"/>
+            <svg-icon icon-class="message" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">评论数：</div>
-            <count-to class="card-panel-num" :startVal="0" :endVal="commentCount" :duration="3000"></count-to>
+            <count-to class="card-panel-num" :start-val="0" :end-val="commentCount" :duration="3000" />
           </div>
         </div>
       </el-col>
     </el-row>
 
-
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import CountTo from "vue-count-to";
-import index from "@/api/meetblog/index"
+import { mapGetters } from 'vuex'
+import CountTo from 'vue-count-to'
+import index from '@/api/meetblog/index'
 
 export default {
   name: 'Dashboard',
@@ -67,14 +66,14 @@ export default {
     ...mapGetters(['name', 'roles'])
   },
   components: {
-    CountTo,
+    CountTo
   },
   data() {
     return {
-      IPCountForOne: 0,// 今日IP数
-      userCount: 0,// 总用户数
-      blogCount: 0,// 总博客数
-      commentCount: 0,// 总评论数
+      IPCountForOne: 0, // 今日IP数
+      userCount: 0, // 总用户数
+      blogCount: 0, // 总博客数
+      commentCount: 0// 总评论数
     }
   },
   created() {
@@ -89,16 +88,16 @@ export default {
         this.blogCount = res.data.blogCount
       })
     },
-    click(type){
+    click(type) {
       switch (type) {
-        case "2":
-          this.$router.push({ path: "/user/userList" });
-          break;
-        case "3":
-          this.$router.push({ path: "/blog/blog" });
-          break;
+        case '2':
+          this.$router.push({ path: '/user/userList' })
+          break
+        case '3':
+          this.$router.push({ path: '/blog/blog' })
+          break
       }
-    },
+    }
   }
 }
 </script>

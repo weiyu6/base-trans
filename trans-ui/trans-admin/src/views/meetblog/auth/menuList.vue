@@ -3,8 +3,8 @@
     <!--    页头操作框-->
     <div>
       <el-form :inline="true" class="demo-form-inline">
-        <el-button type="primary" icon="el-icon-search" @click="getMenuTree" v-permission=" '/menuList/list' ">刷新</el-button>
-        <el-button type="primary" icon="el-icon-document-add" @click="addMenu" v-permission=" '/menuList/add' ">添加
+        <el-button v-permission=" '/menuList/list' " type="primary" icon="el-icon-search" @click="getMenuTree">刷新</el-button>
+        <el-button v-permission=" '/menuList/add' " type="primary" icon="el-icon-document-add" @click="addMenu">添加
         </el-button>
       </el-form>
     </div>
@@ -14,51 +14,62 @@
         :data="menuTree"
         style="width: 100%;margin-bottom: 20px;"
         row-key="menuId"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-        <el-table-column prop="menuNm" label="  菜单名称" width="180"></el-table-column>
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      >
+        <el-table-column prop="menuNm" label="  菜单名称" width="180" />
 
-        <el-table-column prop="path"  label="路由" width="150"></el-table-column>
-        <el-table-column prop="component" label="组件路径" width="180"></el-table-column>
-        <el-table-column prop="summy" label="菜单简介" width="250"></el-table-column>
+        <el-table-column prop="path" label="路由" width="150" />
+        <el-table-column prop="component" label="组件路径" width="180" />
+        <el-table-column prop="summy" label="菜单简介" width="250" />
         <el-table-column prop="icon" label="图标">
-          <template slot-scope="scope">
-            <i :class="scope.row.icon"/>
+          <template v-slot="scope">
+            <i :class="scope.row.icon" />
           </template>
         </el-table-column>
-        <el-table-column prop="sort" label="排序" ></el-table-column>
+        <el-table-column prop="sort" label="排序" />
         <el-table-column prop="menuStat" label="菜单状态">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-switch
-              disabled
               v-model="scope.row.menuStat"
+              disabled
               active-color="#13ce66"
               inactive-color="#ff4949"
               active-value="1"
-              inactive-value="0"/>
+              inactive-value="0"
+            />
           </template>
         </el-table-column>
 
         <el-table-column prop="linkFlg" label="外链标志">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-switch
-              disabled
               v-model="scope.row.linkFlg"
+              disabled
               active-color="#13ce66"
               inactive-color="#ff4949"
               active-value="1"
-              inactive-value="0"/>
+              inactive-value="0"
+            />
           </template>
         </el-table-column>
 
         <el-table-column fixed="right" align="center" label="操作" width="200">
-          <template slot-scope="scope">
-            <el-tooltip class="item" effect="light" content="修改" placement="top" v-permission="'/menuList/mdf'">
-              <el-button type="primary" icon="el-icon-edit" size="mini"
-                         @click="menuInfoQry(scope.row.menuId)"/>
+          <template v-slot="scope">
+            <el-tooltip v-permission="'/menuList/mdf'" class="item" effect="light" content="修改" placement="top">
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size="mini"
+                @click="menuInfoQry(scope.row.menuId)"
+              />
             </el-tooltip>
-            <el-tooltip class="item" effect="light" content="删除" placement="top" v-permission="'/menuList/del'">
-              <el-button type="danger" icon="el-icon-delete" size="mini"
-                         @click="menuDel(scope.row.menuId)"/>
+            <el-tooltip v-permission="'/menuList/del'" class="item" effect="light" content="删除" placement="top">
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                @click="menuDel(scope.row.menuId)"
+              />
             </el-tooltip>
           </template>
 
@@ -66,25 +77,26 @@
       </el-table>
     </div>
 
-<!-- 弹窗   -->
+    <!-- 弹窗   -->
     <div>
       <el-dialog
         center
         :title="title"
         :visible.sync="dialogVisible"
         width="40%"
-        :before-close="closeDialog">
+        :before-close="closeDialog"
+      >
 
         <el-form class="demo-form-inline">
 
           <el-form-item label="菜单名称：" label-width="120px">
-            <el-input v-model="menuForm.menuNm" style="width: 80%"/>
+            <el-input v-model="menuForm.menuNm" style="width: 80%" />
           </el-form-item>
           <el-form-item label="路由：" label-width="120px">
-            <el-input v-model="menuForm.path" style="width: 80%"/>
+            <el-input v-model="menuForm.path" style="width: 80%" />
           </el-form-item>
           <el-form-item label="菜单路径：" label-width="120px">
-            <el-input v-model="menuForm.component" style="width: 80%"/>
+            <el-input v-model="menuForm.component" style="width: 80%" />
           </el-form-item>
           <el-form-item label="菜单图标：" label-width="120px">
             <el-input v-model="menuForm.icon" placeholder="请输入前图标名称" style="width: 80%">
@@ -95,8 +107,8 @@
           </el-form-item>
           <el-form-item label="父菜单名：" label-width="120px">
             <el-select
-              style="width: 80%"
               v-model="menuForm.highLvlId"
+              style="width: 80%"
               filterable
               clearable
               remote
@@ -115,8 +127,12 @@
           </el-form-item>
           <el-form-item label="排序：" label-width="120px">
             <!--            :max="10"-->
-            <el-input-number v-model="menuForm.sort" controls-position="right" :min="0"
-                             style="width: 60%"></el-input-number>
+            <el-input-number
+              v-model="menuForm.sort"
+              controls-position="right"
+              :min="0"
+              style="width: 60%"
+            />
           </el-form-item>
           <el-form :inline="true">
 
@@ -126,7 +142,8 @@
                 active-color="#13ce66"
                 inactive-color="#ff4949"
                 active-value="1"
-                inactive-value="0"/>
+                inactive-value="0"
+              />
             </el-form-item>
             <el-form-item label="外链标志：" label-width="120px">
               <el-switch
@@ -134,10 +151,10 @@
                 active-color="#13ce66"
                 inactive-color="#ff4949"
                 active-value="1"
-                inactive-value="0"/>
+                inactive-value="0"
+              />
             </el-form-item>
           </el-form>
-
 
           <!--          <el-form-item label="菜单级别：" label-width="120px">
                       &lt;!&ndash; <el-input v-model="userinfoSig.userTag"/>&ndash;&gt;
@@ -152,8 +169,14 @@
                       </el-select>
                     </el-form-item>-->
           <el-form-item label="菜单简介：" label-width="120px">
-            <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="menuForm.summy" maxlength="30"
-                      show-word-limit style="width: 80%"/>
+            <el-input
+              v-model="menuForm.summy"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 4}"
+              maxlength="30"
+              show-word-limit
+              style="width: 80%"
+            />
           </el-form-item>
 
         </el-form>
@@ -162,37 +185,36 @@
           <el-button type="primary" @click="closeDialog()">取消</el-button>
         </span>
 
-
       </el-dialog>
-      <icons-dialog :visible.sync="iconsVisible" :current="menuForm.icon" @select="setIcon"/>
+      <icons-dialog :visible.sync="iconsVisible" :current="menuForm.icon" @select="setIcon" />
     </div>
 
   </div>
 </template>
 
 <script>
-import menu from "@/api/meetblog/menu";
-import enumlist from "@/api/meetblog/enumlist";
-import IconsDialog from "@/components/IconsDialog";
+import menu from '@/api/meetblog/menu'
+import enumlist from '@/api/meetblog/enumlist'
+import IconsDialog from '@/components/IconsDialog'
 
 export default {
-  name: "menuList",
+  name: 'MenuList',
   components: {
     IconsDialog
   },
   data() {
     return {
       menuTree: [], // 菜单集合
-      enumIdList: {},// 枚举列表
-      dialogVisible: false,// 弹窗开关标志
-      title: '', //标题
-      menuForm: {},// 菜单表单
-      menuLvlList: [],// 菜单级别列表
+      enumIdList: {}, // 枚举列表
+      dialogVisible: false, // 弹窗开关标志
+      title: '', // 标题
+      menuForm: {}, // 菜单表单
+      menuLvlList: [], // 菜单级别列表
 
       iconsVisible: false, // 是否显示icon选择器
       activeData: '', // 激活的图标
-      menuOptions: [], //一级菜单候选项
-      operFlg: '',// 操作标志：1-修改，2-添加
+      menuOptions: [], // 一级菜单候选项
+      operFlg: ''// 操作标志：1-修改，2-添加
     }
   },
   created() {
@@ -200,24 +222,22 @@ export default {
     this.getEnumList()
   },
   methods: {
-    /*查询菜单列表*/
+    /* 查询菜单列表*/
     getMenuTree() {
       var sear = {}
       menu.getMenuTree(sear).then(res => {
-
         this.menuTree = res.data.menuTree
-
       })
     },
-    /*查询出枚举列表*/
+    /* 查询出枚举列表*/
     getEnumList() {
-      this.enumIdList.enumIds = [{enumId: 'MENU_LVL'}]
+      this.enumIdList.enumIds = [{ enumId: 'MENU_LVL' }]
       enumlist.getEnumList(this.enumIdList).then(res => {
-        var enumMap = res.data;
+        var enumMap = res.data
         this.menuLvlList = enumMap.MENU_LVL
       })
     },
-    /*打开弹窗添加用户*/
+    /* 打开弹窗添加用户*/
     addMenu() {
       this.operFlg = '2'
       this.title = '添加菜单'
@@ -240,27 +260,25 @@ export default {
     setIcon(val) {
       this.menuForm.icon = val
     },
-    //菜单远程搜索函数
+    // 菜单远程搜索函数
     remoteMethod(query) {
-      if (query !== "") {
-        var params = {};
+      if (query !== '') {
+        var params = {}
         params.menuLvl = 1
         params.menuNm = query
         menu.getMenuList(params).then(res => {
-
-          this.menuOptions = res.data.menuListQry;
-        });
+          this.menuOptions = res.data.menuListQry
+        })
       } else {
-        this.menuOptions = [];
+        this.menuOptions = []
       }
     },
-    /*保存或修改操作*/
+    /* 保存或修改操作*/
     saveOrUpdate() {
-
       this.menuForm.menuType = '1'
       if (this.operFlg == '1') {
         menu.menuMdf(this.menuForm).then(res => {
-          //提示
+          // 提示
           this.$message({
             type: 'success',
             message: '修改成功!'
@@ -270,7 +288,7 @@ export default {
         })
       } else if (this.operFlg == '2') {
         menu.menuAdd(this.menuForm).then(res => {
-          //提示
+          // 提示
           this.$message({
             type: 'success',
             message: '添加成功!'
@@ -279,9 +297,8 @@ export default {
           this.getMenuTree()
         })
       }
-
     },
-    /*根据菜单ID查询菜单信息*/
+    /* 根据菜单ID查询菜单信息*/
     menuInfoQry(menuId) {
       var sear = {}
       sear.menuId = menuId
@@ -294,15 +311,15 @@ export default {
       })
     },
     menuDel(menuId) {
-      this.$confirm("此操作将删除菜单, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将删除菜单, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         var sear = {}
         sear.menuId = menuId
         menu.menuDelById(sear).then(res => {
-          //提示
+          // 提示
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -313,8 +330,8 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });
-      });
+        })
+      })
     }
 
   }

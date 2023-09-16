@@ -1,7 +1,7 @@
 import axios from 'axios'
-import {MessageBox, Message} from 'element-ui'
+import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import {getToken, getUserId} from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -48,11 +48,10 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== '000000') {
-
       // 200000：token验证未通过
       if (res.code === '200000') {
         // to re-login
-        MessageBox.confirm('登录信息已过期，可以取消以留在此页面，或重新登录。', '确认注销', {
+        MessageBox.confirm(res.msg, '确认注销', {
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',
           type: 'warning'
@@ -69,7 +68,6 @@ service.interceptors.response.use(
         })
         return Promise.reject(new Error(res.message || 'Error'))
       }
-
     } else {
       return res
     }

@@ -77,14 +77,12 @@ const actions = {
 
       searchObj.token = state.token
       getInfo(searchObj).then(response => {
-        debugger
         const data = response.data
         // token信息不存在，则重新登录
         if (!data.token) {
           reject('登录信息已失效，请重新登录')
         }
 
-        debugger
         const { roles, name, avatar } = data
 
         // roles must be a non-empty array

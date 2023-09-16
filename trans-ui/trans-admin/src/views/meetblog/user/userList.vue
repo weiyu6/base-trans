@@ -45,7 +45,7 @@
       >
         <el-table-column fixed type="index" align="center" width="50" label="序号" />
         <el-table-column align="center" label="头像" width="100">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <img
               :src="scope.row.avatar"
               onerror="onerror=null;src=defaultAvatar"
@@ -56,10 +56,10 @@
         <el-table-column prop="userNm" align="center" label="用户名" width="100" />
         <el-table-column prop="nickNm" align="center" label="昵称" width="100" />
         <el-table-column label="性别" align="center" width="80">
-          <!--        <template slot-scope="scope">-->
+          <!--        <template v-slot="scope">-->
           <!--          {{ scope.row.gender === '1' ? '男' : '女' }}-->
           <!--        </template>-->
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-tag
               v-for="item in gender"
               v-if="scope.row.gender === item.keyId"
@@ -71,7 +71,7 @@
         </el-table-column>
         <!--        <el-table-column prop="source" align="center" label="资料来源" width="160"/>-->
         <el-table-column align="center" label="用户标签" width="160">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-tag
               v-for="item in user_tag"
               v-if="scope.row.userTag === item.keyId"
@@ -81,7 +81,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="用户角色" width="190">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-select v-model="scope.row.roleIds" multiple placeholder="请选择" disabled>
               <el-option
                 v-for="item in roleList"
@@ -99,7 +99,7 @@
                 <el-table-column prop="qqNum" align="center" label="QQ号" width="160"/>
                 <el-table-column prop="wechatNum" align="center" label="微信号" width="160"/>-->
         <el-table-column align="center" label="评论状态" width="160">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-tag
               v-for="item in comment_stat"
               v-if="scope.row.commentStat === item.keyId"
@@ -111,7 +111,7 @@
         </el-table-column>
         <!--        <el-table-column prop="os" align="center" label="操作系统" width="160"/>-->
         <el-table-column align="center" label="是否开启邮件通知" width="160">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-tag
               v-for="item in start_email_notice"
               v-if="scope.row.startEmailNotice === item.keyId"
@@ -122,7 +122,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="是否通过加载校验" width="160">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-tag
               v-for="item in start_email_notice"
               v-if="scope.row.loadingValid === item.keyId"
@@ -136,7 +136,7 @@
         <el-table-column prop="lastLoginTime" align="center" label="最后登录时间" width="160" :formatter="formtm" />
         <el-table-column prop="lastLoginIp" align="center" label="最后登录IP" width="160" />
         <el-table-column fixed="right" align="center" label="操作" width="160">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button
               v-permission="'/user/mdf'"
               type="primary"
@@ -451,7 +451,6 @@ export default {
       this.operFlg = '2'
     },
     saveOrUpdate() {
-      debugger
       this.userinfoSig.operFlg = this.operFlg
 
       if (this.operFlg === '1') {
@@ -491,7 +490,6 @@ export default {
 
     // 上传成功回调
     fileUploadSuccess(response) {
-      debugger
       if (response.code === '000000') {
         this.$message.success('上传成功')
         this.userinfoSig.avatar = response.data.ossFileDir

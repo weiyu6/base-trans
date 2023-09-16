@@ -7,6 +7,6 @@ const getters = {
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
   buttonMap: state => state.user.buttonMap,
-  visitedviews: state => state.tagsview.visitedviews  //新增
+  visitedviews: state => state.tagsview.visitedviews // 新增
 }
 export default getters
