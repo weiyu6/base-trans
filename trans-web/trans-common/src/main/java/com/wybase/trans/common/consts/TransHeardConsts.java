@@ -57,4 +57,9 @@ public class TransHeardConsts {
      * 交易流水表
      */
     public static final String TRANS_RECORD = "transRecord";
+
+    /**
+     * 请求头token的key
+     */
+    public static final String TOKEN_HEAD = "Tokenheader";
 }

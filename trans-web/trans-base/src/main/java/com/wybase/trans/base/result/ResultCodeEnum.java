@@ -15,6 +15,11 @@ public enum ResultCodeEnum {
 
     //2xx 参数校验
     /**
+     * 200000-认证失败
+     */
+    NO_AUTH("200000","认证失败"),
+
+    /**
      * 不能为空
      */
     NULL_ERROR("100201", ""),
