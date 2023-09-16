@@ -43,7 +43,7 @@ public class IPUtils {
             if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("Proxy-Client-IP");
             }
-            if (StringUtils.isBlank(ip) || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            if (StringUtils.isBlank(ip) || ip.isEmpty() || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("WL-Proxy-Client-IP");
             }
             if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
@@ -84,23 +84,22 @@ public class IPUtils {
      * @return
      */
     public static Map<String, String> getOsAndBrowserInfo(HttpServletRequest request) {
-        String browserDetails = request.getHeader("User-Agent");
-        String userAgent = browserDetails;
+        String userAgent = request.getHeader("User-Agent");
         String user = userAgent.toLowerCase();
 
         String os = "";
         String browser = "";
 
         //=================OS Info=======================
-        if (userAgent.toLowerCase().indexOf("windows") >= 0) {
+        if (userAgent.toLowerCase().contains("windows")) {
             os = "Windows";
-        } else if (userAgent.toLowerCase().indexOf("mac") >= 0) {
+        } else if (userAgent.toLowerCase().contains("mac")) {
             os = "Mac";
-        } else if (userAgent.toLowerCase().indexOf("x11") >= 0) {
+        } else if (userAgent.toLowerCase().contains("x11")) {
             os = "Unix";
-        } else if (userAgent.toLowerCase().indexOf("android") >= 0) {
+        } else if (userAgent.toLowerCase().contains("android")) {
             os = "Android";
-        } else if (userAgent.toLowerCase().indexOf("iphone") >= 0) {
+        } else if (userAgent.toLowerCase().contains("iphone")) {
             os = "IPhone";
         } else {
             os = "UnKnown, More-Info: " + userAgent;
@@ -128,9 +127,9 @@ public class IPUtils {
                 }
             } else if (user.contains("chrome")) {
                 browser = (userAgent.substring(userAgent.indexOf("Chrome")).split(" ")[0]).replace("/", "-");
-            } else if ((user.indexOf("mozilla/7.0") > -1) || (user.indexOf("netscape6") != -1) ||
-                    (user.indexOf("mozilla/4.7") != -1) || (user.indexOf("mozilla/4.78") != -1) ||
-                    (user.indexOf("mozilla/4.08") != -1) || (user.indexOf("mozilla/3") != -1)) {
+            } else if ((user.contains("mozilla/7.0")) || (user.contains("netscape6")) ||
+                    (user.contains("mozilla/4.7")) || (user.contains("mozilla/4.78")) ||
+                    (user.contains("mozilla/4.08")) || (user.contains("mozilla/3"))) {
                 browser = "Netscape-?";
 
             } else if (user.contains("firefox")) {

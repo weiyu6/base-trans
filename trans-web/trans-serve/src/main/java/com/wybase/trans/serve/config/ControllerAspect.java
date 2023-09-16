@@ -114,6 +114,7 @@ public class ControllerAspect {
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_1);
             transRecordService.updateById(transRecord, true);
         }
+        TransContext.init();
     }
 
     /**
@@ -133,5 +134,6 @@ public class ControllerAspect {
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_0);
             transRecordService.updateById(transRecord, true);
         }
+        TransContext.init();
     }
 }
