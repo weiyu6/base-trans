@@ -39,6 +39,14 @@ public class MenuDao {
         }).collect(Collectors.toList());
     }
 
+    public List<Menu> menuListAll1(String menuType, String menuStat) {
+        QueryWrapper wrapper = QueryWrapper.create();
+        wrapper.where(MenuTableDef.MENU.MENU_TYPE.eq(menuType))
+                .where(StringUtils.isNoneBlank(menuStat) ? MenuTableDef.MENU.MENU_STAT.eq(menuStat) : noCondition())
+                .where(MenuTableDef.MENU.RECD_STAT.eq(TransConsts.RECD_STAT_0));
+        return mapper.selectListByQuery(wrapper);
+    }
+
     public List<MenuExtend> menuListByRoleIds(String[] roleIds, String menuType1) {
         QueryWrapper wrapper = QueryWrapper.create();
         return null;

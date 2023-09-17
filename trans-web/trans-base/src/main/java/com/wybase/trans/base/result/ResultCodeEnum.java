@@ -18,6 +18,7 @@ public enum ResultCodeEnum {
      * 200000-认证失败
      */
     NO_AUTH("200000","认证失败"),
+    NO_ACCREDIT("300000","授权失败"),
 
     /**
      * 不能为空

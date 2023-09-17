@@ -113,6 +113,20 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         return serviceOutput;
     }
 
+    @Override
+    public List<Menu> menuListByUserId(String userId) {
+        // 根据userid查询出用户所拥有的角色
+        UserInfo user = userInfoService.getById(userId);
+        String roleId = user.getRoleId();
+        String[] roleIds = roleId.split("\\|");
+        List<Menu> menuExtendList = new ArrayList<>();
+        // 用户级别包含2-超级管理员，则查询出所有菜单列表,用于显示
+        if (Arrays.asList(roleIds).contains(TransConsts.ROLE_ID_2)) {
+            menuExtendList = menuDao.menuListAll1(TransConsts.MENU_TYPE_1, TransConsts.MENU_STAT_1);
+        }
+        return menuExtendList;
+    }
+
     /**
      * 使用迭代为菜单添加子菜单
      * @param menu

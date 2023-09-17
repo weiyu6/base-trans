@@ -1,7 +1,6 @@
 package com.wybase.trans.serve.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -31,26 +31,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenAuthenticationEntryPoint tokenAuthenticationEntryPoint;
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
+    @Autowired
+    private DynamicSecurityFilter dynamicSecurityFilter;
+    @Autowired
+    private DynamicAccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         //省略HttpSecurity的配置
         httpSecurity
+                //允许跨域
                 .cors()
+                //关闭csrf
                 .and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(tokenAuthenticationEntryPoint)
-                .and().authorizeRequests()
+                .authorizeRequests()
                 // 对于获取token的请求要允许匿名访问
-                .antMatchers("/online/auth/**", "/doc.html", "/swagger-resources/**").permitAll()
+                .antMatchers("/base-trans/online/auth/login", "/base-trans/doc.html", "/base-trans/webjars/*", "/base-trans/swagger-resources/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 
-        // 配置自定义JWT认证过滤器，验证token有效性
-        httpSecurity.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//        // 配置自定义JWT认证过滤器，验证token有效性
+        httpSecurity.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                // 动态权限过滤器，用于实现基于路径的动态权限过滤
+                .addFilterBefore(dynamicSecurityFilter, FilterSecurityInterceptor.class);
 
+        httpSecurity.exceptionHandling()
+                .authenticationEntryPoint(tokenAuthenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
         // 禁用缓存
         httpSecurity.headers().cacheControl();
     }
@@ -61,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/online/auth/login");
+        web.ignoring().antMatchers("/online/auth/login", "/doc.html", "/webjars/*");
     }
 
     @Override
@@ -80,10 +89,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public FilterRegistrationBean registrationBean(TokenAuthenticationFilter filter) {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
 }
