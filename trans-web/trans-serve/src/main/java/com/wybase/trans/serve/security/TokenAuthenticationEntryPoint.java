@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 未授权的统一处理方式
+ * 认证失败的统一处理方式
  * @author weiyu
  * @date 2023/9/16
  */
@@ -26,7 +26,6 @@ public class TokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpStatus.OK.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        String message = e.getMessage();
         Map<String, Object> result = new HashMap<>();
         result.put("code", ResultCodeEnum.NO_AUTH.getCode());
         result.put("msg", ResultCodeEnum.NO_AUTH.getMsg());
