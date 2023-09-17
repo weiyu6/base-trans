@@ -53,13 +53,23 @@ service.interceptors.response.use(
         // to re-login
         MessageBox.confirm(res.msg, '确认注销', {
           confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
+          showCancelButton: false, // 是否显示取消按钮
+          closeOnClickModal: false, // 是否点击遮罩（点击空白处）关闭
+          showClose: false, // 是否显示右上角的x
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
             location.reload()
           })
         })
+      } else if (res.code === '300000') {
+        // 接口没有权限访问时
+        Message({
+          message: res.data,
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return Promise.reject('error')
       } else {
         Message({
           message: res.msg || 'Error',
