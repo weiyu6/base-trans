@@ -43,7 +43,12 @@ public class DynamicSecurityFilter extends AbstractSecurityInterceptor implement
 
         String requestUrl = request.getRequestURI();
         List<String> list = Arrays.asList("/base-trans/online/auth/login", "/base-trans/doc.html");
-        if (list.contains(requestUrl) || requestUrl.startsWith("/base-trans/webjars") || requestUrl.startsWith("/base-trans/favicon.ico")) {
+        if (list.contains(requestUrl)
+                || requestUrl.startsWith("/base-trans/webjars")
+                || requestUrl.startsWith("/base-trans/v2/api-docs")
+                || requestUrl.startsWith("/base-trans/swagger-resources")
+                || requestUrl.startsWith("/base-trans/error")
+                || requestUrl.startsWith("/base-trans/favicon.ico")) {
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
             return;
         }
