@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wybase.trans.serve.entity.generate.Role;
+import com.wybase.trans.serve.model.entity.generate.Role;
 import com.wybase.trans.serve.mapper.generate.RoleMapper;
 import com.wybase.trans.serve.service.IRoleService;
 import org.springframework.stereotype.Service;

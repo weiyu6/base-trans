@@ -1,10 +1,10 @@
 package com.wybase.trans.serve.controller;
 
 import com.wybase.trans.base.result.Result;
-import com.wybase.trans.serve.dto.MenuInput;
-import com.wybase.trans.serve.dto.MenuOutput;
+import com.wybase.trans.serve.model.dto.MenuInput;
+import com.wybase.trans.serve.model.dto.MenuOutput;
 import com.wybase.trans.serve.service.IMenuService;
-import com.wybase.trans.serve.vo.MenuVo;
+import com.wybase.trans.serve.model.vo.MenuVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

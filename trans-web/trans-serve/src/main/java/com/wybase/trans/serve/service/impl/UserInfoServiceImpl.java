@@ -2,7 +2,7 @@ package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wybase.trans.serve.dao.UserInfoDao;
-import com.wybase.trans.serve.entity.generate.UserInfo;
+import com.wybase.trans.serve.model.entity.generate.UserInfo;
 import com.wybase.trans.serve.mapper.generate.UserInfoMapper;
 import com.wybase.trans.serve.service.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

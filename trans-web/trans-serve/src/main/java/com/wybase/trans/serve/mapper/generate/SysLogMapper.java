@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.mapper.generate;
 
 import com.mybatisflex.core.BaseMapper;
-import com.wybase.trans.serve.entity.generate.SysLog;
+import com.wybase.trans.serve.model.entity.generate.SysLog;
 
 /**
  * 日志表 映射层。

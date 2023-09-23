@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.consts.TransHeardConsts;
-import com.wybase.trans.serve.entity.generate.TransRecord;
+import com.wybase.trans.serve.model.entity.generate.TransRecord;
 import com.wybase.trans.serve.service.ITransRecordService;
 import com.wybase.trans.serve.util.IPUtils;
 import org.aspectj.lang.JoinPoint;

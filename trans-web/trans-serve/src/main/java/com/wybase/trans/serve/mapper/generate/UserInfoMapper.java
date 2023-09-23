@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.mapper.generate;
 
 import com.mybatisflex.core.BaseMapper;
-import com.wybase.trans.serve.entity.generate.UserInfo;
+import com.wybase.trans.serve.model.entity.generate.UserInfo;
 
 /**
  * 用户信息表 映射层。

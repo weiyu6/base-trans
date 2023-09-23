@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wybase.trans.serve.entity.generate.RoleMenuRelatn;
+import com.wybase.trans.serve.model.entity.generate.RoleMenuRelatn;
 import com.wybase.trans.serve.mapper.generate.RoleMenuRelatnMapper;
 import com.wybase.trans.serve.service.IRoleMenuRelatnService;
 import org.springframework.stereotype.Service;

@@ -1,20 +1,18 @@
-package com.wybase.trans.serve.vo;
+package com.wybase.trans.serve.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 /**
- * 登录请求接口
+ * 登录服务请求接口
  * @author weiyu
- * @date 2023/8/5
+ * @date 2022/3/18
  */
 @Data
 @ToString
 @NoArgsConstructor
-public class LoginVo{
+public class LoginInput {
     /**
      * 用户名
      */
@@ -25,9 +23,13 @@ public class LoginVo{
     private String password;
 
     /**
-     *
+     * 用户token
      */
     private String token;
 
+    /**
+     * 用户ID
+     */
     private String userId;
+
 }

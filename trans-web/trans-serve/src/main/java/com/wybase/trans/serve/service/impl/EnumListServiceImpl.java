@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wybase.trans.serve.entity.generate.EnumList;
+import com.wybase.trans.serve.model.entity.generate.EnumList;
 import com.wybase.trans.serve.mapper.generate.EnumListMapper;
 import com.wybase.trans.serve.service.IEnumListService;
 import org.springframework.stereotype.Service;

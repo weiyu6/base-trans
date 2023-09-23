@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wybase.trans.serve.entity.generate.SysLog;
+import com.wybase.trans.serve.model.entity.generate.SysLog;
 import com.wybase.trans.serve.mapper.generate.SysLogMapper;
 import com.wybase.trans.serve.service.ISysLogService;
 import org.springframework.stereotype.Service;

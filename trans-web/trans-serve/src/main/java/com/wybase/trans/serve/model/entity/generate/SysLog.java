@@ -1,4 +1,4 @@
-package com.wybase.trans.serve.entity.generate;
+package com.wybase.trans.serve.model.entity.generate;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;

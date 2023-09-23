@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service;
 
 import com.mybatisflex.core.service.IService;
-import com.wybase.trans.serve.entity.generate.TransRecord;
+import com.wybase.trans.serve.model.entity.generate.TransRecord;
 
 /**
  * 交易流水表 服务层。

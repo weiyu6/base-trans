@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service.impl;
 
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wybase.trans.serve.entity.generate.TransRecord;
+import com.wybase.trans.serve.model.entity.generate.TransRecord;
 import com.wybase.trans.serve.mapper.generate.TransRecordMapper;
 import com.wybase.trans.serve.service.ITransRecordService;
 import org.springframework.stereotype.Service;

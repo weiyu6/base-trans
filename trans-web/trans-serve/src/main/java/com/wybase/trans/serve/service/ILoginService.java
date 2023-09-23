@@ -1,8 +1,8 @@
 package com.wybase.trans.serve.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.wybase.trans.serve.dto.LoginInput;
-import com.wybase.trans.serve.dto.LoginOutput;
+import com.wybase.trans.serve.model.dto.LoginInput;
+import com.wybase.trans.serve.model.dto.LoginOutput;
 
 /**
  * 登录注册服务

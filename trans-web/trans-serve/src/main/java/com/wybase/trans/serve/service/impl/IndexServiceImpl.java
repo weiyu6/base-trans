@@ -1,6 +1,6 @@
 package com.wybase.trans.serve.service.impl;
 
-import com.wybase.trans.serve.dto.IndexOutput;
+import com.wybase.trans.serve.model.dto.IndexOutput;
 import com.wybase.trans.serve.service.IIndexService;
 import com.wybase.trans.serve.service.IUserInfoService;
 import org.slf4j.Logger;

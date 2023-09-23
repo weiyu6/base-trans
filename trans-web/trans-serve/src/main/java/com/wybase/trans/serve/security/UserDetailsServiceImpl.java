@@ -2,7 +2,7 @@ package com.wybase.trans.serve.security;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.wybase.trans.common.consts.TransConsts;
-import com.wybase.trans.serve.entity.generate.UserInfo;
+import com.wybase.trans.serve.model.entity.generate.UserInfo;
 import com.wybase.trans.serve.service.IUserInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

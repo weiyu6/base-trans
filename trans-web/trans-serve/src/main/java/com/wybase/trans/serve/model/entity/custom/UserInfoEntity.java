@@ -1,4 +1,4 @@
-package com.wybase.trans.serve.entity.custom;
+package com.wybase.trans.serve.model.entity.custom;
 
 /**
  * @author weiyu

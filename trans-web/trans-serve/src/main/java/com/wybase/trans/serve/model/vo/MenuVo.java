@@ -1,11 +1,7 @@
-package com.wybase.trans.serve.entity.custom;
+package com.wybase.trans.serve.model.vo;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author weiyu
@@ -13,8 +9,12 @@ import java.util.List;
  */
 @Data
 @ToString
-@NoArgsConstructor
-public class MenuExtend {
+public class MenuVo {
+    /**
+     *
+     */
+    private String token;
+
     /**
      * 菜单ID
      */
@@ -79,29 +79,4 @@ public class MenuExtend {
      * 外部链接标志(0-否，1-是)
      */
     private String linkFlg;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 记录状态：0-正常，1-删除
-     */
-    private String recdStat;
-
-    /**
-     * 层级
-     */
-    private Integer level;
-
-    /**
-     * 下级菜单
-     */
-    private List<MenuExtend> children;
 }

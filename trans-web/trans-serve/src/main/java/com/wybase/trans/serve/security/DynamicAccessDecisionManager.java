@@ -1,6 +1,6 @@
 package com.wybase.trans.serve.security;
 
-import com.wybase.trans.serve.entity.generate.Menu;
+import com.wybase.trans.serve.model.entity.generate.Menu;
 import com.wybase.trans.serve.service.IMenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

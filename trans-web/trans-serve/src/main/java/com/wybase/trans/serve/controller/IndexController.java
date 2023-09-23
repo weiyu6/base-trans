@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.controller;
 
 import com.wybase.trans.base.result.Result;
-import com.wybase.trans.serve.dto.IndexOutput;
+import com.wybase.trans.serve.model.dto.IndexOutput;
 import com.wybase.trans.serve.service.IIndexService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

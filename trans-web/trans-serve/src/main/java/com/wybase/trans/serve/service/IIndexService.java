@@ -1,6 +1,6 @@
 package com.wybase.trans.serve.service;
 
-import com.wybase.trans.serve.dto.IndexOutput;
+import com.wybase.trans.serve.model.dto.IndexOutput;
 
 /**
  * @author weiyu

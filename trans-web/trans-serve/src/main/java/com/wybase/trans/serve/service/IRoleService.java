@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service;
 
 import com.mybatisflex.core.service.IService;
-import com.wybase.trans.serve.entity.generate.Role;
+import com.wybase.trans.serve.model.entity.generate.Role;
 
 /**
  * 角色表 服务层。

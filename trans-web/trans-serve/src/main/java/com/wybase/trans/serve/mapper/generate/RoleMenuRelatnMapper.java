@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.mapper.generate;
 
 import com.mybatisflex.core.BaseMapper;
-import com.wybase.trans.serve.entity.generate.RoleMenuRelatn;
+import com.wybase.trans.serve.model.entity.generate.RoleMenuRelatn;
 
 /**
  * 角色菜单关联表 映射层。

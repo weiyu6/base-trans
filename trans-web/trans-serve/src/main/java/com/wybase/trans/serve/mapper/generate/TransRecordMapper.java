@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.mapper.generate;
 
 import com.mybatisflex.core.BaseMapper;
-import com.wybase.trans.serve.entity.generate.TransRecord;
+import com.wybase.trans.serve.model.entity.generate.TransRecord;
 
 /**
  * 交易流水表 映射层。

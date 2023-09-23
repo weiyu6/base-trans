@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.service;
 
 import com.mybatisflex.core.service.IService;
-import com.wybase.trans.serve.entity.generate.EnumList;
+import com.wybase.trans.serve.model.entity.generate.EnumList;
 
 /**
  * 枚举列表 服务层。

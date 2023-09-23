@@ -1,4 +1,4 @@
-package com.wybase.trans.serve.entity.table;
+package com.wybase.trans.serve.model.entity.table;
 
 import com.mybatisflex.core.query.QueryColumn;
 import com.mybatisflex.core.table.TableDef;

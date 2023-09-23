@@ -1,8 +1,8 @@
-package com.wybase.trans.serve.dto;
+package com.wybase.trans.serve.model.dto;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.wybase.trans.serve.entity.custom.MenuExtend;
-import com.wybase.trans.serve.entity.generate.Menu;
+import com.wybase.trans.serve.model.entity.custom.MenuExtend;
+import com.wybase.trans.serve.model.entity.generate.Menu;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

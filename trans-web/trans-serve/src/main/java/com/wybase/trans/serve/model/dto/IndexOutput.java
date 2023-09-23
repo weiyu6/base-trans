@@ -1,4 +1,4 @@
-package com.wybase.trans.serve.dto;
+package com.wybase.trans.serve.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

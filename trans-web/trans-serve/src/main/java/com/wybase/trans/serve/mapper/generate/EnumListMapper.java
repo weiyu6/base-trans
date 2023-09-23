@@ -1,7 +1,7 @@
 package com.wybase.trans.serve.mapper.generate;
 
 import com.mybatisflex.core.BaseMapper;
-import com.wybase.trans.serve.entity.generate.EnumList;
+import com.wybase.trans.serve.model.entity.generate.EnumList;
 
 /**
  * 枚举列表 映射层。

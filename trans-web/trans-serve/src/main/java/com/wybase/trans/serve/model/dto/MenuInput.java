@@ -1,6 +1,7 @@
-package com.wybase.trans.serve.vo;
+package com.wybase.trans.serve.model.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -9,12 +10,12 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class MenuVo {
+@NoArgsConstructor
+public class MenuInput {
     /**
-     *
+     * token值
      */
-    private String token;
-
+    public String token;
     /**
      * 菜单ID
      */

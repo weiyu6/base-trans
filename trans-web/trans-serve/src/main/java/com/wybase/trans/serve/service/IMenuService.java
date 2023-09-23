@@ -1,9 +1,9 @@
 package com.wybase.trans.serve.service;
 
 import com.mybatisflex.core.service.IService;
-import com.wybase.trans.serve.dto.MenuInput;
-import com.wybase.trans.serve.dto.MenuOutput;
-import com.wybase.trans.serve.entity.generate.Menu;
+import com.wybase.trans.serve.model.dto.MenuInput;
+import com.wybase.trans.serve.model.dto.MenuOutput;
+import com.wybase.trans.serve.model.entity.generate.Menu;
 
 import java.util.List;
 
