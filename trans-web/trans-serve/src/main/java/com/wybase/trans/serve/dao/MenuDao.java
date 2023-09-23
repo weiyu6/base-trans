@@ -2,10 +2,10 @@ package com.wybase.trans.serve.dao;
 
 import com.mybatisflex.core.query.QueryWrapper;
 import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.serve.mapper.generate.MenuMapper;
 import com.wybase.trans.serve.model.entity.custom.MenuExtend;
 import com.wybase.trans.serve.model.entity.generate.Menu;
-import com.wybase.trans.serve.model.entity.table.MenuTableDef;
-import com.wybase.trans.serve.mapper.generate.MenuMapper;
+import com.wybase.trans.serve.model.entity.generate.table.MenuTableDef;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

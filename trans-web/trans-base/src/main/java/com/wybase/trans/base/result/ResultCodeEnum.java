@@ -33,6 +33,10 @@ public enum ResultCodeEnum {
      */
     LOGIN_PASSWORD_ERROR("100203", "密码错误"),
 
+    /**
+     * 100701-查询无记录
+     */
+    TRAN100701("100701", "查询无记录"),
     ;
 
     // 响应码

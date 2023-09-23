@@ -2,9 +2,9 @@ package com.wybase.trans.serve.dao;
 
 import com.mybatisflex.core.query.QueryWrapper;
 import com.wybase.trans.common.consts.TransConsts;
-import com.wybase.trans.serve.model.entity.generate.UserInfo;
-import com.wybase.trans.serve.model.entity.table.UserInfoTableDef;
 import com.wybase.trans.serve.mapper.generate.UserInfoMapper;
+import com.wybase.trans.serve.model.entity.generate.UserInfo;
+import com.wybase.trans.serve.model.entity.generate.table.UserInfoTableDef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
