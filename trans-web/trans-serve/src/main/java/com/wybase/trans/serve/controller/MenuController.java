@@ -3,8 +3,8 @@ package com.wybase.trans.serve.controller;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.serve.model.dto.MenuInput;
 import com.wybase.trans.serve.model.dto.MenuOutput;
-import com.wybase.trans.serve.service.IMenuService;
 import com.wybase.trans.serve.model.vo.MenuVo;
+import com.wybase.trans.serve.service.IMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -38,9 +38,9 @@ public class MenuController {
     public Result menutree(@RequestBody(required = false) MenuVo request) {
         logger.debug("MenuController.menulist begin:>>>>>>>>>>>>>>>>>>>");
         logger.debug("request:{}", request);
-        MenuInput serviceInput = new MenuInput();
-        BeanUtils.copyProperties(request, serviceInput);
-        MenuOutput output = menuService.menuListAll(serviceInput);
+        MenuInput input = new MenuInput();
+        BeanUtils.copyProperties(request, input);
+        MenuOutput output = menuService.menuListAll(input);
         logger.debug("MenuController.menulist end:<<<<<<<<<<<<<<<<<");
         return Result.ok(output);
     }
@@ -53,10 +53,53 @@ public class MenuController {
     public Result buttonList(@RequestBody MenuVo request) {
         logger.debug("MenuController.buttonList begin:>>>>>>>>>>>>>>>>>>>");
         logger.debug("request:{}", request);
-        MenuInput serviceInput = new MenuInput();
-        BeanUtils.copyProperties(request, serviceInput);
-        MenuOutput output = menuService.buttonList(serviceInput);
+        MenuInput input = new MenuInput();
+        BeanUtils.copyProperties(request, input);
+        MenuOutput output = menuService.buttonList(input);
         logger.debug("MenuController.buttonList end:<<<<<<<<<<<<<<<<<");
         return Result.ok(output);
+    }
+    /**
+     * 根据菜单ID查询菜单信息
+     * @param request
+     */
+    @ApiOperation(value = "根据菜单ID查询菜单信息")
+    @PostMapping("/menuInfoQry")
+    public Result menuInfoQry(@RequestBody MenuVo request) {
+        logger.debug("MenuController.menuInfoQry begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput input = new MenuInput();
+        BeanUtils.copyProperties(request, input);
+        MenuOutput output = menuService.menuInfoQry(input);
+        logger.debug("MenuController.menuInfoQry end:<<<<<<<<<<<<<<<<<");
+        return Result.ok(output);
+    }
+
+    /**
+     * 根据条件查询菜单列表
+     * @param request
+     */
+    @ApiOperation(value = "根据条件查询菜单列表")
+    @PostMapping("/menuList")
+    public Result menuList(@RequestBody MenuVo request) {
+        logger.debug("MenuController.menuList begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput input = new MenuInput();
+        BeanUtils.copyProperties(request, input);
+        MenuOutput output = menuService.menuList(input);
+        logger.debug("MenuController.menuList end:<<<<<<<<<<<<<<<<<");
+        return Result.ok(output);
+    }
+
+    @ApiOperation(value = "菜单修改")
+    @PostMapping("/menuMdf")
+    public Result menuMdf(@RequestBody MenuVo request) {
+        logger.debug("MenuController.menuMdf begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput input = new MenuInput();
+        BeanUtils.copyProperties(request, input);
+        menuService.menuMdf(input);
+        logger.debug("MenuController.menuMdf end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
     }
 }

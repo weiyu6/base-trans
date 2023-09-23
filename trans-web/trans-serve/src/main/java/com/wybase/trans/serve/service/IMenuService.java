@@ -17,12 +17,12 @@ public interface IMenuService extends IService<Menu> {
      * 查询菜单列表
      * @return
      */
-    MenuOutput menuListAll(MenuInput serviceInput);
+    MenuOutput menuListAll(MenuInput input);
 
     /**
      * 查询按钮列表
      */
-    MenuOutput buttonList(MenuInput serviceInput);
+    MenuOutput buttonList(MenuInput input);
 
     /**
      * 根据用户ID获取菜单列表
@@ -30,4 +30,16 @@ public interface IMenuService extends IService<Menu> {
      * @return
      */
     List<Menu> menuListByUserId(String userId);
+
+    /**
+     * 根据菜单ID查询菜单信息
+     */
+    MenuOutput menuInfoQry(MenuInput input);
+
+    /**
+     * 根据条件查询菜单列表
+     */
+    MenuOutput menuList(MenuInput input);
+
+    void menuMdf(MenuInput input);
 }

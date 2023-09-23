@@ -1,20 +1,26 @@
 package com.wybase.trans.serve.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.wybase.trans.base.exception.TransException;
+import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.util.JwtUtil;
 import com.wybase.trans.serve.dao.MenuDao;
+import com.wybase.trans.serve.mapper.generate.MenuMapper;
 import com.wybase.trans.serve.model.dto.MenuInput;
 import com.wybase.trans.serve.model.dto.MenuOutput;
 import com.wybase.trans.serve.model.entity.custom.MenuExtend;
 import com.wybase.trans.serve.model.entity.generate.Menu;
 import com.wybase.trans.serve.model.entity.generate.UserInfo;
-import com.wybase.trans.serve.mapper.generate.MenuMapper;
+import com.wybase.trans.serve.model.entity.generate.table.MenuTableDef;
 import com.wybase.trans.serve.service.IMenuService;
 import com.wybase.trans.serve.service.IUserInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,9 +48,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     private MenuDao menuDao;
 
     @Override
-    public MenuOutput menuListAll(MenuInput serviceInput) {
+    public MenuOutput menuListAll(MenuInput input) {
         MenuOutput serviceOutput = new MenuOutput();
-        String token = serviceInput.getToken();
+        String token = input.getToken();
         List<MenuExtend> menuExtendList = new ArrayList<>();
         if (StringUtils.isNotEmpty(token)) {
             String userId = JwtUtil.getUserId(token, tokenSignKey);
@@ -85,11 +91,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
      * 查询按钮列表
      */
     @Override
-    public MenuOutput buttonList(MenuInput serviceInput) {
+    public MenuOutput buttonList(MenuInput input) {
         logger.debug("MenuServiceImpl.buttonList begin >>>>>>>>>>>>>>>>>>>");
-        logger.debug("serviceInput:{}", serviceInput);
+        logger.debug("input:{}", input);
         MenuOutput serviceOutput = new MenuOutput();
-        String token = serviceInput.getToken();
+        String token = input.getToken();
         List<MenuExtend> menuExtendList = new ArrayList<>();
         if (StringUtils.isNotEmpty(token)) {
             String userId = JwtUtil.getUserId(token, tokenSignKey);
@@ -125,6 +131,60 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
             menuExtendList = menuDao.menuListAll1(TransConsts.MENU_TYPE_1, TransConsts.MENU_STAT_1);
         }
         return menuExtendList;
+    }
+
+    /**
+     * 根据菜单ID查询菜单信息
+     */
+    @Override
+    public MenuOutput menuInfoQry(MenuInput input) {
+        logger.debug("MenuServiceImpl.menuInfoQry begin >>>>>>>>>>>>>>>>>>>");
+        MenuOutput output = new MenuOutput();
+        String menuId = input.getMenuId();
+        logger.debug("menuId:{}", menuId);
+        Menu menu = getById(menuId);
+        if (ObjectUtil.isEmpty(menu)) {
+            logger.error("查询无记录");
+            throw new TransException(ResultCodeEnum.TRAN100701);
+        }
+        output.setMenu(menu);
+        logger.debug("MenuServiceImpl.menuInfoQry end:<<<<<<<<<<<<<<<<<");
+        return output;
+    }
+
+    /**
+     * 根据条件查询菜单列表
+     */
+    @Override
+    public MenuOutput menuList(MenuInput input) {
+        logger.debug("MenuServiceImpl.menuList begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("input:{}", input);
+        MenuOutput serviceOutput = new MenuOutput();
+        String menuLvl = input.getMenuLvl();// 菜单级别
+        String menuNm = input.getMenuNm();
+        QueryWrapper query = QueryWrapper.create();
+        query.where(MenuTableDef.MENU.MENU_TYPE.eq(TransConsts.MENU_TYPE_1));
+        if (StringUtils.isNotBlank(menuLvl)) {
+            query.where(MenuTableDef.MENU.MENU_LVL.eq(menuLvl));
+        }
+        if (StringUtils.isNotBlank(menuNm)) {
+            query.where(MenuTableDef.MENU.MENU_NM.like(menuNm));
+            query.or(MenuTableDef.MENU.MENU_ID.like(menuNm));
+        }
+        List<Menu> menuListQry = list(query);
+        serviceOutput.setMenuListQry(menuListQry);
+        logger.debug("MenuServiceImpl.menuList end:<<<<<<<<<<<<<<<<<");
+        return serviceOutput;
+    }
+
+    @Override
+    public void menuMdf(MenuInput input) {
+        logger.debug("MenuServiceImpl.menuMdf begin >>>>>>>>>>>>>>>>>>>");
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(input, menu);
+        logger.debug("menu:{}", menu);
+        updateById(menu,true);
+        logger.debug("MenuServiceImpl.menuMdf end:<<<<<<<<<<<<<<<<<");
     }
 
     /**
