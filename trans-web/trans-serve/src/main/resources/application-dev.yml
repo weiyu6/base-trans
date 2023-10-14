@@ -17,11 +17,11 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.24.10:3306/trans?serverTimezone=UTC&characterEncoding=utf-8
+      url: jdbc:mysql://192.168.24.10:3306/trans?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
       username: root
       password: password
 util:
   properties:
     pwdKey: MEET_BLOG_SECRET_KEY_
     tokenSignKey: m1e2e3t4b5l6o7g8
-    tokenExpiration: 259200
+    tokenExpiration: 7200000
