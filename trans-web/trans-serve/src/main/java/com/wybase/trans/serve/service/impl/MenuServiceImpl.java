@@ -1,5 +1,6 @@
 package com.wybase.trans.serve.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -46,6 +48,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Autowired
     private MenuDao menuDao;
+
+    @Autowired
+    private MenuMapper menuMapper;
 
     @Override
     public MenuOutput menuListAll(MenuInput input) {
@@ -79,9 +84,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
                     // 为1级菜单添加子菜单
                     menu.setChildren(getChildren(menu, finalMenuExtendList));
                     return menu;
-                }).sorted((menu1, menu2) -> {
-                    return (menu1.getSort() == null ? 0 : menu1.getSort()) - (menu2.getSort() == null ? 0 : menu2.getSort());
-                }).collect(Collectors.toList());
+                }).sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort()))).collect(Collectors.toList());
 
         serviceOutput.setMenuTree(menuExtends);
         return serviceOutput;
@@ -183,8 +186,117 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         Menu menu = new Menu();
         BeanUtils.copyProperties(input, menu);
         logger.debug("menu:{}", menu);
-        updateById(menu,true);
+        updateById(menu, true);
         logger.debug("MenuServiceImpl.menuMdf end:<<<<<<<<<<<<<<<<<");
+    }
+
+    /**
+     * 获取按钮树形列表
+     * @param serviceInput
+     * @return
+     */
+    @Override
+    public MenuOutput buttonTree(MenuInput serviceInput) {
+        logger.debug("MenuServiceImpl.buttonTree begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("serviceInput:{}", serviceInput);
+        List<Menu> menuList = new ArrayList<>();
+        String menuId = serviceInput.getMenuId();
+
+        QueryWrapper queryWrapper = QueryWrapper.create();
+        // 如果菜单ID为空，则查询全部列表
+        if (StringUtils.isEmpty(menuId)) {
+
+            queryWrapper.where(MenuTableDef.MENU.MENU_LVL.ne(TransConsts.MENU_LVL_1))
+                    .where(MenuTableDef.MENU.LINK_FLG.eq("0"))
+                    .where(MenuTableDef.MENU.RECD_STAT.eq(TransConsts.RECD_STAT_0));
+            menuList = menuMapper.selectListByQuery(queryWrapper);
+            logger.debug("menuExtendList:{}", menuList);
+
+        } else {
+            queryWrapper.where(MenuTableDef.MENU.MENU_ID.eq(menuId))
+                    .or(MenuTableDef.MENU.HIGH_LVL_ID.eq(menuId));
+            menuList = menuMapper.selectListByQuery(queryWrapper);
+        }
+        List<MenuExtend> menuExtendList = new CopyOnWriteArrayList<>();
+        // 将menu中的值拷贝到menuExtend中
+        for (Menu menu : menuList) {
+            MenuExtend menuExtend = new MenuExtend();
+            BeanUtils.copyProperties(menu, menuExtend);
+            menuExtendList.add(menuExtend);
+        }
+        // 对菜单列表进行重排，生成树形列表
+        List<MenuExtend> buttonTree = menuExtendList.stream()
+                .filter(menu -> StringUtils.equals(menu.getMenuLvl(), TransConsts.MENU_LVL_2))
+                .map(menu -> {
+                    menu.setChildren(getChildren(menu, menuExtendList));
+                    return menu;
+                }).sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort()))).collect(Collectors.toList());
+
+        // 只返回存在按钮的菜单列表
+        buttonTree = buttonTree.stream()
+                .filter(menu -> ObjectUtil.isNotEmpty(menu.getChildren()))
+                .collect(Collectors.toList());
+
+        logger.debug("将按钮及其上级菜单集合存入Redis缓存中");
+        MenuOutput serviceOutput = new MenuOutput();
+        serviceOutput.setButtonTree(buttonTree);
+        logger.debug("MenuServiceImpl.buttonTree end:<<<<<<<<<<<<<<<<<");
+        return serviceOutput;
+    }
+
+    @Override
+    public void buttonAdd(MenuInput serviceInput) {
+        logger.debug("MenuServiceImpl.buttonAdd begin >>>>>>>>>>>>>>>>>>>");
+        String highLvlId = serviceInput.getHighLvlId();
+        // 上级菜单ID为空，代表此菜单为一级菜单
+        if (StringUtils.isEmpty(highLvlId) || StringUtils.equals(highLvlId, "0")) {
+            logger.error("上级菜单ID不能为空");
+            throw new TransException(ResultCodeEnum.NULL_ERROR, "上级菜单ID不能为空");
+        }
+        Menu menu = getById(highLvlId);
+        if (ObjectUtil.isEmpty(menu)) {
+            logger.error("上级菜单ID：{}查询为空", highLvlId);
+            throw new TransException(ResultCodeEnum.TRAN100701);
+        }
+        String menuLvl = menu.getMenuLvl();
+        menuLvl = String.valueOf(Integer.valueOf(menuLvl) + 1);
+
+        String menuId = IdUtil.getSnowflakeNextIdStr();
+        logger.debug("菜单ID:{}", menuId);
+
+        menu = new Menu();
+        BeanUtils.copyProperties(serviceInput, menu);
+        menu.setMenuId(menuId);
+        menu.setHighLvlId(highLvlId);
+        menu.setMenuLvl(menuLvl);
+        logger.debug("menu:{}", menu);
+        save(menu);
+        logger.debug("MenuServiceImpl.buttonAdd end:<<<<<<<<<<<<<<<<<");
+    }
+
+    @Override
+    public void buttonMdf(MenuInput serviceInput) {
+        logger.debug("MenuServiceImpl.buttonMdf begin >>>>>>>>>>>>>>>>>>>");
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(serviceInput, menu);
+        logger.debug("menu:{}", menu);
+        updateById(menu, true);
+        logger.debug("MenuServiceImpl.buttonMdf end:<<<<<<<<<<<<<<<<<");
+    }
+
+    @Override
+    public void menuDel(MenuInput serviceInput) {
+        logger.debug("MenuServiceImpl.menuDel begin >>>>>>>>>>>>>>>>>>>");
+        String menuId = serviceInput.getMenuId();
+        Menu menu = getById(menuId);
+        if (ObjectUtil.isEmpty(menu)) {
+            logger.error("menuId:{}查询无记录", menuId);
+            throw new TransException(ResultCodeEnum.TRAN100701);
+        }
+
+        menu.setRecdStat(TransConsts.RECD_STAT_1);
+        updateById(menu, true);
+        logger.debug("MenuServiceImpl.menuDel end:<<<<<<<<<<<<<<<<<");
     }
 
     /**
@@ -194,9 +306,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
      */
     private List<MenuExtend> getChildren(MenuExtend menu, List<MenuExtend> menuExtendList) {
         return menuExtendList.stream()
-                .filter(item -> {
-                    return StringUtils.equals(item.getHighLvlId(), menu.getMenuId());
-                }).map(item -> {
+                .filter(item -> StringUtils.equals(item.getHighLvlId(), menu.getMenuId())).map(item -> {
                     item.setChildren(getChildren(item, menuExtendList));
                     return item;
                 }).sorted(Comparator.comparingInt(menu2 -> (menu2.getSort() == null ? 0 : menu2.getSort()))).collect(Collectors.toList());

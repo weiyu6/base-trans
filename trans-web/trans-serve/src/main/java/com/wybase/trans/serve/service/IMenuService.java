@@ -42,4 +42,29 @@ public interface IMenuService extends IService<Menu> {
     MenuOutput menuList(MenuInput input);
 
     void menuMdf(MenuInput input);
+
+    /**
+     * 获取按钮树形列表
+     * @param serviceInput
+     * @return
+     */
+    MenuOutput buttonTree(MenuInput serviceInput);
+
+    /**
+     * 添加按钮
+     * @param serviceInput
+     */
+    void buttonAdd(MenuInput serviceInput);
+
+    /**
+     * 修改按钮信息
+     * @param serviceInput
+     */
+    void buttonMdf(MenuInput serviceInput);
+
+    /**
+     * 菜单删除
+     * @param serviceInput
+     */
+    void menuDel(MenuInput serviceInput);
 }

@@ -62,4 +62,16 @@ public class TransConsts {
      * 菜单状态(0:禁止,1:正常)
      */
     public static final String MENU_STAT_1 = "1";
+    /**
+     * 菜单级别(1-一级菜单，2-二级菜单，3-三级菜单)
+     */
+    public static final String MENU_LVL_1 = "1";
+    /**
+     * 菜单级别(1-一级菜单，2-二级菜单，3-三级菜单)
+     */
+    public static final String MENU_LVL_2 = "2";
+    /**
+     * 菜单级别(1-一级菜单，2-二级菜单，3-三级菜单)
+     */
+    public static final String MENU_LVL_3 = "3";
 }

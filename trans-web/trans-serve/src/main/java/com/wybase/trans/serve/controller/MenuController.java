@@ -1,5 +1,6 @@
 package com.wybase.trans.serve.controller;
 
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.serve.model.dto.MenuInput;
 import com.wybase.trans.serve.model.dto.MenuOutput;
@@ -100,6 +101,52 @@ public class MenuController {
         BeanUtils.copyProperties(request, input);
         menuService.menuMdf(input);
         logger.debug("MenuController.menuMdf end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+    @ApiOperation(value = "按钮查询")
+    @PostMapping("/buttonTree")
+    public Result buttonTree(@RequestBody MenuVo request) {
+        logger.debug("MenuController.buttonTree begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput serviceInput = new MenuInput();
+        BeanUtils.copyProperties(request, serviceInput);
+        MenuOutput output = menuService.buttonTree(serviceInput);
+        logger.debug("MenuController.buttonTree end:<<<<<<<<<<<<<<<<<");
+        return Result.ok(output);
+    }
+    @ApiOperation(value = "添加按钮")
+    @PostMapping("/buttonAdd")
+    public Result buttonAdd(@RequestBody MenuVo request){
+        logger.debug("MenuController.buttonAdd begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput serviceInput = new MenuInput();
+        BeanUtils.copyProperties(request, serviceInput);
+        menuService.buttonAdd(serviceInput);
+        logger.debug("MenuController.buttonAdd end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "修改按钮")
+    @PostMapping("/buttonMdf")
+    public Result buttonMdf(@RequestBody MenuVo request){
+        logger.debug("MenuController.buttonMdf begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput serviceInput = new MenuInput();
+        BeanUtils.copyProperties(request, serviceInput);
+        menuService.buttonMdf(serviceInput);
+        logger.debug("MenuController.buttonMdf end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "删除菜单")
+    @PostMapping("/menuDel")
+    public Result menuDel(@RequestBody MenuVo request) {
+        logger.debug("MenuController.menuDel begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput serviceInput = new MenuInput();
+        BeanUtils.copyProperties(request, serviceInput);
+        menuService.menuDel(serviceInput);
+        logger.debug("MenuController.menuDel end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
     }
 }
