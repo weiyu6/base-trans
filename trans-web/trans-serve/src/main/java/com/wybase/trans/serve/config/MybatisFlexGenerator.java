@@ -52,15 +52,15 @@ public class MybatisFlexGenerator {
 //                .setControllerPackage("com.wybase.trans.serve.controller")
                 .setServicePackage("com.wybase.trans.serve.service")
                 .setServiceImplPackage("com.wybase.trans.serve.service.impl")
-                .setEntityPackage("com.wybase.trans.serve.entity.generate")
+                .setEntityPackage("com.wybase.trans.serve.model.entity.generate")
                 .setMapperXmlPath(System.getProperty("user.dir") + "/trans-serve/src/main/java/"+"com/wybase/trans/serve/mapper/generate")
                 .setMapperPackage("com.wybase.trans.serve.mapper.generate");
 
         //设置表前缀和只生成哪些表，setGenerateTable 未配置时，生成所有表
         Set<String> tables = new HashSet<>();
 //        tables.add("b_sys_log");
-//        tables.add("b_trans_record");
-        tables.add("b_user_info");
+       tables.add("b_trans_record");
+//         tables.add("b_user_info");
 //        tables.add("b_enum_list");
 //        tables.add("b_menu");
 //        tables.add("b_role");

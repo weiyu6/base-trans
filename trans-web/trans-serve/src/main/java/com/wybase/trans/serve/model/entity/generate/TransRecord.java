@@ -2,12 +2,13 @@ package com.wybase.trans.serve.model.entity.generate;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 交易流水表 实体类。
@@ -90,6 +91,10 @@ public class TransRecord implements Serializable {
      * 请求方式
      */
     private String reqType;
+    /**
+     * 请求参数
+     */
+    private String params;
     /**
      * 交易状态 0-交易失败,1-交易成功,2-交易处理中
      */

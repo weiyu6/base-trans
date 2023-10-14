@@ -3,6 +3,9 @@ package com.wybase.trans.serve.config;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson2.JSONObject;
+import com.wybase.trans.base.exception.TransException;
+import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.consts.TransHeardConsts;
 import com.wybase.trans.serve.model.entity.generate.TransRecord;
@@ -47,10 +50,12 @@ public class ControllerAspect {
     public void before(JoinPoint point) {
         logger.info("ControllerAspect.before begin >>>>>>>>>");
         try {
+            String userID = TransContext.getString(TransHeardConsts.TOKEN_USER_ID);
+            String userName = TransContext.getString(TransHeardConsts.TOKEN_USER_NAME);
             Signature signature = point.getSignature();
             // 交易id
             String method = signature.getName();
-
+            String paramJson = JSONObject.toJSONString(point.getArgs());
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             String ipAddr = IPUtils.getIpAddr(request) == null ? "" : IPUtils.getIpAddr(request);// 请求ip地址
@@ -62,8 +67,6 @@ public class ControllerAspect {
             // 浏览器
             String browser = map.get("BROWSER") == null ? "" : map.get("BROWSER");
             String chnl = request.getHeader("Chnl") == null ? "" : request.getHeader("Chnl");
-            String tokenUserId = request.getHeader("TokenUserId");
-            String tokenUserName = request.getHeader("tokenUserName");
             LocalDateTime dateTime = LocalDateTime.now();
             String transDate = dateTime.toLocalDate().toString();
             long snowFlakeId = IdUtil.getSnowflakeNextId();
@@ -71,8 +74,8 @@ public class ControllerAspect {
             logger.info("交易流水号：{}", transRecdId);
             TransRecord transRecord = new TransRecord();
             transRecord.setTransRecdId(transRecdId);
-            transRecord.setUserId(tokenUserId);
-            transRecord.setUserName(tokenUserName);
+            transRecord.setUserId(userID);
+            transRecord.setUserName(userName);
             transRecord.setTransDate(dateTime);
             transRecord.setReqDate(dateTime);
             transRecord.setChnl(chnl);
@@ -80,6 +83,7 @@ public class ControllerAspect {
             transRecord.setIpAddr(ipAddr);
             transRecord.setUrl(url);
             transRecord.setReqType(type);
+            transRecord.setParams(paramJson);
             transRecord.setOs(os);
             transRecord.setBrowser(browser);
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_2);
@@ -92,6 +96,7 @@ public class ControllerAspect {
             TransContext.setField(TransHeardConsts.TRANS_RECORD, transRecord);
         } catch (Exception e) {
             logger.info("解析失败：", e);
+            throw new TransException(ResultCodeEnum.FAIL, "参数解析失败！");
         }
         logger.info("ControllerAspect.end begin >>>>>>>>>");
     }

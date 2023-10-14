@@ -2,6 +2,7 @@ package com.wybase.trans.serve.security;
 
 import com.wybase.trans.common.consts.TransHeardConsts;
 import com.wybase.trans.common.util.JwtUtil;
+import com.wybase.trans.serve.config.TransContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,13 +45,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.isNotEmpty(tokenHeader)) {
             String userId = JwtUtil.getUserId(tokenHeader, tokenSignKey);
             String userName = JwtUtil.getUserName(tokenHeader, tokenSignKey);
-            request.setAttribute("TokenUserId", userId);
-            request.setAttribute("TokenUserName", userName);
+            request.setAttribute(TransHeardConsts.TOKEN_USER_ID, userId);
+            request.setAttribute(TransHeardConsts.TOKEN_USER_NAME, userName);
             UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             // 将用户相关的信息存放到系统的安全上下文中
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            TransContext.setField(TransHeardConsts.TOKEN_USER_ID, userId);
+            TransContext.setField(TransHeardConsts.TOKEN_USER_NAME, userName);
         }
         chain.doFilter(request, response);
     }

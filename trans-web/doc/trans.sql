@@ -23,6 +23,7 @@ create table if not exists b_trans_record
     ip_src        varchar(32)  null     default null comment 'ip地址来源',
     url           varchar(64)  null     default null comment '请求url地址',
     req_type      varchar(32)  null     default null comment '请求方式',
+    params        longtext comment '请求参数',
     trans_status  varchar(2)   null     default null comment '交易状态 0-交易失败,1-交易成功,2-交易处理中',
     consum_time   int(11)               default '0' comment '交易耗时',
     create_time   datetime     not null default current_timestamp comment '创建时间',
