@@ -393,8 +393,8 @@ export default {
       this.searchObj.pageSize = this.limit
       userInfo.userInfoList(this.searchObj).then(res => {
         console.log('userres', res)
-        this.userList = res.data.userExtendPageInfo.list
-        this.total = res.data.userExtendPageInfo.total
+        this.userList = res.data.userExtendPageInfo.records
+        this.total = res.data.userExtendPageInfo.totalRow
       })
     },
 
@@ -464,7 +464,6 @@ export default {
           this.userinfoSig = {}
           // 刷新页面
           this.userInfoList()
-          this.current = '1'
         })
       } else if (this.operFlg === '2') {
         userInfo.addUser(this.userinfoSig).then(res => {
