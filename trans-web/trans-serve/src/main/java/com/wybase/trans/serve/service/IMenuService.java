@@ -67,4 +67,11 @@ public interface IMenuService extends IService<Menu> {
      * @param serviceInput
      */
     void menuDel(MenuInput serviceInput);
+
+    /**
+     * 查询菜单按钮列表
+     * @param serviceInput
+     * @return
+     */
+    MenuOutput menuButtonTree(MenuInput serviceInput);
 }

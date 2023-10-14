@@ -1,6 +1,5 @@
 package com.wybase.trans.serve.controller;
 
-import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.serve.model.dto.MenuInput;
 import com.wybase.trans.serve.model.dto.MenuOutput;
@@ -148,5 +147,17 @@ public class MenuController {
         menuService.menuDel(serviceInput);
         logger.debug("MenuController.menuDel end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
+    }
+
+    @ApiOperation(value = "查询菜单按钮列表")
+    @PostMapping("/menuButtonTree")
+    public Result menuButtonTree(@RequestBody MenuVo vo){
+        logger.debug("MenuController.menuButtonTree begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("vo:{}", vo);
+        MenuInput serviceInput = new MenuInput();
+        BeanUtils.copyProperties(vo, serviceInput);
+        MenuOutput output = menuService.menuButtonTree(serviceInput);
+        logger.debug("MenuController.menuButtonTree end:<<<<<<<<<<<<<<<<<");
+        return Result.ok(output);
     }
 }

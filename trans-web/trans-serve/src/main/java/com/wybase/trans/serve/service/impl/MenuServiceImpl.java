@@ -261,7 +261,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         String menuLvl = menu.getMenuLvl();
         menuLvl = String.valueOf(Integer.valueOf(menuLvl) + 1);
 
-        String menuId = IdUtil.getSnowflakeNextIdStr();
+        long snowFlakeId = IdUtil.getSnowflakeNextId();
+        String menuId = String.format("m%s", snowFlakeId);
         logger.debug("菜单ID:{}", menuId);
 
         menu = new Menu();
@@ -297,6 +298,37 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         menu.setRecdStat(TransConsts.RECD_STAT_1);
         updateById(menu, true);
         logger.debug("MenuServiceImpl.menuDel end:<<<<<<<<<<<<<<<<<");
+    }
+
+    @Override
+    public MenuOutput menuButtonTree(MenuInput serviceInput) {
+        logger.debug("MenuServiceImpl.menuButtonTree begin >>>>>>>>>>>>>>>>>>>");
+        MenuOutput serviceOutput = new MenuOutput();
+        QueryWrapper queryWrapper = QueryWrapper.create();
+        queryWrapper.where(MenuTableDef.MENU.RECD_STAT.eq(TransConsts.RECD_STAT_0));
+        List<Menu> menuList = list(queryWrapper);
+
+        List<MenuExtend> menuExtendList = new CopyOnWriteArrayList<>();
+        // 将menu中的值拷贝到menuExtend中
+        for (Menu menu : menuList) {
+            MenuExtend menuExtend = new MenuExtend();
+            BeanUtils.copyProperties(menu, menuExtend);
+            menuExtendList.add(menuExtend);
+        }
+        // 使用stream为一级菜单添加子菜单
+        List<MenuExtend> menuButtonList = menuExtendList.stream()
+                // 过滤出菜单级别为1的菜单
+                .filter(item -> StringUtils.equals(item.getMenuLvl(), "1"))
+                .map(menu -> {
+                    // 为1级菜单添加子菜单
+                    menu.setChildren(getChildren(menu, menuExtendList));
+                    return menu;
+                }).sorted((menu1, menu2) -> {
+                    return (menu1.getSort() == null ? 0 : menu1.getSort()) - (menu2.getSort() == null ? 0 : menu2.getSort());
+                }).collect(Collectors.toList());
+        logger.debug("MenuServiceImpl.menuButtonTree end:<<<<<<<<<<<<<<<<<");
+        serviceOutput.setMenuButtonTree(menuButtonList);
+        return serviceOutput;
     }
 
     /**

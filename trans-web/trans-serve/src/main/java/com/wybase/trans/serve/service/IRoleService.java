@@ -15,4 +15,29 @@ public interface IRoleService extends IService<Role> {
      * 角色列表查询
      */
     RoleOutput roleList(RoleInput serviceInput);
+
+    /**
+     * 根据ID查询角色信息
+     * @param serviceInput
+     * @return
+     */
+    RoleOutput roleInfoQry(RoleInput serviceInput);
+
+    /**
+     * 角色信息修改
+     * @param serviceInput
+     */
+    void roleMdf(RoleInput serviceInput);
+
+    /**
+     * 新增角色
+     * @param serviceInput
+     */
+    void roleAdd(RoleInput serviceInput);
+
+    /**
+     * 删除角色信息
+     * @param serviceInput
+     */
+    void roleDel(RoleInput serviceInput);
 }
