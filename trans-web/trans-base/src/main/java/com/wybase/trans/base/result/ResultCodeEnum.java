@@ -38,6 +38,10 @@ public enum ResultCodeEnum {
      */
     TRAN100701("100701", "查询无记录"),
     /**
+     * 100704-用户名已注册
+     */
+    REGISTERED_USERNM_ERROR("100704", "用户名已注册"),
+    /**
      * 100706-记录信息已删除
      */
     RECDSTAT_ERROR("100706", "记录信息已删除"),

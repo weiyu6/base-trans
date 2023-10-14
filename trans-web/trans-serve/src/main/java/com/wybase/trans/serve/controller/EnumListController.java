@@ -6,6 +6,7 @@ import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.serve.model.entity.generate.EnumList;
 import com.wybase.trans.serve.model.vo.EnumListVo;
 import com.wybase.trans.serve.service.IEnumListService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author weiyu
  * @date 2023/9/23
  */
+@Api(value = "枚举服务", tags = "枚举服务")
 @RestController
 @RequestMapping("/online/enumlist")
 public class EnumListController {

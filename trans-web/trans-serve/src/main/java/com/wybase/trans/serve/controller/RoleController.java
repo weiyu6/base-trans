@@ -5,6 +5,7 @@ import com.wybase.trans.serve.model.dto.RoleInput;
 import com.wybase.trans.serve.model.dto.RoleOutput;
 import com.wybase.trans.serve.model.vo.RoleVo;
 import com.wybase.trans.serve.service.IRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/9/23
  */
+@Api(value = "角色服务", tags = "角色服务")
 @RestController
 @RequestMapping("/online/role")
 public class RoleController {
