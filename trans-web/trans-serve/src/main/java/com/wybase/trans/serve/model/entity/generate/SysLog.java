@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * 日志表 实体类。
  *
  * @author weiyu
- * @since 2023-08-05
+ * @since 2023-10-15
  */
 @Data
 @Builder
@@ -26,6 +26,10 @@ public class SysLog implements Serializable {
      */
     @Id
     private String logId;
+    /**
+     * 交易流水号
+     */
+    private String transRecdId;
     /**
      * 用户ID
      */
@@ -71,10 +75,6 @@ public class SysLog implements Serializable {
      */
     private String methodNm;
     /**
-     * 请求参数
-     */
-    private String params;
-    /**
      * 模块id（文章id，标签id，分类id）
      */
     private String moduleId;
@@ -91,13 +91,21 @@ public class SysLog implements Serializable {
      */
     private String browser;
     /**
-     * 交易耗时
+     * 请求信息
      */
-    private Integer consumTime;
+    private String params;
     /**
-     * 交易流水号
+     * 返回信息
      */
-    private String transRecdNum;
+    private String resultparams;
+    /**
+     * 错误消息
+     */
+    private String errormsg;
+    /**
+     * 交易状态 0-交易失败,1-交易成功,2-交易处理中
+     */
+    private String transStatus;
     /**
      * 创建时间
      */
