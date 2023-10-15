@@ -80,4 +80,28 @@ public class UserInfoController {
         logger.debug("UserController.userInfoMdf end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
     }
+
+    @ApiOperation(value = "用户注册")
+    @PostMapping("/addUser")
+    public Result addUser(@RequestBody UserInfoVo request) {
+        logger.debug("addUser begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        String userNm = request.getUserNm();
+        String passWord = request.getPassWord();
+        if (StringUtils.isEmpty(userNm)) {
+            logger.error("用户名不能为空");
+            throw new TransException(ResultCodeEnum.NULL_ERROR, "用户名不能为空");
+        }
+        if (StringUtils.isEmpty(passWord)) {
+            logger.error("密码不能为空");
+            throw new TransException(ResultCodeEnum.NULL_ERROR, "密码不能为空");
+        }
+        UserInfoInput userInput = new UserInfoInput();
+        BeanUtils.copyProperties(request, userInput);
+        // 调用用户注册服务
+        userInfoService.addUser(userInput);
+        // TODO 调用短信服务发送通知
+        logger.debug("addUser end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
 }

@@ -39,4 +39,10 @@ public interface IUserInfoService extends IService<UserInfo> {
      * @param userInput
      */
     void userInfoMdf(UserInfoInput userInput);
+
+    /**
+     * 用户注册
+     * @param userInput
+     */
+    void addUser(UserInfoInput userInput);
 }

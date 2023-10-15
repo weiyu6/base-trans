@@ -1,5 +1,6 @@
 package com.wybase.trans.serve.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -7,6 +8,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.common.consts.TransHeardConsts;
 import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.dao.UserInfoDao;
 import com.wybase.trans.serve.mapper.generate.UserInfoMapper;
@@ -16,6 +18,7 @@ import com.wybase.trans.serve.model.entity.custom.UserInfoExtend;
 import com.wybase.trans.serve.model.entity.generate.UserInfo;
 import com.wybase.trans.serve.model.entity.generate.table.UserInfoTableDef;
 import com.wybase.trans.serve.service.IUserInfoService;
+import com.wybase.trans.serve.util.PwdUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +41,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Autowired
     private UserInfoDao userInfoDao;
+    @Autowired
+    private PwdUtil pwdUtil;
 
     @Override
     public long userCount() {
@@ -145,5 +150,54 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         user.setTransRecdNum(TransContext.getString("TransRecdNum"));
         updateById(user, true);
         logger.debug("UserInfoServiceImpl.userInfoMdf end:<<<<<<<<<<<<<<<<<");
+    }
+
+    /**
+     * 用户注册
+     * @param userInput
+     */
+    @Override
+    public void addUser(UserInfoInput userInput) {
+        logger.debug("UserServiceImpl.addUser userInput:{}", userInput);
+        // 检查用户名是否重复
+        String userNm = userInput.getUserNm();
+        QueryWrapper queryWrapper = QueryWrapper.create()
+                .where(UserInfoTableDef.USER_INFO.USER_NM.eq(userNm))
+                .and(UserInfoTableDef.USER_INFO.RECD_STAT.eq(TransConsts.RECD_STAT_0));
+        List<UserInfo> userInfoList = list(queryWrapper);
+        if (ObjectUtil.isNotEmpty(userInfoList)) {
+            logger.error("用户名已注册");
+            throw new TransException(ResultCodeEnum.REGISTERED_USERNM_ERROR);
+        }
+        // TODO 邮箱或手机号唯一性校验
+
+        // 使用雪花算法获取id
+        String userId = "u" + IdUtil.getSnowflakeNextId();
+        logger.debug("用户ID:{}", userId);
+        String passWord = userInput.getPassWord();
+        String encryptnPwd = pwdUtil.encryptnPwd(userId, passWord);
+        logger.debug("加密后的密码：{}", encryptnPwd);
+        UserInfo user = new UserInfo();
+        BeanUtils.copyProperties(userInput, user);
+        List<String> roleIds = userInput.getRoleIds();
+        String roleId = "";
+        if (ObjectUtil.isNotEmpty(roleIds)) {
+            StringBuffer sb = new StringBuffer();
+            for (String id : roleIds) {
+                sb.append(id);
+                sb.append("|");
+            }
+            roleId = sb.toString();
+        }
+        user.setUserId(userId);
+        user.setPassWord(encryptnPwd);
+        // 用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员
+        user.setUserTag(TransConsts.USER_TAG_0);
+        user.setRoleId(roleId);
+        user.setOs(TransContext.getString(TransHeardConsts.OS));
+        user.setBrowser(TransContext.getString(TransHeardConsts.BROWSER));
+        user.setTransRecdNum(TransContext.getString(TransHeardConsts.TRANS_RECD_NUM));
+        user.setRecdStat(TransConsts.RECD_STAT_0);
+        save(user);
     }
 }

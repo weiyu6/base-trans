@@ -74,4 +74,20 @@ public class TransConsts {
      * 菜单级别(1-一级菜单，2-二级菜单，3-三级菜单)
      */
     public static final String MENU_LVL_3 = "3";
+    /**
+     * 用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员
+     */
+    public static final String USER_TAG_0 = "0";
+    /**
+     * 用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员
+     */
+    public static final String USER_TAG_1 = "1";
+    /**
+     * 用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员
+     */
+    public static final String USER_TAG_2 = "2";
+    /**
+     * 用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员
+     */
+    public static final String USER_TAG_3 = "3";
 }

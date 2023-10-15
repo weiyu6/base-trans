@@ -94,6 +94,7 @@ public class ControllerAspect {
             TransContext.init();
             TransContext.setField(TransHeardConsts.START_DATE_TIME, dateTime);
             TransContext.setField(TransHeardConsts.TRANS_RECORD, transRecord);
+            TransContext.setField(TransHeardConsts.TRANS_RECD_NUM, transRecdId);
         } catch (Exception e) {
             logger.info("解析失败：", e);
             throw new TransException(ResultCodeEnum.FAIL, "参数解析失败！");
