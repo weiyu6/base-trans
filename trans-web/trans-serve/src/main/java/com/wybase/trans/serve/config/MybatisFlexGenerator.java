@@ -58,7 +58,7 @@ public class MybatisFlexGenerator {
 
         //设置表前缀和只生成哪些表，setGenerateTable 未配置时，生成所有表
         Set<String> tables = new HashSet<>();
-//        tables.add("b_sys_log");
+       tables.add("b_sys_log");
        tables.add("b_trans_record");
 //         tables.add("b_user_info");
 //        tables.add("b_enum_list");
@@ -70,9 +70,8 @@ public class MybatisFlexGenerator {
                 .setGenerateTables(tables);
 
         // Entity 生成配置 EntityConfig
-        /*globalConfig.getEntityConfig()
-                .setClassPrefix("Tbl")
-                .setClassSuffix("Entity");*/
+        globalConfig.getEntityConfig()
+                .setOverwriteEnable(true);
 
         // Mapper 生成配置 MapperConfig
         globalConfig.getMapperConfig()
