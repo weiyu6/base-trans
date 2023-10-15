@@ -44,9 +44,6 @@ public class UserInfoController {
         UserInfoInput input = new UserInfoInput();
         BeanUtils.copyProperties(request, input);
         UserInfoOutput serviceOutput = userInfoService.userInfoListPage(input);
-        if(1==1){
-            throw new TransException(ResultCodeEnum.LOGIN_PASSWORD_ERROR);
-        }
         logger.debug("UserController.userInfoList end:<<<<<<<<<<<<<<<<<");
         return Result.ok(serviceOutput);
     }
