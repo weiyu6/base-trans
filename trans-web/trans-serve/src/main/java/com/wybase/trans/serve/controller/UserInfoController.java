@@ -1,5 +1,6 @@
 package com.wybase.trans.serve.controller;
 
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
@@ -34,11 +35,7 @@ public class UserInfoController {
     @Autowired
     private IUserInfoService userInfoService;
 
-    /**
-     * 查询用户列表
-     * @param request
-     * @return
-     */
+    @MethodName(value = "查询用户列表")
     @ApiOperation(value = "查询用户列表")
     @PostMapping("/userInfoList")
     public Result userInfoList(@RequestBody UserInfoVo request) {
@@ -47,6 +44,9 @@ public class UserInfoController {
         UserInfoInput input = new UserInfoInput();
         BeanUtils.copyProperties(request, input);
         UserInfoOutput serviceOutput = userInfoService.userInfoListPage(input);
+        if(1==1){
+            throw new TransException(ResultCodeEnum.LOGIN_PASSWORD_ERROR);
+        }
         logger.debug("UserController.userInfoList end:<<<<<<<<<<<<<<<<<");
         return Result.ok(serviceOutput);
     }
@@ -67,7 +67,7 @@ public class UserInfoController {
 
     @ApiOperation(value = "修改用户信息")
     @PostMapping("/userInfoMdf")
-    public Result userInfoMdf(@RequestBody UserInfoVo request){
+    public Result userInfoMdf(@RequestBody UserInfoVo request) {
         logger.debug("UserController.userInfoMdf begin >>>>>>>>>>>>>>>>>>>");
         logger.debug("request:{}", request);
         String userId = request.getUserId();

@@ -2,19 +2,18 @@ package com.wybase.trans.serve.model.entity.generate;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
  * 交易流水表 实体类。
  *
  * @author weiyu
- * @since 2023-08-05
+ * @since 2023-10-15
  */
 @Data
 @Builder
@@ -32,10 +31,6 @@ public class TransRecord implements Serializable {
      */
     private String reqRecdId;
     /**
-     * 全局流水号
-     */
-    private String globRecdId;
-    /**
      * 用户名
      */
     private String userName;
@@ -44,10 +39,6 @@ public class TransRecord implements Serializable {
      */
     private String userId;
     /**
-     * 交易时间
-     */
-    private LocalDateTime transDate;
-    /**
      * 请求方时间
      */
     private LocalDateTime reqDate;
@@ -55,10 +46,6 @@ public class TransRecord implements Serializable {
      * 渠道号
      */
     private String chnl;
-    /**
-     * 渠道来源
-     */
-    private String chnlSrc;
     /**
      * 浏览器
      */
@@ -88,13 +75,13 @@ public class TransRecord implements Serializable {
      */
     private String url;
     /**
-     * 请求方式
+     * 错误码
      */
-    private String reqType;
+    private String errorCode;
     /**
-     * 请求参数
+     * 错误信息
      */
-    private String params;
+    private String errorMsg;
     /**
      * 交易状态 0-交易失败,1-交易成功,2-交易处理中
      */

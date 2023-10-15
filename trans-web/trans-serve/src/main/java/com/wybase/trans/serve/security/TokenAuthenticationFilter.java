@@ -51,7 +51,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             // 将用户相关的信息存放到系统的安全上下文中
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            TransContext.init();
             TransContext.setField(TransHeardConsts.TOKEN_USER_ID, userId);
             TransContext.setField(TransHeardConsts.TOKEN_USER_NAME, userName);
         }

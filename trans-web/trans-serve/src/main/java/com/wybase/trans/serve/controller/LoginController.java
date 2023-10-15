@@ -1,6 +1,7 @@
 package com.wybase.trans.serve.controller;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
@@ -32,6 +33,7 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
+    @MethodName(value = "登录")
     @ApiOperation(value = "登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginVo loginVo) {

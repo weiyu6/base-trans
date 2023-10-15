@@ -3,7 +3,6 @@ package com.wybase.trans.serve.config;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
@@ -21,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -43,6 +43,9 @@ public class ControllerAspect {
     @Autowired
     private ITransRecordService transRecordService;
 
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     /**
      * 交易前处理，校验请求流水、登记交易流水信息等操作
      */
@@ -50,12 +53,9 @@ public class ControllerAspect {
     public void before(JoinPoint point) {
         logger.info("ControllerAspect.before begin >>>>>>>>>");
         try {
-            String userID = TransContext.getString(TransHeardConsts.TOKEN_USER_ID);
-            String userName = TransContext.getString(TransHeardConsts.TOKEN_USER_NAME);
             Signature signature = point.getSignature();
             // 交易id
             String method = signature.getName();
-            String paramJson = JSONObject.toJSONString(point.getArgs());
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             String ipAddr = IPUtils.getIpAddr(request) == null ? "" : IPUtils.getIpAddr(request);// 请求ip地址
@@ -72,29 +72,36 @@ public class ControllerAspect {
             long snowFlakeId = IdUtil.getSnowflakeNextId();
             String transRecdId = String.format("%s%020d", transDate, snowFlakeId).replace("-", "");
             logger.info("交易流水号：{}", transRecdId);
+
             TransRecord transRecord = new TransRecord();
             transRecord.setTransRecdId(transRecdId);
-            transRecord.setUserId(userID);
-            transRecord.setUserName(userName);
-            transRecord.setTransDate(dateTime);
+            transRecord.setUserId(TransContext.getString(TransHeardConsts.TOKEN_USER_ID));
+            transRecord.setUserName(TransContext.getString(TransHeardConsts.TOKEN_USER_NAME));
             transRecord.setReqDate(dateTime);
             transRecord.setChnl(chnl);
             transRecord.setMethod(method);
             transRecord.setIpAddr(ipAddr);
             transRecord.setUrl(url);
-            transRecord.setReqType(type);
-            transRecord.setParams(paramJson);
             transRecord.setOs(os);
             transRecord.setBrowser(browser);
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_2);
             transRecord.setRecdStat(TransConsts.RECD_STAT_0);
             logger.info("transRecord:{}", transRecord);
-            transRecordService.save(transRecord);
 
-            TransContext.init();
+            threadPoolTaskExecutor.execute(() -> {
+                logger.info("异步登记交易流水初始化信息");
+                transRecordService.save(transRecord);
+            });
+
             TransContext.setField(TransHeardConsts.START_DATE_TIME, dateTime);
             TransContext.setField(TransHeardConsts.TRANS_RECORD, transRecord);
             TransContext.setField(TransHeardConsts.TRANS_RECD_NUM, transRecdId);
+            TransContext.setField(TransHeardConsts.IP_ADDR, ipAddr);
+            TransContext.setField(TransHeardConsts.URL, url);
+            TransContext.setField(TransHeardConsts.TYPE, type);
+            TransContext.setField(TransHeardConsts.OS, os);
+            TransContext.setField(TransHeardConsts.BROWSER, browser);
+            TransContext.setField(TransHeardConsts.CHNL, chnl);
         } catch (Exception e) {
             logger.info("解析失败：", e);
             throw new TransException(ResultCodeEnum.FAIL, "参数解析失败！");
@@ -117,8 +124,13 @@ public class ControllerAspect {
         TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
         if (ObjectUtil.isNotEmpty(transRecord)) {
             transRecord.setConsumTime(consumTime.intValue());
+            transRecord.setErrorCode(ResultCodeEnum.SUCCESS.getCode());
+            transRecord.setErrorMsg(ResultCodeEnum.SUCCESS.getMsg());
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_1);
-            transRecordService.updateById(transRecord, true);
+            threadPoolTaskExecutor.execute(() -> {
+                logger.info("异步更新交易流水状态");
+                transRecordService.updateById(transRecord, true);
+            });
         }
         TransContext.init();
     }
@@ -126,8 +138,8 @@ public class ControllerAspect {
     /**
      * 交易失败处理，更新交易流水状态为交易失败
      */
-    @AfterThrowing(TransConsts.AOP_POINTCUT_EXPRESSION)
-    public void afterThrowing() {
+    @AfterThrowing(value = TransConsts.AOP_POINTCUT_EXPRESSION, throwing = "e")
+    public void afterThrowing(Throwable e) {
         logger.info("ControllerAspect.afterThrowing");
         LocalDateTime endDateTime = LocalDateTime.now();
         LocalDateTime startDateTime = (LocalDateTime) TransContext.getField(TransHeardConsts.START_DATE_TIME);
@@ -137,8 +149,13 @@ public class ControllerAspect {
         TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
         if (ObjectUtil.isNotEmpty(transRecord)) {
             transRecord.setConsumTime(consumTime.intValue());
+            transRecord.setErrorCode(((TransException) e).getErrorCode());
+            transRecord.setErrorMsg(((TransException) e).getErrorMsg());
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_0);
-            transRecordService.updateById(transRecord, true);
+            threadPoolTaskExecutor.execute(() -> {
+                logger.info("异步更新交易流水状态");
+                transRecordService.updateById(transRecord, true);
+            });
         }
         TransContext.init();
     }
