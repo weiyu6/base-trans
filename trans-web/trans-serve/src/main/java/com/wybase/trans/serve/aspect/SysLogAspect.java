@@ -1,10 +1,11 @@
-package com.wybase.trans.serve.config;
+package com.wybase.trans.serve.aspect;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.consts.TransHeardConsts;
+import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.model.entity.generate.SysLog;
 import com.wybase.trans.serve.service.ISysLogService;
 import org.aspectj.lang.JoinPoint;

@@ -1,4 +1,4 @@
-package com.wybase.trans.serve.config;
+package com.wybase.trans.serve.aspect;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
@@ -7,6 +7,7 @@ import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.consts.TransHeardConsts;
+import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.model.entity.generate.TransRecord;
 import com.wybase.trans.serve.service.ITransRecordService;
 import com.wybase.trans.serve.util.IPUtils;
