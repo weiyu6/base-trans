@@ -150,8 +150,16 @@ public class ControllerAspect {
         TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
         if (ObjectUtil.isNotEmpty(transRecord)) {
             transRecord.setConsumTime(consumTime.intValue());
-            transRecord.setErrorCode(((TransException) e).getErrorCode());
-            transRecord.setErrorMsg(((TransException) e).getErrorMsg());
+            String errorCode = ResultCodeEnum.FAIL.getCode();
+            String errorMsg = ResultCodeEnum.FAIL.getMsg();
+            try {
+                errorCode = ((TransException) e).getErrorCode();
+                errorMsg = ((TransException) e).getErrorMsg();
+            } catch (Exception ex) {
+                logger.error("错误信息解析异常");
+            }
+            transRecord.setErrorCode(errorCode);
+            transRecord.setErrorMsg(errorMsg);
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_0);
             threadPoolTaskExecutor.execute(() -> {
                 logger.info("异步更新交易流水状态");
