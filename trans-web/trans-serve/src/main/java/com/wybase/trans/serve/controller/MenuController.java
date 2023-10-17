@@ -1,6 +1,8 @@
 package com.wybase.trans.serve.controller;
 
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.result.Result;
+import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.serve.model.dto.MenuInput;
 import com.wybase.trans.serve.model.dto.MenuOutput;
 import com.wybase.trans.serve.model.vo.MenuVo;
@@ -30,9 +32,7 @@ public class MenuController {
     @Autowired
     private IMenuService menuService;
 
-    /**
-     * 查询菜单树形列表
-     */
+    @MethodName(value = "查询菜单树形列表", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "查询菜单树形列表")
     @PostMapping("/menutree")
     public Result menutree(@RequestBody(required = false) MenuVo request) {
@@ -45,9 +45,7 @@ public class MenuController {
         return Result.ok(output);
     }
 
-    /**
-     * 查询按钮列表
-     */
+    @MethodName(value = "查询按钮列表", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "查询按钮列表")
     @PostMapping("/buttonList")
     public Result buttonList(@RequestBody MenuVo request) {
@@ -59,10 +57,8 @@ public class MenuController {
         logger.debug("MenuController.buttonList end:<<<<<<<<<<<<<<<<<");
         return Result.ok(output);
     }
-    /**
-     * 根据菜单ID查询菜单信息
-     * @param request
-     */
+
+    @MethodName(value = "根据菜单ID查询菜单信息", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "根据菜单ID查询菜单信息")
     @PostMapping("/menuInfoQry")
     public Result menuInfoQry(@RequestBody MenuVo request) {
@@ -75,10 +71,7 @@ public class MenuController {
         return Result.ok(output);
     }
 
-    /**
-     * 根据条件查询菜单列表
-     * @param request
-     */
+    @MethodName(value = "根据条件查询菜单列表", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "根据条件查询菜单列表")
     @PostMapping("/menuList")
     public Result menuList(@RequestBody MenuVo request) {
@@ -91,6 +84,7 @@ public class MenuController {
         return Result.ok(output);
     }
 
+    @MethodName(value = "菜单修改", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "菜单修改")
     @PostMapping("/menuMdf")
     public Result menuMdf(@RequestBody MenuVo request) {
@@ -102,6 +96,8 @@ public class MenuController {
         logger.debug("MenuController.menuMdf end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
     }
+
+    @MethodName(value = "按钮查询", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "按钮查询")
     @PostMapping("/buttonTree")
     public Result buttonTree(@RequestBody MenuVo request) {
@@ -113,9 +109,11 @@ public class MenuController {
         logger.debug("MenuController.buttonTree end:<<<<<<<<<<<<<<<<<");
         return Result.ok(output);
     }
+
+    @MethodName(value = "添加按钮", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "添加按钮")
     @PostMapping("/buttonAdd")
-    public Result buttonAdd(@RequestBody MenuVo request){
+    public Result buttonAdd(@RequestBody MenuVo request) {
         logger.debug("MenuController.buttonAdd begin:>>>>>>>>>>>>>>>>>>>");
         logger.debug("request:{}", request);
         MenuInput serviceInput = new MenuInput();
@@ -125,9 +123,10 @@ public class MenuController {
         return Result.ok();
     }
 
+    @MethodName(value = "修改按钮", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "修改按钮")
     @PostMapping("/buttonMdf")
-    public Result buttonMdf(@RequestBody MenuVo request){
+    public Result buttonMdf(@RequestBody MenuVo request) {
         logger.debug("MenuController.buttonMdf begin:>>>>>>>>>>>>>>>>>>>");
         logger.debug("request:{}", request);
         MenuInput serviceInput = new MenuInput();
@@ -137,6 +136,7 @@ public class MenuController {
         return Result.ok();
     }
 
+    @MethodName(value = "删除菜单", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "删除菜单")
     @PostMapping("/menuDel")
     public Result menuDel(@RequestBody MenuVo request) {
@@ -149,9 +149,10 @@ public class MenuController {
         return Result.ok();
     }
 
+    @MethodName(value = "查询菜单按钮列表", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "查询菜单按钮列表")
     @PostMapping("/menuButtonTree")
-    public Result menuButtonTree(@RequestBody MenuVo vo){
+    public Result menuButtonTree(@RequestBody MenuVo vo) {
         logger.debug("MenuController.menuButtonTree begin:>>>>>>>>>>>>>>>>>>>");
         logger.debug("vo:{}", vo);
         MenuInput serviceInput = new MenuInput();

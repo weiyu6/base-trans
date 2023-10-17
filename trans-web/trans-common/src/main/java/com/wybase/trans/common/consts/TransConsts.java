@@ -90,4 +90,12 @@ public class TransConsts {
      * 用户标签：0：普通用户，1：管理员，2：博主，3:超级管理员
      */
     public static final String USER_TAG_3 = "3";
+    /**
+     * 交易类型：0-操作类，1-查询类
+     */
+    public static final String TRANS_TYPE_0 = "0";
+    /**
+     * 交易类型：0-操作类，1-查询类
+     */
+    public static final String TRANS_TYPE_1 = "1";
 }

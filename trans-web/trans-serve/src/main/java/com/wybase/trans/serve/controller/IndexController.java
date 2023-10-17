@@ -1,6 +1,8 @@
 package com.wybase.trans.serve.controller;
 
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.result.Result;
+import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.serve.model.dto.IndexOutput;
 import com.wybase.trans.serve.service.IIndexService;
 import io.swagger.annotations.Api;
@@ -26,6 +28,7 @@ public class IndexController {
     @Autowired
     private IIndexService indexService;
 
+    @MethodName(value = "后管首页数据初始化", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "后管首页数据初始化")
     @PostMapping("/init")
     public Result<IndexOutput> init() {

@@ -1,6 +1,8 @@
 package com.wybase.trans.serve.controller;
 
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.result.Result;
+import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.serve.model.dto.RoleInput;
 import com.wybase.trans.serve.model.dto.RoleOutput;
 import com.wybase.trans.serve.model.vo.RoleVo;
@@ -30,11 +32,12 @@ public class RoleController {
     @Autowired
     private IRoleService roleService;
 
+    @MethodName(value = "角色列表查询", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "角色列表查询")
     @PostMapping("/roleList")
     public Result roleList(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleList begin:>>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", vo);
+        logger.debug("vo:{}", vo);
         RoleInput serviceInput = new RoleInput();
         BeanUtils.copyProperties(vo, serviceInput);
         RoleOutput serviceOutput = roleService.roleList(serviceInput);
@@ -42,11 +45,12 @@ public class RoleController {
         return Result.ok(serviceOutput);
     }
 
+    @MethodName(value = "根据ID查询角色信息", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "根据ID查询角色信息")
     @PostMapping("/roleInfoQry")
     public Result roleInfoQry(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleInfoQry begin:>>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", vo);
+        logger.debug("vo:{}", vo);
         RoleInput serviceInput = new RoleInput();
         BeanUtils.copyProperties(vo, serviceInput);
         RoleOutput serviceOutput = roleService.roleInfoQry(serviceInput);
@@ -54,6 +58,7 @@ public class RoleController {
         return Result.ok(serviceOutput);
     }
 
+    @MethodName(value = "角色信息修改", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "角色信息修改")
     @PostMapping("/roleMdf")
     public Result roleMdf(@RequestBody RoleVo vo) {
@@ -66,11 +71,12 @@ public class RoleController {
         return Result.ok();
     }
 
+    @MethodName(value = "新增角色", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "新增角色")
     @PostMapping("/roleAdd")
     public Result roleAdd(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleAdd begin:>>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", vo);
+        logger.debug("vo:{}", vo);
         RoleInput serviceInput = new RoleInput();
         BeanUtils.copyProperties(vo, serviceInput);
         roleService.roleAdd(serviceInput);
@@ -78,6 +84,7 @@ public class RoleController {
         return Result.ok();
     }
 
+    @MethodName(value = "删除角色", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "删除角色")
     @PostMapping("/roleDel")
     public Result roleDel(@RequestBody RoleVo vo) {

@@ -1,8 +1,10 @@
 package com.wybase.trans.serve.controller;
 
+import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
+import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.serve.model.entity.generate.EnumList;
 import com.wybase.trans.serve.model.vo.EnumListVo;
 import com.wybase.trans.serve.service.IEnumListService;
@@ -35,14 +37,12 @@ public class EnumListController {
     @Autowired
     private IEnumListService enumListService;
 
-    /**
-     * 根据枚举id查询枚举值
-     */
+    @MethodName(value = "根据枚举id查询枚举值", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "根据枚举id查询枚举值")
     @PostMapping("/enumByEnumId")
     public Result enumByEnumId(@RequestBody EnumListVo vo) {
         logger.debug("EnumListController.enumByKid begin >>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", vo);
+        logger.debug("vo:{}", vo);
         String enumId = vo.getEnumId();
         if (StringUtils.isEmpty(enumId)) {
             throw new TransException(ResultCodeEnum.NULL_ERROR, "enumId不能为空");
@@ -52,14 +52,12 @@ public class EnumListController {
         return Result.ok(enumListList);
     }
 
-    /**
-     * 批量查询枚举值
-     */
+    @MethodName(value = "批量查询枚举值", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "批量查询枚举值")
     @PostMapping("/enumListQry")
     public Result enumListQry(@RequestBody EnumListVo request) {
         logger.debug("EnumListController.enumListQry begin >>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", request);
+        logger.debug("vo:{}", request);
         List<EnumListVo.BatchEnumId> enumIds = request.getEnumIds();
         Map<String, List<EnumList>> map = new ConcurrentHashMap<>();
         for (EnumListVo.BatchEnumId batchEnumId : enumIds) {

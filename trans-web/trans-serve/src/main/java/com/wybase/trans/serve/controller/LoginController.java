@@ -5,10 +5,11 @@ import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
+import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.serve.model.dto.LoginInput;
 import com.wybase.trans.serve.model.dto.LoginOutput;
-import com.wybase.trans.serve.service.ILoginService;
 import com.wybase.trans.serve.model.vo.LoginVo;
+import com.wybase.trans.serve.service.ILoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +34,12 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
-    @MethodName(value = "登录")
+    @MethodName(value = "用户登录", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginVo loginVo) {
         logger.info("LoginController.login begin >>>>>>>>>>>>>>>>>>>");
-        logger.info("request:{}", loginVo);
+        logger.info("loginVo:{}", loginVo);
         String username = loginVo.getUsername();
         String password = loginVo.getPassword();
         if (StringUtils.isEmpty(username)) {
@@ -53,11 +54,12 @@ public class LoginController {
         return Result.ok(object);
     }
 
+    @MethodName(value = "获取用户信息", transType = TransConsts.TRANS_TYPE_1)
     @ApiOperation(value = "获取用户信息")
     @PostMapping("/info")
     public Result info(@RequestBody LoginVo loginVo) {
         logger.debug("LoginController.info begin >>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", loginVo);
+        logger.debug("loginVo:{}", loginVo);
         //String tokenHear = request.getHeader("tokenHear");
         String token = loginVo.getToken();
         LoginInput input = new LoginInput();
@@ -67,12 +69,13 @@ public class LoginController {
         return Result.ok(loginRes);
     }
 
+    @MethodName(value = "退出登录", transType = TransConsts.TRANS_TYPE_0)
     @ApiOperation(value = "退出登录")
     @PostMapping("/logout")
-    public Result logout(@RequestBody LoginVo request) {
+    public Result logout(@RequestBody LoginVo loginVo) {
         logger.debug("LoginController.logout begin >>>>>>>>>>>>>>>>>>>");
-        logger.debug("request:{}", request);
-        String token = request.getToken();
+        logger.debug("loginVo:{}", loginVo);
+        String token = loginVo.getToken();
         loginService.logout(token);
         logger.debug("LoginController.logout end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
