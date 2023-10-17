@@ -173,3 +173,62 @@ create table if not exists b_role_menu_relatn
     index idx_t_role_menu_menuid (menu_id)
 ) engine = innodb
   default charset = utf8mb4 comment = '角色菜单关联表';
+
+create table if not exists b_blog
+(
+    blog_id        varchar(32) not null comment '博客id',
+    user_id        varchar(32)          default null comment '发表博客用户id',
+    author         varchar(256)         default null comment '作者',
+    title          varchar(256)         default null comment '博客标题',
+    summy          varchar(256)         default null comment '博客简介',
+    tag_id         varchar(32)          default null comment '标签id',
+    classfc_id     varchar(32)          default null comment '博客分类id',
+    click_count    int(11)              default 0 comment '博客点击数',
+    collect_count  int(11)              default 0 comment '博客收藏数',
+    file_uid       varchar(256)         default null comment '标题图片uid',
+    blog_type      varchar(1)  not null default '0' comment '0-原创，1-转载，2-推广',
+    articles_part  varchar(256)         default null comment '文章出处',
+    outside_link   varchar(1024)        default null comment '外链【如果是推广，那么将跳转到外链】',
+    level          varchar(1)           default '0' comment '推荐等级(0:正常)',
+    publish_flg    varchar(1)           default '1' comment '是否发布：0：否，1：是',
+    sort           int(11)     not null default 100 comment '排序字段',
+    open_comment   varchar(1)  not null default 1 comment '是否开启评论(0:否 1:是)',
+    article_src    varchar(1)  not null default '0' comment '文章来源【0 后台添加，1 用户投稿】',
+    content        longtext comment '博客内容',
+    trans_recd_num varchar(36) not null comment '交易流水号',
+    create_time    datetime    not null default current_timestamp comment '创建时间',
+    update_time    datetime    not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    recd_stat      varchar(2)  not null default '0' comment '记录状态：0-正常，1-删除',
+    primary key (blog_id),
+    index idx_b_blog_tagid (tag_id) using btree,
+    index idx_b_blog_classfcid (classfc_id) using btree
+) engine = innodb
+  default charset = utf8mb4 comment ='博客表';
+
+create table if not exists b_classfc
+(
+    classfc_id  varchar(32) not null comment '分类id',
+    classfc_nm  varchar(256)         default null comment '分类名称',
+    content     varchar(256)         default null comment '分类简介',
+    sort        int(11)              default 100 comment '排序字段，越小越靠前',
+    click_count int(11)              default 0 comment '点击数',
+    create_time datetime    not null default current_timestamp comment '创建时间',
+    update_time datetime    not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    recd_stat   varchar(2)  not null default '0' comment '记录状态：0-正常，1-删除',
+    primary key (classfc_id)
+) engine = innodb
+  default charset = utf8mb4 comment ='博客分类表';
+
+create table if not exists b_tag
+(
+    tag_id      varchar(32) not null comment '标签id',
+    tag_nm      varchar(256) comment '标签名称',
+    content     varchar(256)         default null comment '标签内容',
+    sort        int(11)              default 100 comment '排序字段，越小越靠前',
+    click_count int(11)              default 0 comment '点击数',
+    create_time datetime    not null default current_timestamp comment '创建时间',
+    update_time datetime    not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    recd_stat   varchar(2)           default '0' comment '记录状态：0-正常，1-删除',
+    primary key (tag_id)
+) engine = innodb
+  default charset = utf8mb4 comment ='标签表';

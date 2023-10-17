@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from '@/utils/request'
 
 export default {
 
@@ -30,7 +30,7 @@ export default {
       data: obj
     })
   },
-  /*分类相关操作*/
+  /* 分类相关操作*/
   getClassfcList(obj) {
     return request({
       url: `/online/classfc/classfcList`,

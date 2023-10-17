@@ -14,27 +14,27 @@ import java.util.Set;
  */
 public class MybatisFlexGenerator {
     public static void main(String[] args) {
-        //配置数据源
+        // 配置数据源
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl("jdbc:mysql://192.168.24.10:3306/trans?characterEncoding=utf-8");
         dataSource.setUsername("root");
         dataSource.setPassword("password");
 
-        //创建配置内容，两种风格都可以。
+        // 创建配置内容，两种风格都可以。
         GlobalConfig globalConfig = createGlobalConfigUseStyle1();
 
-        //通过 datasource 和 globalConfig 创建代码生成器
+        // 通过 datasource 和 globalConfig 创建代码生成器
         Generator generator = new Generator(dataSource, globalConfig);
 
-        //生成代码
+        // 生成代码
         generator.generate();
     }
 
     private static GlobalConfig createGlobalConfigUseStyle1() {
-        //创建配置内容
+        // 创建配置内容
         GlobalConfig globalConfig = new GlobalConfig();
 
-        //设置生成 mapper
+        // 设置生成 mapper
         globalConfig.enableEntity().setWithLombok(true);
         globalConfig.enableMapper();
 //        globalConfig.enableController();
@@ -45,7 +45,7 @@ public class MybatisFlexGenerator {
         // 注释配置 JavadocConfig
         globalConfig.getJavadocConfig()
                 .setAuthor("weiyu");
-        //设置根包
+        // 设置根包
         globalConfig.getPackageConfig()
                 .setSourceDir(System.getProperty("user.dir") + "/trans-serve/src/main/java")
                 .setBasePackage("com.wybase.trans.serve")
@@ -53,18 +53,21 @@ public class MybatisFlexGenerator {
                 .setServicePackage("com.wybase.trans.serve.service")
                 .setServiceImplPackage("com.wybase.trans.serve.service.impl")
                 .setEntityPackage("com.wybase.trans.serve.model.entity.generate")
-                .setMapperXmlPath(System.getProperty("user.dir") + "/trans-serve/src/main/java/"+"com/wybase/trans/serve/mapper/generate")
+                .setMapperXmlPath(System.getProperty("user.dir") + "/trans-serve/src/main/java/" + "com/wybase/trans/serve/mapper/generate")
                 .setMapperPackage("com.wybase.trans.serve.mapper.generate");
 
-        //设置表前缀和只生成哪些表，setGenerateTable 未配置时，生成所有表
+        // 设置表前缀和只生成哪些表，setGenerateTable 未配置时，生成所有表
         Set<String> tables = new HashSet<>();
-       tables.add("b_sys_log");
-       tables.add("b_trans_record");
+        // tables.add("b_sys_log");
+        // tables.add("b_trans_record");
 //         tables.add("b_user_info");
 //        tables.add("b_enum_list");
 //        tables.add("b_menu");
 //        tables.add("b_role");
 //        tables.add("b_role_menu_relatn");
+       tables.add("b_blog");
+       tables.add("b_classfc");
+       tables.add("b_tag");
         globalConfig.getStrategyConfig()
                 .setTablePrefix("b_")
                 .setGenerateTables(tables);

@@ -112,7 +112,7 @@ export default {
       dialogVisible: false, // 弹窗开关标志
       operFlg: '', // 操作标志
       tagInfo: {
-        sort: 99
+        sort: 0
       }, // 标签信息
       searobj: {}
     }
@@ -125,8 +125,8 @@ export default {
       this.searobj.pageNum = page
       this.searobj.pageSize = this.limit
       tagclassfc.getTagList(this.searobj).then(res => {
-        this.tagList = res.data.tagPageInfo.list
-        this.total = res.data.tagPageInfo.total
+        this.tagList = res.data.tagPageInfo.records
+        this.total = res.data.tagPageInfo.totalRow
       })
     },
     /* 打开弹窗添加角色*/
