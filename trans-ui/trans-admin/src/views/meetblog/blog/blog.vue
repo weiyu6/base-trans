@@ -342,8 +342,8 @@ export default {
       this.searobj.pageNum = page
       this.searobj.pageSize = this.limit
       blog.getBlogList(this.searobj).then(res => {
-        this.blogList = res.data.blogExtendPageInfo.list
-        this.total = res.data.blogExtendPageInfo.total
+        this.blogList = res.data.blogExtendPageInfo.records
+        this.total = res.data.blogExtendPageInfo.totalPage
       })
     },
     /* 打开弹窗添加角色*/
@@ -411,13 +411,13 @@ export default {
     getTagList() {
       var obj = {}
       tagclassfc.getTagList(obj).then(res => {
-        this.tagList = res.data.tagPageInfo.list
+        this.tagList = res.data.tagPageInfo.records
       })
     },
     getClassfcList() {
       var obj = {}
       tagclassfc.getClassfcList(obj).then(res => {
-        this.classfcList = res.data.classfcPageInfo.list
+        this.classfcList = res.data.classfcPageInfo.records
       })
     },
     /* 查询出枚举列表*/

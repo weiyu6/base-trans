@@ -29,6 +29,7 @@ public class BlogController {
     private static final Logger logger = LoggerFactory.getLogger(BlogController.class);
     @Autowired
     private IBlogService blogService;
+
     @MethodName(value = "博客列表查询", transType = TransConsts.TRANS_TYPE_1)
     @PostMapping("/blogList")
     public Result blogList(@RequestBody BlogVo vo) {
@@ -40,4 +41,41 @@ public class BlogController {
         logger.debug("BlogController.blogList end:<<<<<<<<<<<<<<<<<");
         return Result.ok(serviceOutput);
     }
+
+    @MethodName(value = "添加博客", transType = TransConsts.TRANS_TYPE_0)
+    @PostMapping("/blogAdd")
+    public Result blogAdd(@RequestBody BlogVo vo) {
+        logger.debug("BlogController.blogAdd begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("vo:{}", vo);
+        BlogInput blogInput = new BlogInput();
+        BeanUtils.copyProperties(vo, blogInput);
+        blogService.blogAdd(blogInput);
+        logger.debug("BlogController.blogAdd end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
+    @MethodName(value = "博客内容修改", transType = TransConsts.TRANS_TYPE_0)
+    @PostMapping("/blogMdf")
+    public Result blogMdf(@RequestBody BlogVo vo) {
+        logger.debug("BlogController.blogMdf begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("vo:{}", vo);
+        BlogInput blogInput = new BlogInput();
+        BeanUtils.copyProperties(vo, blogInput);
+        blogService.blogMdf(blogInput);
+        logger.debug("BlogController.blogMdf end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
+    @MethodName(value = "博客删除", transType = TransConsts.TRANS_TYPE_0)
+    @PostMapping("/blogDel")
+    public Result blogDel(@RequestBody BlogVo vo) {
+        logger.debug("BlogController.blogDel begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("vo:{}", vo);
+        BlogInput blogInput = new BlogInput();
+        BeanUtils.copyProperties(vo, blogInput);
+        blogService.blogDel(blogInput);
+        logger.debug("BlogController.blogDel end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
 }

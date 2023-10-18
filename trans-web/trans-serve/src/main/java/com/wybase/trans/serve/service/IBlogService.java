@@ -7,7 +7,6 @@ import com.wybase.trans.serve.model.entity.generate.Blog;
 
 /**
  * 博客表 服务层。
- *
  * @author weiyu
  * @since 2023-10-17
  */
@@ -19,4 +18,22 @@ public interface IBlogService extends IService<Blog> {
      * @return
      */
     BlogOutput blogList(BlogInput input);
+
+    /**
+     * 添加博客
+     * @param blogInput
+     */
+    void blogAdd(BlogInput blogInput);
+
+    /**
+     * 博客内容修改
+     * @param blogInput
+     */
+    void blogMdf(BlogInput blogInput);
+
+    /**
+     * 博客删除
+     * @param blogInput
+     */
+    void blogDel(BlogInput blogInput);
 }
