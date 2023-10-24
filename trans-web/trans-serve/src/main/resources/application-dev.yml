@@ -11,8 +11,6 @@ logging:
   level:
     root: info
 spring:
-  application:
-    name: trans-serve # 服务名称
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:

@@ -88,11 +88,7 @@ public class ControllerAspect {
             transRecord.setTransStatus(TransConsts.TRANS_STATUS_2);
             transRecord.setRecdStat(TransConsts.RECD_STAT_0);
             logger.info("transRecord:{}", transRecord);
-
-            threadPoolTaskExecutor.execute(() -> {
-                logger.info("异步登记交易流水初始化信息");
-                transRecordService.save(transRecord);
-            });
+            transRecordService.save(transRecord);
 
             TransContext.setField(TransHeardConsts.START_DATE_TIME, dateTime);
             TransContext.setField(TransHeardConsts.TRANS_RECORD, transRecord);

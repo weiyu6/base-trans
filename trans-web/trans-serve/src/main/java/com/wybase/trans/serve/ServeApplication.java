@@ -15,10 +15,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.wybase")
 @MapperScan({"com.wybase.trans.serve.mapper"})
 @SpringBootApplication
-public class ApplicationServe {
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationServe.class);
+public class ServeApplication {
+    private static final Logger logger = LoggerFactory.getLogger(ServeApplication.class);
     public static void main(String[] args){
-        SpringApplication.run(ApplicationServe.class, args);
+        SpringApplication.run(ServeApplication.class, args);
         logger.info("=========服务启动成功！=========");
     }
 }
