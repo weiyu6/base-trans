@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev # 环境设置
+  application:
+    name: trans-gateway # 服务名称
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.24.10:8848
+      config:
+        server-addr: 192.168.24.10:8848
+        file-extension: yaml

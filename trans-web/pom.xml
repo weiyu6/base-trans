@@ -20,6 +20,7 @@
         <module>trans-base</module>
         <module>trans-serve</module>
         <module>trans-common</module>
+        <module>trans-gateway</module>
     </modules>
 
     <properties>
