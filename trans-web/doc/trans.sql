@@ -181,8 +181,8 @@ create table if not exists b_blog
     author         varchar(256)         default null comment '作者',
     title          varchar(256)         default null comment '博客标题',
     summy          varchar(256)         default null comment '博客简介',
-    tag_id         varchar(128)          default null comment '标签id',
-    classfc_id     varchar(128)          default null comment '博客分类id',
+    tag_id         varchar(128)         default null comment '标签id',
+    classfc_id     varchar(128)         default null comment '博客分类id',
     click_count    int(11)              default 0 comment '博客点击数',
     collect_count  int(11)              default 0 comment '博客收藏数',
     file_uid       varchar(256)         default null comment '标题图片uid',
@@ -232,3 +232,32 @@ create table if not exists b_tag
     primary key (tag_id)
 ) engine = innodb
   default charset = utf8mb4 comment ='标签表';
+
+create table if not exists b_route
+(
+    id          int auto_increment primary key,
+    route_id    varchar(256) not null comment '路由ID',
+    route_order int                   default 0 null comment '路由顺序',
+    url         varchar(256) not null comment '路由路径',
+    val_id      int                   default 1 not null comment '是否有效:0-无效，1-有效',
+    create_time datetime     not null default current_timestamp comment '创建时间',
+    update_time datetime     not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    unique index idx_b_route_route_id (route_id)
+) engine = innodb
+  default charset = utf8mb4 comment ='网关路由信息表';
+
+create table if not exists b_route_param
+(
+    id          int auto_increment primary key,
+    route_id    varchar(256) not null comment '路由ID',
+    param_name  varchar(256) not null comment '参数name',
+    param_key   varchar(256) not null comment '参数 key',
+    param_value varchar(256) not null comment '参数 value',
+    type        int          not null comment '参数类型，1为 predicate，2为过 filter',
+    val_id      int                   default 1 not null comment '是否有效:0-无效，1-有效',
+    create_time datetime     not null default current_timestamp comment '创建时间',
+    update_time datetime     not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    unique index idx_b_route_route_id  (route_id)
+) engine = innodb
+  default charset = utf8mb4 comment ='网关路由参数表';
+
