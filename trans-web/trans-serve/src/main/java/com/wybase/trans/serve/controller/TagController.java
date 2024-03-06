@@ -7,7 +7,7 @@ import com.wybase.trans.serve.model.dto.TagInput;
 import com.wybase.trans.serve.model.dto.TagOutput;
 import com.wybase.trans.serve.model.vo.TagVo;
 import com.wybase.trans.serve.service.ITagService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/10/17
  */
-@Api(value = "博客标签", tags = "博客标签")
+@Tag(name = "博客标签")
 @RestController
 @RequestMapping("/online/tag")
 public class TagController {

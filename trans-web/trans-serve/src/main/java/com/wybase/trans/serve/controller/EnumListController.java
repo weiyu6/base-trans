@@ -8,8 +8,8 @@ import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.serve.model.entity.generate.EnumList;
 import com.wybase.trans.serve.model.vo.EnumListVo;
 import com.wybase.trans.serve.service.IEnumListService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author weiyu
  * @date 2023/9/23
  */
-@Api(value = "枚举服务", tags = "枚举服务")
+@Tag(name = "枚举服务")
 @RestController
 @RequestMapping("/online/enumlist")
 public class EnumListController {
@@ -38,7 +38,7 @@ public class EnumListController {
     private IEnumListService enumListService;
 
     @MethodName(value = "根据枚举id查询枚举值", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "根据枚举id查询枚举值")
+    @Operation(summary = "根据枚举id查询枚举值")
     @PostMapping("/enumByEnumId")
     public Result enumByEnumId(@RequestBody EnumListVo vo) {
         logger.debug("EnumListController.enumByKid begin >>>>>>>>>>>>>>>>>>>");
@@ -53,7 +53,7 @@ public class EnumListController {
     }
 
     @MethodName(value = "批量查询枚举值", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "批量查询枚举值")
+    @Operation(summary = "批量查询枚举值")
     @PostMapping("/enumListQry")
     public Result enumListQry(@RequestBody EnumListVo request) {
         logger.debug("EnumListController.enumListQry begin >>>>>>>>>>>>>>>>>>>");

@@ -10,8 +10,8 @@ import com.wybase.trans.serve.model.dto.LoginInput;
 import com.wybase.trans.serve.model.dto.LoginOutput;
 import com.wybase.trans.serve.model.vo.LoginVo;
 import com.wybase.trans.serve.service.ILoginService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/8/5
  */
-@Api(value = "登录服务", tags = "登录服务")
+@Tag(name = "登录服务")
 @RestController
 @RequestMapping("/online/auth")
 public class LoginController {
@@ -35,7 +35,7 @@ public class LoginController {
     private ILoginService loginService;
 
     @MethodName(value = "用户登录", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "登录")
+    @Operation(summary = "登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginVo loginVo) {
         logger.info("LoginController.login begin >>>>>>>>>>>>>>>>>>>");
@@ -55,7 +55,7 @@ public class LoginController {
     }
 
     @MethodName(value = "获取用户信息", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "获取用户信息")
+    @Operation(summary = "获取用户信息")
     @PostMapping("/info")
     public Result info(@RequestBody LoginVo loginVo) {
         logger.debug("LoginController.info begin >>>>>>>>>>>>>>>>>>>");
@@ -70,7 +70,7 @@ public class LoginController {
     }
 
     @MethodName(value = "退出登录", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "退出登录")
+    @Operation(summary = "退出登录")
     @PostMapping("/logout")
     public Result logout(@RequestBody LoginVo loginVo) {
         logger.debug("LoginController.logout begin >>>>>>>>>>>>>>>>>>>");

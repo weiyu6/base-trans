@@ -35,45 +35,41 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.16</version>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+            <version>1.2.21</version>
         </dependency>
         <!--mybatis-flex-->
         <dependency>
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
+<!--            <version>1.8.2</version>-->
         </dependency>
         <dependency>
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-processor</artifactId>
+<!--            <version>1.8.2</version>-->
         </dependency>
+        <!--<dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+        </dependency>-->
         <dependency>
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-codegen</artifactId>
+<!--            <version>1.8.2</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- swagger2 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
 
-        <!-- swagger-ui -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
         <!-- knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-            <version>4.0.0</version>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>4.4.0</version>
         </dependency>
 
         <dependency>

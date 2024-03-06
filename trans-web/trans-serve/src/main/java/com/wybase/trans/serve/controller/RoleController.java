@@ -7,8 +7,8 @@ import com.wybase.trans.serve.model.dto.RoleInput;
 import com.wybase.trans.serve.model.dto.RoleOutput;
 import com.wybase.trans.serve.model.vo.RoleVo;
 import com.wybase.trans.serve.service.IRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/9/23
  */
-@Api(value = "角色服务", tags = "角色服务")
+@Tag(name = "角色管理")
 @RestController
 @RequestMapping("/online/role")
 public class RoleController {
@@ -33,7 +33,7 @@ public class RoleController {
     private IRoleService roleService;
 
     @MethodName(value = "角色列表查询", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "角色列表查询")
+    @Operation(summary = "角色列表查询")
     @PostMapping("/roleList")
     public Result roleList(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleList begin:>>>>>>>>>>>>>>>>>>>");
@@ -46,7 +46,7 @@ public class RoleController {
     }
 
     @MethodName(value = "根据ID查询角色信息", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "根据ID查询角色信息")
+    @Operation(summary = "根据ID查询角色信息")
     @PostMapping("/roleInfoQry")
     public Result roleInfoQry(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleInfoQry begin:>>>>>>>>>>>>>>>>>>>");
@@ -59,7 +59,7 @@ public class RoleController {
     }
 
     @MethodName(value = "角色信息修改", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "角色信息修改")
+    @Operation(summary = "角色信息修改")
     @PostMapping("/roleMdf")
     public Result roleMdf(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleMdf begin:>>>>>>>>>>>>>>>>>>>");
@@ -72,7 +72,7 @@ public class RoleController {
     }
 
     @MethodName(value = "新增角色", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "新增角色")
+    @Operation(summary = "新增角色")
     @PostMapping("/roleAdd")
     public Result roleAdd(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleAdd begin:>>>>>>>>>>>>>>>>>>>");
@@ -85,7 +85,7 @@ public class RoleController {
     }
 
     @MethodName(value = "删除角色", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "删除角色")
+    @Operation(summary = "删除角色")
     @PostMapping("/roleDel")
     public Result roleDel(@RequestBody RoleVo vo) {
         logger.debug("RoleController.roleDel begin:>>>>>>>>>>>>>>>>>>>");

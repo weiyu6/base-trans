@@ -7,7 +7,7 @@ import com.wybase.trans.serve.model.dto.BlogInput;
 import com.wybase.trans.serve.model.dto.BlogOutput;
 import com.wybase.trans.serve.model.vo.BlogVo;
 import com.wybase.trans.serve.service.IBlogService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/10/17
  */
-@Api(value = "博客", tags = "博客")
+@Tag(name = "博客")
 @RestController
 @RequestMapping("/online/blog")
 public class BlogController {

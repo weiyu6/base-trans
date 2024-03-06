@@ -1,3 +1,4 @@
+/*
 package com.wybase.trans.serve.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -7,11 +8,13 @@ import com.mybatisflex.codegen.config.GlobalConfig;
 import java.util.HashSet;
 import java.util.Set;
 
+*/
 /**
  * mybatis-flex代码生成器
  * @author weiyu
  * @date 2023/7/29
- */
+ *//*
+
 public class MybatisFlexGenerator {
     public static void main(String[] args) {
         // 配置数据源
@@ -91,3 +94,4 @@ public class MybatisFlexGenerator {
         return globalConfig;
     }
 }
+*/

@@ -7,7 +7,7 @@ import com.wybase.trans.serve.model.dto.ClassfcInput;
 import com.wybase.trans.serve.model.dto.ClassfcOutput;
 import com.wybase.trans.serve.model.vo.ClassfcVo;
 import com.wybase.trans.serve.service.IClassfcService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/10/17
  */
-@Api(value = "博客分类", tags = "博客分类")
+@Tag(name = "博客分类")
 @RestController
 @RequestMapping("/online/classfc")
 public class ClassfcController {

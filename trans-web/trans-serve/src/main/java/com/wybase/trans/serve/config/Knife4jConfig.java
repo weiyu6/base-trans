@@ -1,16 +1,10 @@
 package com.wybase.trans.serve.config;
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Knife4j 配置类
@@ -18,10 +12,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2023/8/4
  */
 @Configuration
-@EnableKnife4j
-@EnableSwagger2
 public class Knife4jConfig {
-    @Bean
+  /*  @Bean
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("基础架构")
@@ -40,5 +32,17 @@ public class Knife4jConfig {
                 .contact(new Contact("weiyu", "", "weiyulearn@163.com"))
                 .version("1.0")
                 .build();
+    }
+*/
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("遇见博客I")
+                        .version("1.0")
+                        .description( "系统简介")
+                        .termsOfService("http://doc.xiaominfo.com")
+                        .license(new License().name("Apache 2.0")
+                                .url("http://doc.xiaominfo.com")));
     }
 }

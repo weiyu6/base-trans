@@ -10,8 +10,8 @@ import com.wybase.trans.serve.model.dto.UserInfoOutput;
 import com.wybase.trans.serve.model.entity.custom.UserInfoExtend;
 import com.wybase.trans.serve.model.vo.UserInfoVo;
 import com.wybase.trans.serve.service.IUserInfoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author weiyu
  * @date 2023/10/15
  */
-@Api(value = "用户服务", tags = "用户服务")
+@Tag(name = "用户服务")
 @RestController
 @RequestMapping("/online/user")
 public class UserInfoController {
@@ -37,7 +37,7 @@ public class UserInfoController {
     private IUserInfoService userInfoService;
 
     @MethodName(value = "查询用户列表", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "查询用户列表")
+    @Operation(summary = "查询用户列表")
     @PostMapping("/userInfoList")
     public Result userInfoList(@RequestBody UserInfoVo userInfoVo) {
         logger.debug("UserController.userInfoList begin >>>>>>>>>>>>>>>>>>>");
@@ -50,7 +50,7 @@ public class UserInfoController {
     }
 
     @MethodName(value = "根据用户id查询用户信息", transType = TransConsts.TRANS_TYPE_1)
-    @ApiOperation(value = "根据用户id查询用户信息")
+    @Operation(summary = "根据用户id查询用户信息")
     @PostMapping("/userInfoById")
     public Result userInfoById(@RequestBody UserInfoVo userInfoVo) {
         logger.debug("UserController.userQryById begin >>>>>>>>>>>>>>>>>>>");
@@ -65,7 +65,7 @@ public class UserInfoController {
     }
 
     @MethodName(value = "修改用户信息", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "修改用户信息")
+    @Operation(summary = "修改用户信息")
     @PostMapping("/userInfoMdf")
     public Result userInfoMdf(@RequestBody UserInfoVo userInfoVo) {
         logger.debug("UserController.userInfoMdf begin >>>>>>>>>>>>>>>>>>>");
@@ -82,7 +82,7 @@ public class UserInfoController {
     }
 
     @MethodName(value = "用户注册", transType = TransConsts.TRANS_TYPE_0)
-    @ApiOperation(value = "用户注册")
+    @Operation(summary = "用户注册")
     @PostMapping("/addUser")
     public Result addUser(@RequestBody UserInfoVo userInfoVo) {
         logger.debug("addUser begin >>>>>>>>>>>>>>>>>>>");
