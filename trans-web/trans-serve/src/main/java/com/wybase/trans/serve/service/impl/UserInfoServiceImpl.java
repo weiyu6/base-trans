@@ -67,7 +67,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String commentStat = input.getCommentStat();// 评论状态
         // 查询记录状态正常的用户列表
         QueryWrapper queryWrapper = QueryWrapper.create()
-                .where(UserInfoTableDef.USER_INFO.USER_NM.like(userNm).when(StringUtils::isNotBlank))
+                .where(UserInfoTableDef.USER_INFO.USER_NM.like(userNm).when(StringUtils.isNotBlank(userNm)))
                 .and(UserInfoTableDef.USER_INFO.USER_TAG.eq(userTag).when(StringUtils.isNotBlank(userTag)))
                 .and(UserInfoTableDef.USER_INFO.COMMENT_STAT.eq(commentStat).when(StringUtils.isNotBlank(commentStat)))
                 .and(UserInfoTableDef.USER_INFO.RECD_STAT.eq(TransConsts.RECD_STAT_0));

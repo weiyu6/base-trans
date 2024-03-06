@@ -43,7 +43,7 @@ public class ClassfcServiceImpl extends ServiceImpl<ClassfcMapper, Classfc> impl
         String classfcNm = serviceInput.getClassfcNm(); // 分类名称
 
         QueryWrapper queryWrapper = QueryWrapper.create()
-                .where(ClassfcTableDef.CLASSFC.CLASSFC_NM.like(classfcNm).when(StringUtils::isNotBlank))
+                .where(ClassfcTableDef.CLASSFC.CLASSFC_NM.like(classfcNm).when(StringUtils.isNotBlank(classfcNm)))
                 .and(ClassfcTableDef.CLASSFC.RECD_STAT.eq(TransConsts.RECD_STAT_0))
                 .orderBy(ClassfcTableDef.CLASSFC.SORT.asc());
         Page<Classfc> pageList = page(new Page<>(pageNum, pageSize), queryWrapper);

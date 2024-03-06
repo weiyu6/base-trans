@@ -12,12 +12,13 @@ logging:
     root: info
 spring:
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.24.10:3306/trans?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    password: root
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.24.10:3306/trans?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
-      username: root
-      password: password
+
 
       # 启用内置过滤器 stat
       filters: stat

@@ -1,3 +1,4 @@
+/*
 package com.wybase.trans.serve.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+*/
 /**
  * SpringSecurity配置文件
  * 用于配置哪些请求被拦截，哪些请求可以匿名访问
  * @author weiyu
  * @date 2023/9/16
- */
-@EnableWebSecurity
+ *//*
+
+// @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -61,10 +64,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().cacheControl();
     }
 
-    /**
+    */
+/**
      * 绕过spring security的所有filter
      * @param web
-     */
+     *//*
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
@@ -78,3 +83,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/favicon.ico");
     }
 }
+*/

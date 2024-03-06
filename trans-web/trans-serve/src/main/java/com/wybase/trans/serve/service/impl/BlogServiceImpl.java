@@ -65,12 +65,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         String author = input.getAuthor();// 作者
 
         QueryWrapper queryWrapper = QueryWrapper.create()
-                .where(BlogTableDef.BLOG.TITLE.eq(title).when(StringUtils::isNotBlank))
-                .and(BlogTableDef.BLOG.CLASSFC_ID.eq(classfcId).when(StringUtils::isNotBlank))
-                .and(BlogTableDef.BLOG.TAG_ID.like(tagIdObj).when(StringUtils::isNotBlank))
-                .and(BlogTableDef.BLOG.OPEN_COMMENT.like(openComment).when(StringUtils::isNotBlank))
-                .and(BlogTableDef.BLOG.PUBLISH_FLG.like(publishFlg).when(StringUtils::isNotBlank))
-                .and(BlogTableDef.BLOG.AUTHOR.like(author).when(StringUtils::isNotBlank))
+                .where(BlogTableDef.BLOG.TITLE.eq(title).when(StringUtils.isNotBlank(title)))
+                .and(BlogTableDef.BLOG.CLASSFC_ID.eq(classfcId).when(StringUtils.isNotBlank(classfcId)))
+                .and(BlogTableDef.BLOG.TAG_ID.like(tagIdObj).when(StringUtils.isNotBlank(tagIdObj)))
+                .and(BlogTableDef.BLOG.OPEN_COMMENT.like(openComment).when(StringUtils.isNotBlank(openComment)))
+                .and(BlogTableDef.BLOG.PUBLISH_FLG.like(publishFlg).when(StringUtils.isNotBlank(publishFlg)))
+                .and(BlogTableDef.BLOG.AUTHOR.like(author).when(StringUtils.isNotBlank(author)))
                 .and(BlogTableDef.BLOG.RECD_STAT.like(TransConsts.RECD_STAT_0))
                 .orderBy(BlogTableDef.BLOG.CREATE_TIME.desc());
         Page<Blog> blogPage = page(new Page<>(pageNum, pageSize), queryWrapper);

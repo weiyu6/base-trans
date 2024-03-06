@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 数字工具类
+ * 主服务
  * @author weiyu
  * @date 2023/07/28
  */

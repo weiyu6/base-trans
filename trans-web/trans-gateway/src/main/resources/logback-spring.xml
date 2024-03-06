@@ -14,7 +14,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>%{ENCODING}</charset>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
     <!--文件打印日志-->
@@ -24,7 +24,7 @@
         <append>true</append>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
-            <charset>%{ENCODING}</charset>
+            <charset>UTF-8</charset>
         </encoder>
         <!-- 设置滚动日志记录的滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -50,7 +50,7 @@
         </filter>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
-            <charset>%{ENCODING}</charset>
+            <charset>UTF-8</charset>
         </encoder>
         <!-- 设置滚动日志记录的滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

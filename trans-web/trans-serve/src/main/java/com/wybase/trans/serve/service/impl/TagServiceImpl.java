@@ -44,7 +44,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements ITagS
         String tagNm = input.getTagNm();
 
         QueryWrapper queryWrapper = QueryWrapper.create()
-                .where(TagTableDef.TAG.TAG_NM.like(tagNm).when(StringUtils::isNotBlank))
+                .where(TagTableDef.TAG.TAG_NM.like(tagNm).when(StringUtils.isNotBlank(tagNm)))
                 .and(TagTableDef.TAG.RECD_STAT.eq(TransConsts.RECD_STAT_0))
                 .orderBy(TagTableDef.TAG.SORT.asc());
         Page<Tag> tagList = page(new Page<>(pageNum, pageSize), queryWrapper);

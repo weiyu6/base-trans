@@ -34,7 +34,7 @@ public class DynamicAccessDecisionManager implements AccessDecisionManager {
             // 当接口未被配置资源时直接放行
             String url = "";
             //我现在具备的角色
-            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+            /*SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
             String userId = securityUser.getUserId();
             List<Menu> menuList = menuService.menuListByUserId(userId);
             for (ConfigAttribute attribute : collection) {
@@ -45,7 +45,7 @@ public class DynamicAccessDecisionManager implements AccessDecisionManager {
                     }
                 }
             }
-            logger.error("用户[{}]没有接口[{}]访问权限", userId, url);
+            logger.error("用户[{}]没有接口[{}]访问权限", userId, url);*/
         } catch (Exception e) {
             logger.error("权限校验失败", e);
             throw new AccessDeniedException("权限校验失败");
