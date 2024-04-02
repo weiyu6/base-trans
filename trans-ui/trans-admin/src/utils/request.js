@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-import { encrypt } from '@/utils/jsencrypt'
+import { sm2 } from 'sm-crypto'
 
 // create an axios instance
 const service = axios.create({
@@ -24,12 +24,9 @@ service.interceptors.request.use(
       config.headers.Chnl = 'BLOG_ADMIN'
     }
 
-    const jsonData = JSON.stringify(config.data)
-    console.log(config.data)
-    console.log(jsonData)
-    const d = encrypt(jsonData)
+    const encryptData = sm2.doEncrypt(JSON.stringify(config.data), '046279C92F5A243DFD7E351AAF0E5D754D3BED9890A52F3A9518580640A682E3AC53C5F26F780BE7D00D4EABD812139322CC8CBED48BCE77061A610A58996DD66B')
     config.data = {
-      data: d
+      encryptData: encryptData
     }
     return config
   },
@@ -53,8 +50,8 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const res = response.data
-
+    const res = JSON.parse(sm2.doDecrypt(response.data, '40B3B68049779D092E8B0071878DD6EAF990842AC22E76A4497BD23BA9561D28'))
+    // const res = response.data
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== '000000') {
       // 200000：token验证未通过
