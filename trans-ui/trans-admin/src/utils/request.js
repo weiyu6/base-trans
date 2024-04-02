@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import { encrypt } from '@/utils/jsencrypt'
 
 // create an axios instance
 const service = axios.create({
@@ -21,6 +22,14 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers.tokenHeader = getToken()
       config.headers.Chnl = 'BLOG_ADMIN'
+    }
+
+    const jsonData = JSON.stringify(config.data)
+    console.log(config.data)
+    console.log(jsonData)
+    const d = encrypt(jsonData)
+    config.data = {
+      data: d
     }
     return config
   },
