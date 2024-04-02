@@ -1,18 +1,18 @@
 package com.wybase.trans.serve.aspect;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.wybase.trans.serve.util.RSAUtils;
-import jakarta.servlet.*;
+import com.wybase.trans.serve.util.Sm2Util;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
 
 import java.io.IOException;
-
-import static com.wybase.trans.serve.util.RSAUtils.privateKey;
 
 /**
  * 请求加解密过滤器
@@ -21,6 +21,9 @@ import static com.wybase.trans.serve.util.RSAUtils.privateKey;
  */
 @Component
 public class RequestHandler implements Filter {
+
+    @Value("${util.sm2.privateKey}")
+    private String privateKey;
     /**
      * 进行请求加密
      */
@@ -34,20 +37,21 @@ public class RequestHandler implements Filter {
 
         // 拿到加密串
         String data = new RequestWrapper((HttpServletRequest) request).getBody();
-        if (StringUtils.isEmpty(data)) {
+        if (StringUtils.isBlank(data)) {
+            request = new BodyRequestWrapper((HttpServletRequest) request, data);
             chain.doFilter(request, response);
             return;
         }
         JSONObject jsonObject = JSONObject.parseObject(data);
-        data = jsonObject.getString("data");
-        // 解析
-        byte[] decryptStrByte = new byte[0];
-        try {
-            decryptStrByte = RSAUtils.decryptByPrivateKey(Base64.decodeBase64("GORVsjl3YH4t3ZrNxmhrwEI6QD7wJOAnpLRBBqWXNqhcOpTP649dPSmN4G2j08DdRADy5y2crHno3v0Fsb7KdhR4+dRLA5YdikyqTR4lNhRbt2EbMB7MsJBbcHylu+QrbJ4GMMcrtxDGxgT3R8OXCsqqSp65UJSAwUYNshhH4d4="), privateKey);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        String encryptData = jsonObject.getString("encryptData");
+        // 获取加密数据字段，如果此字段为空，表示数据位非加密，则不进行解密
+        if (StringUtils.isBlank(encryptData)) {
+            request = new BodyRequestWrapper((HttpServletRequest) request, data);
+            chain.doFilter(request, response);
+            return;
         }
-        String body = new String(decryptStrByte);
+        // 对数据进行解密，获取原始报文
+        String body = Sm2Util.decrypt(privateKey, encryptData);
         request = new BodyRequestWrapper((HttpServletRequest) request, body);
         chain.doFilter(request, response);
     }
