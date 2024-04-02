@@ -1,5 +1,6 @@
 package com.wybase.trans.serve.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 
@@ -89,6 +90,7 @@ public class UserInfoVo {
     /**
      * 最后登录时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastLoginTime;
 
     /**
