@@ -15,8 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 /**
- * 核心配置类，项目初始化加载数据库的路由配置
- *
+ * 核心配置类，项目初始化时加载路由配置
  * @author weiyu
  * @date 2024/4/11
  */
@@ -27,7 +26,7 @@ public class GatewayServiceHandler implements ApplicationEventPublisherAware, Co
     @Resource
     private RouteDefinitionWriter routeDefinitionWriter;
     @Resource
-    private ExternalConfigurationSource externalConfigurationSource;
+    private IConfigurationSource configurationSource;
     private ApplicationEventPublisher publisher;
 
     /**
@@ -43,7 +42,7 @@ public class GatewayServiceHandler implements ApplicationEventPublisherAware, Co
      */
     private void loadRouteConfig() {
         // 从外部配置源加载路由定义
-        List<RouteDefinition> definitions = externalConfigurationSource.loadRouteDefinitions();
+        List<RouteDefinition> definitions = configurationSource.loadRouteDefinitions();
         logger.info("网关配置信息：=====>{}", definitions);
         // 逐个保存路由定义到路由定义写入器中
         definitions.forEach(definition -> routeDefinitionWriter.save(Mono.just(definition)).subscribe());
@@ -51,9 +50,6 @@ public class GatewayServiceHandler implements ApplicationEventPublisherAware, Co
         this.publisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
-    /**
-     * 获取路由配置
-     */
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.publisher = applicationEventPublisher;
