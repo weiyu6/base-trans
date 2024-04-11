@@ -45,6 +45,14 @@ public enum ResultCodeEnum {
      * 100706-记录信息已删除
      */
     RECDSTAT_ERROR("100706", "记录信息已删除"),
+
+
+    // 3xx 路由相关信息
+    /**
+     * 300001-无相关路由参数
+     */
+    ROUTE_NULL_ERROR("300001", "无相关路由参数"),
+
     ;
 
     // 响应码
