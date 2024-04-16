@@ -3,13 +3,11 @@ server:
   port: 8090
   tomcat:
     uri-encoding: utf-8
-  servlet:
-    context-path: /base-trans
 #日志配置文件以及日志级别
 logging:
   config: classpath:logback-spring.xml
   level:
-    root: debug
+    root: info
     com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty: warn
     com.alibaba.nacos.client.naming: warn
 spring:
@@ -54,5 +52,6 @@ util:
     tokenSignKey: m1e2e3t4b5l6o7g8
     tokenExpiration: 7200000
   sm2:
+    encryptType: 1 # 0: 加密，1：不加密
     privateKey: 2094F2F0FA446CB390027F06511BD83D8C0FBB535B8D8DFB1258E846C0569A2D
     publicKey: 04C3458C0D22DF1886E7718B252056855BBEB9E2B1B02AB030B45ABD91CD9E63B397A45120172EF272DB94DF285CC8D34E6FB68E6A10102A739B3669040898733B

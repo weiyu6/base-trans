@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { sm2 } from 'sm-crypto'
@@ -50,8 +50,11 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const res = JSON.parse(sm2.doDecrypt(response.data, '40B3B68049779D092E8B0071878DD6EAF990842AC22E76A4497BD23BA9561D28'))
-    // const res = response.data
+    // const res = JSON.parse(sm2.doDecrypt(response.data, '40B3B68049779D092E8B0071878DD6EAF990842AC22E76A4497BD23BA9561D28'))
+    let res = response.data
+    if (res.encryptData != null) {
+      res = JSON.parse(sm2.doDecrypt(res.encryptData, '40B3B68049779D092E8B0071878DD6EAF990842AC22E76A4497BD23BA9561D28'))
+    }
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== '000000') {
       // 200000：token验证未通过

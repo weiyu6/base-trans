@@ -98,4 +98,13 @@ public class TransConsts {
      * 交易类型：0-操作类，1-查询类
      */
     public static final String TRANS_TYPE_1 = "1";
+
+    /**
+     * 数据加密开关：0-开，1-关
+     */
+    public static final String ENCRYPT_TYPE_0 = "0";
+    /**
+     * 数据加密开关：0-开，1-关
+     */
+    public static final String ENCRYPT_TYPE_1 = "1";
 }
