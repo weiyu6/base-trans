@@ -332,6 +332,46 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     }
 
     /**
+     * 添加菜单
+     * @param input
+     */
+    @Override
+    public void menuAdd(MenuInput input) {
+        logger.debug("MenuServiceImpl.menuAdd begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("serviceInput:{}", input);
+        String highLvlId = input.getHighLvlId();
+        String menuLvl = input.getMenuLvl();
+        // 上级菜单ID为空，代表此菜单为一级菜单
+        if (StringUtils.isEmpty(highLvlId) || StringUtils.equals(highLvlId, "0")) {
+            highLvlId = "0";
+            menuLvl = "1";
+        } else {
+            Menu menu = getById(highLvlId);
+            if (ObjectUtil.isEmpty(menu)) {
+                logger.error("上级菜单ID：{}查询为空", highLvlId);
+                throw new TransException(ResultCodeEnum.TRAN100701);
+            }
+            String menuLvl1 = menu.getMenuLvl();
+            menuLvl = String.valueOf(Integer.valueOf(menuLvl1) + 1);
+        }
+        long snowFlakeId = IdUtil.getSnowflakeNextId();
+        String menuId = String.format("m%s", snowFlakeId);
+        logger.debug("菜单ID:{}", menuId);
+
+
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(input, menu);
+        menu.setMenuId(menuId);
+        menu.setHighLvlId(highLvlId);
+        menu.setMenuLvl(menuLvl);
+        // menu.setMenuStat("0");
+        // menu.setLinkFlg("0");
+        logger.debug("menu:{}", menu);
+        save(menu);
+        logger.debug("MenuServiceImpl.menuAdd end:<<<<<<<<<<<<<<<<<");
+    }
+
+    /**
      * 使用迭代为菜单添加子菜单
      * @param menu
      * @param menuExtendList

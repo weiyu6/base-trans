@@ -208,7 +208,10 @@ export default {
       enumIdList: {}, // 枚举列表
       dialogVisible: false, // 弹窗开关标志
       title: '', // 标题
-      menuForm: {}, // 菜单表单
+      menuForm: {
+        linkFlg: '0',
+        menuStat: '0'
+      }, // 菜单表单
       menuLvlList: [], // 菜单级别列表
 
       iconsVisible: false, // 是否显示icon选择器

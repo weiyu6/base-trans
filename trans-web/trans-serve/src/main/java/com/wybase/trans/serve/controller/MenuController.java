@@ -97,6 +97,19 @@ public class MenuController {
         return Result.ok();
     }
 
+    @MethodName(value = "添加菜单", transType = TransConsts.TRANS_TYPE_0)
+    @Operation(summary = "添加菜单")
+    @PostMapping("/menuAdd")
+    public Result menuAdd(@RequestBody MenuVo request) {
+        logger.debug("MenuController.menuAdd begin:>>>>>>>>>>>>>>>>>>>");
+        logger.debug("request:{}", request);
+        MenuInput input = new MenuInput();
+        BeanUtils.copyProperties(request, input);
+        menuService.menuAdd(input);
+        logger.debug("MenuController.menuAdd end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
     @MethodName(value = "按钮查询", transType = TransConsts.TRANS_TYPE_1)
     @Operation(summary = "按钮查询")
     @PostMapping("/buttonTree")

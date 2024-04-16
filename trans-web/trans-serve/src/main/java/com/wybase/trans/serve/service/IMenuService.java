@@ -74,4 +74,9 @@ public interface IMenuService extends IService<Menu> {
      * @return
      */
     MenuOutput menuButtonTree(MenuInput serviceInput);
+
+    /**
+     * 添加菜单
+     */
+    void menuAdd(MenuInput input);
 }
