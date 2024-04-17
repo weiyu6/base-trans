@@ -3,20 +3,20 @@ package com.wybase.trans.gateway.model.entity.generate;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-
 /**
  * 网关路由参数表 实体类。
  *
  * @author weiyu
- * @since 2024-04-11
+ * @since 2024-04-17
  */
 @Data
 @Builder
@@ -49,6 +49,11 @@ public class GatewayRouteParam implements Serializable {
      * 路由参数简介
      */
     private String content;
+
+    /**
+     * 路由参数状态：0-启用，1-禁用
+     */
+    private String routeParamStat;
 
     /**
      * 创建时间

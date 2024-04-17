@@ -2,6 +2,7 @@ package com.wybase.trans.gateway.service.impl;
 
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.wybase.trans.common.consts.GatewayConsts;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.gateway.mapper.generate.GatewayRouteParamMapper;
 import com.wybase.trans.gateway.model.entity.generate.GatewayRouteParam;
@@ -30,6 +31,7 @@ public class GatewayRouteParamServiceImpl extends ServiceImpl<GatewayRouteParamM
         // 查询路由参数
         QueryWrapper query = QueryWrapper.create()
                 .where(GatewayRouteParamTableDef.GATEWAY_ROUTE_PARAM.ROUTE_ID.eq(routeId))
+                .and(GatewayRouteParamTableDef.GATEWAY_ROUTE_PARAM.ROUTE_PARAM_STAT.eq(GatewayConsts.ROUTE_PARAM_STAT_0))
                 .and(GatewayRouteParamTableDef.GATEWAY_ROUTE_PARAM.RECD_STAT.eq(TransConsts.RECD_STAT_0));
         return list(query);
     }

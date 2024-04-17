@@ -157,8 +157,8 @@ INSERT INTO `trans`.`b_role`(`role_id`, `role_nm`, `role_code`, `role_stat`, `su
 INSERT INTO `trans`.`b_role`(`role_id`, `role_nm`, `role_code`, `role_stat`, `summy`, `create_time`, `update_time`, `recd_stat`) VALUES ('1', '管理员', NULL, '1', '拥有部分操作权限', '2022-03-24 14:44:00', '2022-04-03 16:26:57', '0');
 INSERT INTO `trans`.`b_role`(`role_id`, `role_nm`, `role_code`, `role_stat`, `summy`, `create_time`, `update_time`, `recd_stat`) VALUES ('2', '超级管理员', NULL, '1', '拥有所有权限', '2022-03-24 14:44:00', '2022-04-03 16:26:57', '0');
 
-INSERT INTO trans.b_gateway_route (id, route_id, uri, uri_type, sort, content, create_time, update_time, recd_stat)
-VALUES(1, 'base-trans', 'lb://trans-serve', '1', 0, '主服务路由信息', '2024-04-11 20:12:06', '2024-04-11 20:49:14', '0');
+INSERT INTO trans.b_gateway_route(id, route_id, uri, uri_type, sort, content, route_stat, create_time, update_time, recd_stat)
+VALUES(1, 'base-trans', 'lb://trans-serve', '1', 0, '主服务路由信息', '0', '2024-04-11 20:12:06', '2024-04-11 20:49:14', '0');
 
-INSERT INTO trans.b_gateway_route_param (id, route_id, param_value, param_type, content, create_time, update_time, recd_stat)
-VALUES(1, 'base-trans', 'Path=/base-trans/**', '1', '主服务路由参数', '2024-04-11 20:12:29', '2024-04-11 20:49:24', '0');
+INSERT INTO trans.b_gateway_route_param(id, route_id, param_value, param_type, content, route_param_stat, create_time, update_time, recd_stat)
+VALUES(1, 'base-trans', 'Path=/online/**', '1', '主服务路由参数', '0', '2024-04-11 20:12:29', '2024-04-11 20:49:24', '0');

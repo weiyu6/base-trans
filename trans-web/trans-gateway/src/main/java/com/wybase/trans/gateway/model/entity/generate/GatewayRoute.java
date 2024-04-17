@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * 网关路由信息表 实体类。
  *
  * @author weiyu
- * @since 2024-04-11
+ * @since 2024-04-17
  */
 @Data
 @Builder
@@ -54,6 +54,11 @@ public class GatewayRoute implements Serializable {
      * 路由简介
      */
     private String content;
+
+    /**
+     * 路由状态：0-启用，1-禁用
+     */
+    private String routeStat;
 
     /**
      * 创建时间

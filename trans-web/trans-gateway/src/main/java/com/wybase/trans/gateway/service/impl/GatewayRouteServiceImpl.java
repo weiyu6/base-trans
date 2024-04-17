@@ -5,6 +5,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
+import com.wybase.trans.common.consts.GatewayConsts;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.gateway.mapper.generate.GatewayRouteMapper;
 import com.wybase.trans.gateway.model.dto.RouteInput;
@@ -45,7 +46,8 @@ public class GatewayRouteServiceImpl extends ServiceImpl<GatewayRouteMapper, Gat
     public List<GatewayRoute> getRouteList() {
         // 查询条件：状态为启用的路由
         QueryWrapper queryWrapper = QueryWrapper.create()
-                .where(GatewayRouteTableDef.GATEWAY_ROUTE.RECD_STAT.eq(TransConsts.RECD_STAT_0));
+                .where(GatewayRouteTableDef.GATEWAY_ROUTE.ROUTE_STAT.eq(GatewayConsts.ROUTE_STAT_0))
+                .and(GatewayRouteTableDef.GATEWAY_ROUTE.RECD_STAT.eq(TransConsts.RECD_STAT_0));
         return list(queryWrapper);
     }
 

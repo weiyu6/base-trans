@@ -26,4 +26,22 @@ public class GatewayConsts {
      * 路由地址类型：1-lb模式(默认)，2-http模式
      */
     public static final String ROUTE_URI_TYPE_2 = "2";
+
+    /**
+     * 路由状态：0-启用，1-禁用
+     */
+    public static final String ROUTE_STAT_0 = "0";
+    /**
+     * 路由状态：0-启用，1-禁用
+     */
+    public static final String ROUTE_STAT_1 = "1";
+
+    /**
+     * 路由参数状态：0-启用，1-禁用
+     */
+    public static final String ROUTE_PARAM_STAT_0 = "0";
+    /**
+     * 路由参数状态：0-启用，1-禁用
+     */
+    public static final String ROUTE_PARAM_STAT_1 = "1";
 }
