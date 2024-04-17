@@ -4,9 +4,10 @@
     <div>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-input v-model="searObj.roleNm" clearable placeholder="角色名" />
+          <el-input v-model="searObj.routeId" clearable placeholder="路由ID" />
         </el-form-item>
-        <el-button v-permission="'/role/getlist'" type="primary" icon="el-icon-search" @click="getRoleList">查询</el-button>
+        <el-button v-permission="'/role/getlist'" type="primary" icon="el-icon-search" @click="getRouteList()">查询
+        </el-button>
         <el-button v-permission="'/role/add'" type="primary" icon="el-icon-document-add" @click="roleAdd">新增
         </el-button>
       </el-form>
@@ -33,6 +34,23 @@
               active-value="1"
               inactive-value="0"
             />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="路由参数" width="150">
+          <template v-slot="scope">
+            <el-popover
+              placement="top-start"
+              width="30%"
+              trigger="click"
+            >
+              <el-table :data="scope.row.routeParams">
+                <el-table-column width="100" property="paramType" label="类型" />
+                <el-table-column width="150" property="paramValue" label="参数值" />
+                <el-table-column width="100" property="routeParamStat" label="状态" />
+                <el-table-column width="150" property="content" label="描述" />
+              </el-table>
+              <el-button slot="reference">参数列表</el-button>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column fixed="right" align="center" label="操作" width="200">
@@ -156,6 +174,7 @@ export default {
     getRouteList(page = 1) {
       this.searObj.pageNum = page
       this.searObj.pageSize = this.limit
+      debugger
       route.getRouteList(this.searObj).then(res => {
         this.routeList = res.data.routePageInfo.records
         this.total = res.data.routePageInfo.totalRow
