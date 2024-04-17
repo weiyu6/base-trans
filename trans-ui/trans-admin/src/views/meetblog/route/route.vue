@@ -4,7 +4,7 @@
     <div>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-input v-model="searobj.roleNm" clearable placeholder="角色名" />
+          <el-input v-model="searObj.roleNm" clearable placeholder="角色名" />
         </el-form-item>
         <el-button v-permission="'/role/getlist'" type="primary" icon="el-icon-search" @click="getRoleList">查询</el-button>
         <el-button v-permission="'/role/add'" type="primary" icon="el-icon-document-add" @click="roleAdd">新增
@@ -35,7 +35,6 @@
             />
           </template>
         </el-table-column>
-
         <el-table-column fixed="right" align="center" label="操作" width="200">
           <template v-slot="scope">
             <el-tooltip v-permission="'/menuList/mdf'" class="item" effect="light" content="修改" placement="top">
@@ -109,7 +108,17 @@
         </span>
       </el-dialog>
     </div>
-
+    <div>
+      <!--分页-->
+      <el-pagination
+        :current-page="current"
+        :page-size="limit"
+        :total="total"
+        style="padding: 30px; text-align: center"
+        layout="total,prev,pager,next,jumper"
+        @current-change="getRouteList"
+      />
+    </div>
   </div>
 </template>
 
@@ -121,8 +130,11 @@ export default {
   name: 'Role',
   data() {
     return {
+      current: 1, // 当前页
+      limit: 10, // 每页记录数
+      total: 0, // 总页数
       routeList: [], // 角色列表
-      searobj: {}, // 搜索框
+      searObj: {}, // 搜索框
       title: '', // 弹窗标题
       dialogVisible: false, // 弹窗开关标志
       operFlg: '', // 操作标志
@@ -141,11 +153,12 @@ export default {
   },
   methods: {
     /* 查询角色列表*/
-    getRouteList() {
-      var sear = {}
-      sear.roleNm = this.searobj.roleNm
-      route.getRouteList(sear).then(res => {
+    getRouteList(page = 1) {
+      this.searObj.pageNum = page
+      this.searObj.pageSize = this.limit
+      route.getRouteList(this.searObj).then(res => {
         this.routeList = res.data.routePageInfo.records
+        this.total = res.data.routePageInfo.totalRow
       })
     },
 
