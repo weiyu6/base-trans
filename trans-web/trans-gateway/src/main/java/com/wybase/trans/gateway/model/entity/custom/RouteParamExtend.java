@@ -1,5 +1,6 @@
 package com.wybase.trans.gateway.model.entity.custom;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 
@@ -37,13 +38,20 @@ public class RouteParamExtend {
     private String content;
 
     /**
+     * 路由参数状态：0-启用，1-禁用
+     */
+    private String routeParamStat;
+
+    /**
      * 创建时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
 }

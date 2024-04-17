@@ -3,8 +3,6 @@ package com.wybase.trans.gateway.service.impl;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wybase.trans.base.exception.TransException;
-import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.GatewayConsts;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.gateway.mapper.generate.GatewayRouteMapper;
@@ -18,6 +16,7 @@ import com.wybase.trans.gateway.model.entity.generate.table.GatewayRouteTableDef
 import com.wybase.trans.gateway.service.IGatewayRouteParamService;
 import com.wybase.trans.gateway.service.IGatewayRouteService;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -57,18 +56,16 @@ public class GatewayRouteServiceImpl extends ServiceImpl<GatewayRouteMapper, Gat
     @Override
     public RouteOutput getAllRoutes(RouteInput input) {
         RouteOutput routeOutput = new RouteOutput();
+        String routeId = input.getRouteId();
         int pageNum = input.getPageNum();
         int pageSize = input.getPageSize();
 
         QueryWrapper queryWrapper = QueryWrapper.create()
-                .where(GatewayRouteTableDef.GATEWAY_ROUTE.RECD_STAT.eq(TransConsts.RECD_STAT_0));
+                .where(GatewayRouteTableDef.GATEWAY_ROUTE.RECD_STAT.eq(TransConsts.RECD_STAT_0))
+                .and(GatewayRouteTableDef.GATEWAY_ROUTE.ROUTE_ID.eq(routeId).when(StringUtils.isNotBlank(routeId)));
         Page<GatewayRoute> page = new Page<>(pageNum, pageSize);
         Page<GatewayRoute> routeList = page(page, queryWrapper);
         long totalRow = routeList.getTotalRow();
-        if (totalRow == 0) {
-            logger.error("查询无记录");
-            throw new TransException(ResultCodeEnum.ROUTE_NULL_ERROR);
-        }
         List<RouteExtend> routeExtendList = new ArrayList<>();
         for (GatewayRoute route : routeList.getRecords()) {
             RouteExtend routeExtend = new RouteExtend();

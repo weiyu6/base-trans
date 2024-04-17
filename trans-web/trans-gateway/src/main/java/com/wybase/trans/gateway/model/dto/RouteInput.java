@@ -10,9 +10,12 @@ import lombok.ToString;
 @Data
 @ToString
 public class RouteInput {
-
     /**
-     *页码
+     * 路由id
+     */
+    private String routeId;
+    /**
+     * 页码
      */
     private int pageNum;
 

@@ -42,6 +42,11 @@ public class RouteExtend {
     private String content;
 
     /**
+     * 路由状态：0-启用，1-禁用
+     */
+    private String routeStat;
+
+    /**
      * 路由参数
      */
     private List<RouteParamExtend> routeParams;
