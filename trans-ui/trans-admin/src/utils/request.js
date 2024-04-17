@@ -24,10 +24,10 @@ service.interceptors.request.use(
       config.headers.Chnl = 'BLOG_ADMIN'
     }
 
-    const encryptData = sm2.doEncrypt(JSON.stringify(config.data), '046279C92F5A243DFD7E351AAF0E5D754D3BED9890A52F3A9518580640A682E3AC53C5F26F780BE7D00D4EABD812139322CC8CBED48BCE77061A610A58996DD66B')
+    /* const encryptData = sm2.doEncrypt(JSON.stringify(config.data), '046279C92F5A243DFD7E351AAF0E5D754D3BED9890A52F3A9518580640A682E3AC53C5F26F780BE7D00D4EABD812139322CC8CBED48BCE77061A610A58996DD66B')
     config.data = {
       encryptData: encryptData
-    }
+    } */
     return config
   },
   error => {
