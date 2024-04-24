@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * 网关路由参数表 实体类。
  *
  * @author weiyu
- * @since 2024-04-17
+ * @since 2024-04-24
  */
 @Data
 @Builder
@@ -44,6 +44,11 @@ public class GatewayRouteParam implements Serializable {
      * 参数类型：1-predicate，2-filter
      */
     private String paramType;
+
+    /**
+     * 排序字段，越小越靠前
+     */
+    private Integer sort;
 
     /**
      * 路由参数简介

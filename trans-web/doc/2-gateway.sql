@@ -22,6 +22,7 @@ create table if not exists b_gateway_route_param
     route_id         varchar(255) not null comment '路由id',
     param_value      varchar(255) not null comment '参数value',
     param_type       varchar(4)   not null comment '参数类型：1-predicate，2-filter',
+    sort             int          not null default 100 comment '排序字段，越小越靠前',
     content          varchar(255) comment '路由参数简介',
     route_param_stat varchar(2)            default '0' comment '路由参数状态：0-启用，1-禁用',
     create_time      datetime     not null default current_timestamp comment '创建时间',

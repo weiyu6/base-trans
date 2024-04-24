@@ -33,6 +33,11 @@ public class RouteParamExtend {
     private String paramType;
 
     /**
+     * 排序字段，越小越靠前
+     */
+    private Integer sort;
+
+    /**
      * 路由参数简介
      */
     private String content;
