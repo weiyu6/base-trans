@@ -8,7 +8,7 @@
         </el-form-item>
         <el-button v-permission="'/role/getlist'" type="primary" icon="el-icon-search" @click="getRouteList()">查询
         </el-button>
-        <el-button v-permission="'/role/add'" type="primary" icon="el-icon-document-add" @click="roleAdd">新增
+        <el-button v-permission="'/role/add'" type="primary" icon="el-icon-document-add" @click="routeAdd">新增
         </el-button>
       </el-form>
     </div>
@@ -24,15 +24,15 @@
         <el-table-column prop="uri" align="center" label="路由地址" width="150" />
         <el-table-column prop="uriType" align="center" label="路由地址类型" width="150" />
         <el-table-column prop="content" align="center" label="路由简介" width="150" />
-        <el-table-column prop="roleStat" align="center" label="状态" width="150">
+        <el-table-column prop="routeStat" align="center" label="状态" width="150">
           <template v-slot="scope">
             <el-switch
-              v-model="scope.row.roleStat"
+              v-model="scope.row.routeStat"
               disabled
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-value="1"
-              inactive-value="0"
+              active-value="0"
+              inactive-value="1"
             />
           </template>
         </el-table-column>
@@ -60,7 +60,7 @@
                 type="primary"
                 icon="el-icon-edit"
                 size="mini"
-                @click="menuInfoQry(scope.row.menuId)"
+                @click="routeQry(scope.row.routeId)"
               />
             </el-tooltip>
             <el-tooltip v-permission="'/menuList/del'" class="item" effect="light" content="删除" placement="top">
@@ -68,7 +68,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 size="mini"
-                @click="menuDel(scope.row.menuId)"
+                @click="routeDel(scope.row.routeId)"
               />
             </el-tooltip>
           </template>
@@ -82,26 +82,32 @@
       <el-dialog
         :title="title"
         center
-        width="40%"
+        width="50%"
         :visible.sync="dialogVisible"
         :before-close="closeDialog"
       >
         <el-form>
-          <el-form-item label="角色名称：" label-width="120px">
-            <el-input v-model="roleInfo.roleNm" style="width: 80%" />
+          <el-form-item label="路由ID：" label-width="120px">
+            <el-input v-model="routeInfo.routeId" style="width: 80%" />
           </el-form-item>
-          <el-form-item label="角色状态：" label-width="120px">
+          <el-form-item label="路由地址类型：" label-width="120px">
+            <el-input v-model="routeInfo.uriType" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="路由地址：" label-width="120px">
+            <el-input v-model="routeInfo.uri" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="路由状态：" label-width="120px">
             <el-switch
-              v-model="roleInfo.roleStat"
+              v-model="routeInfo.routeStat"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-value="1"
-              inactive-value="0"
+              active-value="0"
+              inactive-value="1"
             />
           </el-form-item>
-          <el-form-item label="角色简介：" label-width="120px">
+          <el-form-item label="路由简介：" label-width="120px">
             <el-input
-              v-model="roleInfo.summy"
+              v-model="routeInfo.content"
               type="textarea"
               :autosize="{ minRows: 2, maxRows: 4}"
               maxlength="30"
@@ -109,15 +115,30 @@
               style="width: 80%"
             />
           </el-form-item>
-          <el-form-item label="权限：" label-width="120px">
-            <el-tree
-              ref="tree"
-              :data="menuTree"
-              show-checkbox
-              node-key="menuId"
-              :props="props"
-              :default-checked-keys="roleInfo.menuIdList"
-            />
+          <el-form-item
+            v-for="(param, index) in routeInfo.routeParams"
+            :key="param.id"
+            label-width="120px"
+            :label="'参数' + index + '：'"
+            :prop="'param.' + index + 'id'"
+          >
+            <el-input v-model="param.paramValue" style="width: 50%" />
+            <el-tooltip class="item" effect="light" content="添加" placement="top">
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size="mini"
+                @click="addDomain(param)"
+              />
+            </el-tooltip>
+            <el-tooltip class="item" effect="light" content="删除" placement="top">
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                @click="removeDomain(param)"
+              />
+            </el-tooltip>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -156,9 +177,15 @@ export default {
       title: '', // 弹窗标题
       dialogVisible: false, // 弹窗开关标志
       operFlg: '', // 操作标志
-      roleInfo: {
-        menuIdList: []
-      }, // 角色信息
+      routeInfo: {
+        routeParams: [
+          {
+            paramType: '1',
+            paramValue: '',
+            routeParamStat: '1'
+          }
+        ]
+      }, // 路由
       menuTree: [],
       props: {
         children: 'children',
@@ -170,7 +197,7 @@ export default {
     this.getRouteList()
   },
   methods: {
-    /* 查询角色列表*/
+    /* 查询路由列表*/
     getRouteList(page = 1) {
       this.searObj.pageNum = page
       this.searObj.pageSize = this.limit
@@ -182,10 +209,9 @@ export default {
     },
 
     /* 打开弹窗添加角色*/
-    roleAdd() {
+    routeAdd() {
       this.operFlg = '2'
-      this.title = '新增角色'
-      this.getMenuButtonTree()
+      this.title = '新增路由'
       this.dialogVisible = true
     },
     /**
@@ -198,38 +224,26 @@ export default {
     },
     /* 新增或者修改*/
     saveOrUpdate() {
-      // 得到选中树的UID
-      const id = this.$refs.tree.getCheckedKeys()
-      const prantId = this.$refs.tree.getHalfCheckedKeys()
-      // 子节点和父节点合并
-      this.roleInfo.menuIdList = id.concat(prantId)
-      console.log('roleInfo', this.roleInfo)
-      if (this.operFlg == '1') {
-        role.roleInfoMdf(this.roleInfo).then(res => {
-          this.$message({
-            type: 'success',
-            message: '修改成功!'
-          })
-          this.closeDialog()
-          this.getRoleList()
-        })
-      } else if (this.operFlg == '2') {
-        role.roleInfoAdd(this.roleInfo).then(res => {
-          this.$message({
-            type: 'success',
-            message: '新增成功!'
-          })
-          this.closeDialog()
-          this.getRoleList()
-        })
+      console.log('roleInfo', this.routeInfo)
+    },
+    removeDomain(item) {
+      const index = this.routeInfo.routeParams.indexOf(item)
+      if (index !== 0) {
+        this.routeInfo.routeParams.splice(index, 1)
       }
     },
+    addDomain() {
+      this.routeInfo.routeParams.push({
+        value: '',
+        key: Date.now()
+      })
+    },
     /* 根据ID查询角色信息*/
-    roleInfoQry(roleId) {
+    routeQry(roleId) {
       this.operFlg = '1'
       var obj = {}
       obj.roleId = roleId
-      role.roleInfoQry(obj).then(res => {
+      route.roleInfoQry(obj).then(res => {
         this.roleInfo = res.data.roleInfo
         this.getMenuButtonTree()
         setTimeout(() => {
@@ -248,15 +262,15 @@ export default {
         this.menuTree = res.data.menuButtonTree
       })
     },
-    roleDel(roleId) {
+    routeDel(roleId) {
       this.$confirm('此操作将删除菜单, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        var obj = {}
+        const obj = {}
         obj.roleId = roleId
-        role.roleInfoDel(obj).then(res => {
+        route.roleInfoDel(obj).then(() => {
           // 提示
           this.$message({
             type: 'success',
