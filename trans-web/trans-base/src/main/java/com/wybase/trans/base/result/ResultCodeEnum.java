@@ -53,6 +53,11 @@ public enum ResultCodeEnum {
      */
     ROUTE_NULL_ERROR("300001", "无相关路由参数"),
 
+    /**
+     * 300002-路由未启用
+     */
+    ROUTE_STAT_NOT_ENABLE("300002", "路由未启用"),
+
     ;
 
     // 响应码

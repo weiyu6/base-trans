@@ -4,6 +4,7 @@ import com.wybase.trans.gateway.model.entity.generate.GatewayRouteParam;
 import lombok.Data;
 import lombok.ToString;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -13,6 +14,8 @@ import java.util.List;
 @Data
 @ToString
 public class RouteVo {
+    private BigInteger id;
+
     /**
      * 路由id
      */
@@ -37,6 +40,11 @@ public class RouteVo {
      * 路由简介
      */
     private String content;
+
+    /**
+     * 路由状态：0-启用，1-禁用
+     */
+    private String routeStat;
 
     /**
      * 路由参数

@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * 核心配置类，项目初始化时加载路由配置
+ *
  * @author weiyu
  * @date 2024/4/11
  */
@@ -53,5 +54,44 @@ public class GatewayServiceHandler implements ApplicationEventPublisherAware, Co
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.publisher = applicationEventPublisher;
+    }
+
+    /**
+     * 新增路由
+     */
+    public void routeAdd(RouteDefinition routeDefinition) {
+        logger.info("新增路由：=====>{}", routeDefinition);
+        routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
+        // 发布路由刷新事件
+        this.publisher.publishEvent(new RefreshRoutesEvent(this));
+    }
+
+    /**
+     * 删除路由
+     */
+    public void routeDelete(String routeId) {
+        logger.info("删除路由：=====>{}", routeId);
+        routeDefinitionWriter.delete(Mono.just(routeId)).subscribe();
+        // 发布路由刷新事件
+        this.publisher.publishEvent(new RefreshRoutesEvent(this));
+    }
+
+    /**
+     * 更新路由
+     */
+    public void routeUpdate(RouteDefinition routeDefinition) {
+        logger.info("更新路由：=====>{}", routeDefinition);
+        routeDefinitionWriter.delete(Mono.just(routeDefinition.getId())).subscribe();
+        routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
+        // 发布路由刷新事件
+        this.publisher.publishEvent(new RefreshRoutesEvent(this));
+    }
+
+    /**
+     * 刷新路由
+     */
+    public void routeRefresh() {
+        logger.info("刷新路由");
+        loadRouteConfig();
     }
 }

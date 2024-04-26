@@ -3,17 +3,20 @@ package com.wybase.trans.gateway.controller;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.gateway.model.dto.RouteInput;
 import com.wybase.trans.gateway.model.dto.RouteOutput;
+import com.wybase.trans.gateway.model.entity.generate.GatewayRouteParam;
 import com.wybase.trans.gateway.model.vo.RouteVo;
 import com.wybase.trans.gateway.service.IGatewayRouteService;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
+ * 路由管理
+ *
  * @author weiyu
  * @date 2024/4/9
  */
@@ -25,9 +28,13 @@ public class RoteController {
     @Resource
     private IGatewayRouteService routeService;
 
-    @RequestMapping("/addRoute")
+    @PostMapping("/addRoute")
     public Result addRoute(@RequestBody RouteVo vo) {
+        logger.info("RoteController.addRoute ,routeVo:{}", vo);
         RouteInput routeInput = new RouteInput();
+        List<GatewayRouteParam> routeParams = vo.getRouteParams();
+        BeanUtils.copyProperties(vo, routeInput);
+        routeInput.setRouteParams(routeParams);
         routeService.addRoute(routeInput);
         return Result.ok();
     }
@@ -35,20 +42,23 @@ public class RoteController {
     @RequestMapping("/refreshRoute")
     public Result refreshRoute() {
         routeService.refreshAllRoutes();
-        logger.info("刷新路由成功");
         return Result.ok();
     }
 
+    @PostMapping("/deleteRouteById")
     public Result deleteRouteById(String routeId) {
+        routeService.deleteRouteById(routeId);
         return Result.ok();
     }
 
-    public Result refreshRouteById(String routeId) {
+    @PostMapping("/refreshRouteById")
+    public Result refreshRouteById(@RequestParam String routeId) {
+        routeService.refreshRouteById(routeId);
         return Result.ok();
     }
 
 
-    @RequestMapping("/getRouteList")
+    @PostMapping("/getRouteList")
     public Result getRouteList(@RequestBody RouteVo vo) {
         RouteInput input = new RouteInput();
         BeanUtils.copyProperties(vo, input);
@@ -56,11 +66,13 @@ public class RoteController {
         return Result.ok(routeList);
     }
 
-    public Result updateRouteById(String routeId) {
+    @PostMapping("/updateRoute")
+    public Result updateRoute(@RequestBody RouteVo vo) {
         return Result.ok();
     }
 
-    public Result getRouteById(String routeId) {
+    @PostMapping("/getRouteById")
+    public Result getRouteById(@RequestParam String routeId) {
         return Result.ok();
     }
 
