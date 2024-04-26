@@ -58,6 +58,11 @@ public enum ResultCodeEnum {
      */
     ROUTE_STAT_NOT_ENABLE("300002", "路由未启用"),
 
+    /**
+     * 300003-不允许修改路由ID
+     */
+    ROUTE_ID_MDF("300003", "不允许修改路由ID"),
+
     ;
 
     // 响应码

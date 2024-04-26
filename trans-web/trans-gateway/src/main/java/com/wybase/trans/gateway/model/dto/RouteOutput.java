@@ -15,4 +15,6 @@ public class RouteOutput {
 
     private Page<RouteExtend> routePageInfo;
 
+    private RouteExtend routeExtend;
+
 }

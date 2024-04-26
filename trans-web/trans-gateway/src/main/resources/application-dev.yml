@@ -3,8 +3,6 @@ server:
   port: 7090
   tomcat:
     uri-encoding: utf-8
-  servlet:
-    context-path: /base-gateway
 #日志配置文件以及日志级别
 logging:
   config: classpath:logback-spring.xml
@@ -30,3 +28,6 @@ spring:
 #          uri: lb://trans-serve #匹配后提供服务的路由地址
 #          predicates:
 #            - Path=/base-trans/** # 断言，路径相匹配的进行路由
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
