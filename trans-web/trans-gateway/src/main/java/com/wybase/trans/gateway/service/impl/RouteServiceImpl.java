@@ -35,6 +35,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 路由规则服务实现类
@@ -195,7 +196,7 @@ public class RouteServiceImpl implements RouteService {
                 .map(param -> {
                     param.setRouteId(routeId);
                     return param;
-                }).toList();
+                }).collect(Collectors.toList());
         // 验证路由ID不能为空
         if (StringUtils.isBlank(routeId)) {
             logger.info("路由ID不能为空");
@@ -330,7 +331,7 @@ public class RouteServiceImpl implements RouteService {
                     BeanUtils.copyProperties(param, routeParamExtend);
                     return routeParamExtend;
                 })
-                .toList();
+                .collect(Collectors.toList());
         RouteExtend routeExtend = new RouteExtend();
         BeanUtils.copyProperties(route, routeExtend);
         routeExtend.setRouteParams(routeParamExtendList);
