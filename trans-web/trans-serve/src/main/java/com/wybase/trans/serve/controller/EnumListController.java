@@ -10,14 +10,13 @@ import com.wybase.trans.serve.model.vo.EnumListVo;
 import com.wybase.trans.serve.service.IEnumListService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EnumListController {
     private static final Logger logger = LoggerFactory.getLogger(EnumListController.class);
 
-    @Autowired
+    @Resource
     private IEnumListService enumListService;
 
     @MethodName(value = "根据枚举id查询枚举值", transType = TransConsts.TRANS_TYPE_1)
@@ -68,4 +67,16 @@ public class EnumListController {
         logger.debug("EnumListController.enumListQry end:<<<<<<<<<<<<<<<<<");
         return Result.ok(map);
     }
+
+    @MethodName(value = "批量导入枚举值", transType = TransConsts.TRANS_TYPE_0)
+    @Operation(summary = "批量导入枚举值")
+    @PostMapping("/enumBatchImp")
+    public Result enumBatchImp(@RequestPart("file") MultipartFile file) {
+        logger.debug("EnumListController.enumBatchImp begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("file:{}", file);
+
+        logger.debug("EnumListController.enumBatchImp end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
 }

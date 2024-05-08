@@ -104,13 +104,17 @@ create table if not exists b_user_info
 /*==============================================================*/
 create table if not exists b_enum_list
 (
-    enum_id   varchar(32) not null comment '枚举id',
-    seq       int         not null comment '序号',
-    key_id    varchar(256) comment '枚举key',
-    key_nm    varchar(256) comment '枚举描述',
-    remark    varchar(256) comment '备注',
-    recd_stat varchar(2) comment '记录状态：0-正常，1-删除',
-    primary key (enum_id, seq)
+    id          bigint unsigned primary key auto_increment,
+    enum_id     varchar(32) not null comment '枚举id',
+    seq         int         not null comment '序号',
+    key_id      varchar(256) comment '枚举key',
+    key_nm      varchar(256) comment '枚举描述',
+    enum_stat   varchar(2)           default '0' comment '枚举状态：0-启用，1-禁用',
+    remark      varchar(256) comment '备注',
+    create_time datetime    not null default current_timestamp comment '创建时间',
+    update_time datetime    not null default current_timestamp on update current_timestamp(0) comment '更新时间',
+    recd_stat   varchar(2) comment '记录状态：0-正常，1-删除',
+    unique index idx_enum_list_enumId_seq (enum_id, seq)
 ) engine = innodb
   default charset = utf8mb4 comment ='枚举列表';
 
@@ -181,8 +185,8 @@ create table if not exists b_blog
     author         varchar(256)         default null comment '作者',
     title          varchar(256)         default null comment '博客标题',
     summy          varchar(256)         default null comment '博客简介',
-    tag_id         varchar(128)          default null comment '标签id',
-    classfc_id     varchar(128)          default null comment '博客分类id',
+    tag_id         varchar(128)         default null comment '标签id',
+    classfc_id     varchar(128)         default null comment '博客分类id',
     click_count    int(11)              default 0 comment '博客点击数',
     collect_count  int(11)              default 0 comment '博客收藏数',
     file_uid       varchar(256)         default null comment '标题图片uid',

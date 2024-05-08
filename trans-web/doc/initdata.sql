@@ -1,108 +1,58 @@
 -- user 用户表
 INSERT INTO `trans`.`b_user_info`(`user_id`, `user_nm`, `pass_word`, `nick_nm`, `gender`, `avatar`, `birthday`, `email`, `valid_code`, `mobile`, `qq_num`, `wechat_num`, `summy`, `login_count`, `last_login_time`, `last_login_ip`, `source`, `uuid`, `profession`, `comment_stat`, `ip_src`, `browser`, `os`, `start_email_notice`, `user_tag`, `role_id`, `loading_valid`, `trans_recd_num`, `create_time`, `update_time`, `recd_stat`)
 VALUES ('u252015231142727680', 'admin', '27D0D9438E43F2A6F15C4792255B8D78', '赵子龙', '1', 'https://wylearn-file.oss-cn-qingdao.aliyuncs.com/2022-04-03/258230308216770560-logo-3.png', '1990-02-16', 'zzl@email.com', '', '15899996666', '123456', 'zzlnb', '吾乃常山赵子龙是也', 35, '2022-04-03 23:38:52', '127.0.0.1', 'meet', '', '3', '1', '', 'Chrome-99.0.4844.74', 'Windows', '1', '2', '2|', '1', '2022040300258230329150541824', '2022-03-17 20:02:31', '2022-04-03 23:38:52', '0');
+INSERT INTO `trans`.b_enum_list (enum_id,seq,key_id,key_nm,enum_stat,remark,create_time,update_time,recd_stat) VALUES
+                                                                                                           ('GENDER',1,'1','男','0','性别','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('GENDER',2,'2','女','0','性别','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('COMMENT_STAT',1,'0','禁言','0','评论状态','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('COMMENT_STAT',2,'1','正常','0','评论状态','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('START_EMAIL_NOTICE',1,'0','关闭','0','是否开启邮件通知','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('START_EMAIL_NOTICE',2,'1','开启','0','是否开启邮件通知','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('USER_TAG',1,'0','普通用户','0','用户标签','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('USER_TAG',2,'1','博主','0','用户标签','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('USER_TAG',3,'2','管理员','0','用户标签','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('LOADING_VALID',1,'0','未通过','0','是否通过加载校验','2024-05-08 16:04:05','2024-05-08 16:04:05','0');
+INSERT INTO `trans`.b_enum_list (enum_id,seq,key_id,key_nm,enum_stat,remark,create_time,update_time,recd_stat) VALUES
+                                                                                                           ('LOADING_VALID',2,'1','已通过','0','是否通过加载校验','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('ORIGINAL_FLG',1,'0','否','0','是否原创','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('ORIGINAL_FLG',2,'1','是','0','是否原创','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PUBLISH_FLG',1,'0','否','0','是否发布','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PUBLISH_FLG',2,'1','是','0','是否发布','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('OPEN_COMMENT',1,'0','否','0','是否开启评论','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('OPEN_COMMENT',2,'1','是','0','是否开启评论','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('BLOG_TYPE',1,'0','博客','0','文章类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('BLOG_TYPE',2,'1','推广','0','文章类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('ARTICLE_SRC',1,'0','后台添加','0','文章来源','2024-05-08 16:04:05','2024-05-08 16:04:05','0');
+INSERT INTO `trans`.b_enum_list (enum_id,seq,key_id,key_nm,enum_stat,remark,create_time,update_time,recd_stat) VALUES
+                                                                                                           ('ARTICLE_SRC',2,'1','用户投稿','0','文章来源','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('CMNT_TYPE',1,'0','评论','0','评论类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('CMNT_TYPE',2,'1','点赞','0','评论类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',1,'1','党的机关、国家机关、群众团体和社会组织、企事业单位负责人','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',2,'2','专业技术人员','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',3,'3','办事人员和有关人员','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',4,'4','社会生产服务和生活服务人员','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',5,'5','农、林、牧、渔业生产及辅助人员','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',6,'6','生产制造及有关人员','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('PROFESSION',7,'7','军人','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0');
+INSERT INTO `trans`.b_enum_list (enum_id,seq,key_id,key_nm,enum_stat,remark,create_time,update_time,recd_stat) VALUES
+                                                                                                           ('PROFESSION',8,'8','其他','0','职业','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('TRANS_STATUS',1,'0','交易失败','0','交易状态','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('TRANS_STATUS',2,'1','交易成功','0','交易状态','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('TRANS_STATUS',3,'2','交易处理中','0','交易状态','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('TRANS_TYPE',1,'0','操作类','0','交易类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('TRANS_TYPE',2,'1','查询类','0','交易类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('USER_ROLE',1,'0','普通用户','0','用户标签','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('USER_ROLE',2,'1','管理员','0','用户标签','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('USER_ROLE',3,'2','超级管理员','0','用户标签','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('MENU_LVL',1,'1','一级菜单','0','菜单级别','2024-05-08 16:04:05','2024-05-08 16:04:05','0');
+INSERT INTO `trans`.b_enum_list (enum_id,seq,key_id,key_nm,enum_stat,remark,create_time,update_time,recd_stat) VALUES
+                                                                                                           ('MENU_LVL',2,'2','二级菜单','0','菜单级别','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('MENU_TYPE',1,'1','菜单','0','菜单类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('MENU_TYPE',2,'2','按钮','0','菜单类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('BLOGTYPE',1,'0','原创','0','博客类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('BLOGTYPE',2,'1','转载','0','博客类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0'),
+                                                                                                           ('BLOGTYPE',3,'2','推广','0','博客类型','2024-05-08 16:04:05','2024-05-08 16:04:05','0');
 
--- b_enum_list枚举列表
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('GENDER', 1, '1', '男', '性别', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('GENDER', 2, '2', '女', '性别', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('COMMENT_STAT', 1, '0', '禁言', '评论状态', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('COMMENT_STAT', 2, '1', '正常', '评论状态', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('START_EMAIL_NOTICE', 1, '0', '关闭', '是否开启邮件通知', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('START_EMAIL_NOTICE', 2, '1', '开启', '是否开启邮件通知', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('USER_TAG', 1, '0', '普通用户', '用户标签', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('USER_TAG', 2, '1', '博主', '用户标签', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('USER_TAG', 3, '2', '管理员', '用户标签', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('LOADING_VALID', 1, '0', '未通过', '是否通过加载校验', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('LOADING_VALID', 2, '1', '已通过', '是否通过加载校验', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('ORIGINAL_FLG', 1, '0', '否', '是否原创', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('ORIGINAL_FLG', 2, '1', '是', '是否原创', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PUBLISH_FLG', 1, '0', '否', '是否发布', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PUBLISH_FLG', 2, '1', '是', '是否发布', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('OPEN_COMMENT', 1, '0', '否', '是否开启评论', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('OPEN_COMMENT', 2, '1', '是', '是否开启评论', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('BLOG_TYPE', 1, '0', '博客', '文章类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('BLOG_TYPE', 2, '1', '推广', '文章类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('ARTICLE_SRC', 1, '0', '后台添加', '文章来源', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('ARTICLE_SRC', 2, '1', '用户投稿', '文章来源', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('CMNT_TYPE', 1, '0', '评论', '评论类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('CMNT_TYPE', 2, '1', '点赞', '评论类型', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 1, '1', '党的机关、国家机关、群众团体和社会组织、企事业单位负责人', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 2, '2', '专业技术人员', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 3, '3', '办事人员和有关人员', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 4, '4', '社会生产服务和生活服务人员', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 5, '5', '农、林、牧、渔业生产及辅助人员', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 6, '6', '生产制造及有关人员', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 7, '7', '军人', '职业', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('PROFESSION', 8, '8', '其他', '职业', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('TRANS_STATUS', 1, '0', '交易失败', '交易状态', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('TRANS_STATUS', 2, '1', '交易成功', '交易状态', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('TRANS_STATUS', 3, '2', '交易处理中', '交易状态', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('TRANS_TYPE', 1, '0', '操作类', '交易类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('TRANS_TYPE', 2, '1', '查询类', '交易类型', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('USER_ROLE', 1, '0', '普通用户', '用户标签', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('USER_ROLE', 2, '1', '管理员', '用户标签', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('USER_ROLE', 3, '2', '超级管理员', '用户标签', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('MENU_LVL', 1, '1', '一级菜单', '菜单级别', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('MENU_LVL', 2, '2', '二级菜单', '菜单级别', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('MENU_TYPE', 1, '1', '菜单', '菜单类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('MENU_TYPE', 2, '2', '按钮', '菜单类型', '0');
-
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('BLOGTYPE', 1, '0', '原创', '博客类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('BLOGTYPE', 2, '1', '转载', '博客类型', '0');
-insert into `trans`.`b_enum_list`(`enum_id`, `seq`, `key_id`, `key_nm`, `remark`, `recd_stat`)
-values ('BLOGTYPE', 3, '2', '推广', '博客类型', '0');
 
 -- b_menu菜单表
 INSERT INTO `trans`.`b_menu`(`menu_id`, `high_lvl_id`, `menu_lvl`, `menu_nm`, `menu_type`, `permission_value`, `path`, `component`, `icon`, `sort`, `menu_stat`, `summy`, `link_flg`, `create_time`, `update_time`, `recd_stat`) VALUES ('m257143561118552064', '0', '1', '操作信息', '1', NULL, '/transinfo', 'Layout', 'el-icon-notebook-1', 4, '1', '日志交易明细等信息查询', '0', '2022-03-31 23:40:32', '2022-04-01 17:12:19', '0');
