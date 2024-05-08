@@ -14,17 +14,44 @@ import java.util.List;
 @Data
 @ToString
 public class EnumListVo {
+
+    /**
+     * 枚举名称
+     */
+    private String remark;
     /**
      * 枚举ID
      */
     private String enumId;
-
     /**
-     * 枚举key
+     * 排序
+     */
+    private int seq;
+    /**
+     * 枚举键
+     */
+    private String keyNm;
+    /**
+     * 枚举值
      */
     private String keyId;
 
+    /**
+     * 枚举状态
+     */
+    private String enumStat;
+
     private List<BatchEnumId> enumIds;
+
+    /**
+     * 页码
+     */
+    private int pageNum;
+
+    /**
+     * 每页显示数量
+     */
+    private int pageSize;
 
     // TODO 内部类需要为静态，并且需要使用无参构造器
     @NoArgsConstructor

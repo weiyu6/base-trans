@@ -45,6 +45,10 @@ public enum ResultCodeEnum {
      * 100706-记录信息已删除
      */
     RECDSTAT_ERROR("100706", "记录信息已删除"),
+    /**
+     * 100707-字典已存在
+     */
+    ENUM_ALREADY_EXIST("100707", "字典已存在"),
 
 
     // 3xx 路由相关信息
