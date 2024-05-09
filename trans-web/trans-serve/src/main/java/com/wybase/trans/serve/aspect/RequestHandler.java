@@ -16,7 +16,6 @@ import java.io.IOException;
 
 /**
  * 请求加解密过滤器
- *
  * @author 猴哥
  */
 @Component
@@ -24,6 +23,7 @@ public class RequestHandler implements Filter {
 
     @Value("${util.sm2.privateKey}")
     private String privateKey;
+
     /**
      * 进行请求加密
      */
@@ -34,7 +34,10 @@ public class RequestHandler implements Filter {
             chain.doFilter(request, response);
             return;
         }
-
+        if (StringUtils.contains(request.getContentType(), "multipart/form-data")) {
+            chain.doFilter(request, response);
+            return;
+        }
         // 拿到加密串
         String data = new RequestWrapper((HttpServletRequest) request).getBody();
         if (StringUtils.isBlank(data)) {

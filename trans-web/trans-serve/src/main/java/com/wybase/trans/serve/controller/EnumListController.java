@@ -1,12 +1,15 @@
 package com.wybase.trans.serve.controller;
 
+import com.alibaba.excel.EasyExcel;
 import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.common.excel.DefaultExcelListener;
 import com.wybase.trans.serve.model.dto.EnumOutput;
 import com.wybase.trans.serve.model.entity.generate.EnumList;
+import com.wybase.trans.serve.model.vo.Dict;
 import com.wybase.trans.serve.model.vo.EnumListVo;
 import com.wybase.trans.serve.service.IEnumListService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -116,13 +120,19 @@ public class EnumListController {
         return Result.ok();
     }
 
-    @MethodName(value = "批量导入枚举值", transType = TransConsts.TRANS_TYPE_0)
+    @MethodName(value = "批量导入枚举值", transType = TransConsts.TRANS_TYPE_0, save = false)
     @Operation(summary = "批量导入枚举值")
     @PostMapping("/enumBatchImp")
     public Result enumBatchImp(@RequestPart("file") MultipartFile file) {
         logger.debug("EnumListController.enumBatchImp begin >>>>>>>>>>>>>>>>>>>");
         logger.debug("file:{}", file);
-
+        try {
+            DefaultExcelListener listener = new DefaultExcelListener();
+            EasyExcel.read(file.getInputStream(), Dict.class, listener).sheet().doRead();
+            List<Dict> list = listener.getList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         logger.debug("EnumListController.enumBatchImp end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
     }

@@ -44,26 +44,25 @@ public class SysLogAspect {
         logger.debug("SysLogAspect.around begin >>>>>>>>>>>>>>>>>>>");
         // 执行任务
         Object result = point.proceed();
-
-        // 记录日志
-        SysLog sysLog = new SysLog();
-        logInfoInit(methodName, sysLog);
-        String reqJson = JSONObject.toJSONString(point.getArgs());
-        // 请求类路径
-        String methodClas = point.getTarget().getClass().getName();
-        // 请求方法
-        String method = point.getSignature().getName();
-        // 获取返回信息
-        String resultparams = JSONObject.toJSONString(result);
-
-        sysLog.setClassPath(methodClas);
-        sysLog.setMethod(method);
-        sysLog.setParams(reqJson);
-        sysLog.setResultparams(resultparams);
-        sysLog.setTransStatus(TransConsts.TRANS_STATUS_1);
-        logger.info("sysLogSucc:{}", sysLog);
-        // 记录日志标志为true时，进行日志记录
         if (methodName.save()) {
+            // 记录日志
+            SysLog sysLog = new SysLog();
+            logInfoInit(methodName, sysLog);
+            String reqJson = JSONObject.toJSONString(point.getArgs());
+            // 请求类路径
+            String methodClas = point.getTarget().getClass().getName();
+            // 请求方法
+            String method = point.getSignature().getName();
+            // 获取返回信息
+            String resultparams = JSONObject.toJSONString(result);
+
+            sysLog.setClassPath(methodClas);
+            sysLog.setMethod(method);
+            sysLog.setParams(reqJson);
+            sysLog.setResultparams(resultparams);
+            sysLog.setTransStatus(TransConsts.TRANS_STATUS_1);
+            logger.info("sysLogSucc:{}", sysLog);
+            // 记录日志标志为true时，进行日志记录
             threadPoolTaskExecutor.execute(() -> sysLogService.save(sysLog));
         }
         logger.debug("SysLogAspect.around end:<<<<<<<<<<<<<<<<<");
