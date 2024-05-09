@@ -28,6 +28,13 @@ export default {
       method: 'post',
       data: enumInfo
     })
+  },
+  enumDel(enumInfo) {
+    return request({
+      url: `/online/enumlist/enumDel`,
+      method: 'post',
+      data: enumInfo
+    })
   }
 
 }

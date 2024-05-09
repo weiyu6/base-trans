@@ -94,6 +94,28 @@ public class EnumListController {
         return Result.ok();
     }
 
+    @MethodName(value = "修改枚举值", transType = TransConsts.TRANS_TYPE_0)
+    @Operation(summary = "修改枚举值")
+    @PostMapping("/enumMdf")
+    public Result enumMdf(@RequestBody EnumListVo vo) {
+        logger.debug("EnumListController.enumMdf begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("vo:{}", vo);
+        enumListService.enumMdf(vo);
+        logger.debug("EnumListController.enumMdf end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
+    @MethodName(value = "删除枚举值", transType = TransConsts.TRANS_TYPE_0)
+    @Operation(summary = "删除枚举值")
+    @PostMapping("/enumDel")
+    public Result enumDel(@RequestBody EnumListVo vo) {
+        logger.debug("EnumListController.enumDel begin >>>>>>>>>>>>>>>>>>>");
+        logger.debug("vo:{}", vo);
+        enumListService.enumDel(vo);
+        logger.debug("EnumListController.enumDel end:<<<<<<<<<<<<<<<<<");
+        return Result.ok();
+    }
+
     @MethodName(value = "批量导入枚举值", transType = TransConsts.TRANS_TYPE_0)
     @Operation(summary = "批量导入枚举值")
     @PostMapping("/enumBatchImp")

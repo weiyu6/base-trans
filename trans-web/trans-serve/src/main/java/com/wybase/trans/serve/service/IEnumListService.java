@@ -28,4 +28,8 @@ public interface IEnumListService extends IService<EnumList> {
      * @param vo
      */
     void enumAdd(EnumListVo vo);
+
+    void enumMdf(EnumListVo vo);
+
+    void enumDel(EnumListVo vo);
 }

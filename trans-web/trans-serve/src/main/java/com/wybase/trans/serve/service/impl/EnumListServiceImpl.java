@@ -19,10 +19,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 枚举列表 服务层实现。
+ *
  * @author weiyu
  * @since 2023-08-05
  */
@@ -45,6 +48,7 @@ public class EnumListServiceImpl extends ServiceImpl<EnumListMapper, EnumList> i
 
     /**
      * 获取枚举值列表
+     *
      * @param vo
      * @return
      */
@@ -70,6 +74,7 @@ public class EnumListServiceImpl extends ServiceImpl<EnumListMapper, EnumList> i
 
     /**
      * 新增枚举值
+     *
      * @param vo
      */
     @Override
@@ -77,18 +82,23 @@ public class EnumListServiceImpl extends ServiceImpl<EnumListMapper, EnumList> i
         String enumId = vo.getEnumId();
         int seq = vo.getSeq();
         if (StringUtils.isBlank(enumId)) {
-            throw new RuntimeException("枚举ID不能为空");
+            logger.error("枚举ID不能为空");
+            throw new TransException(ResultCodeEnum.NULL_ERROR, "枚举ID不能为空");
         }
         QueryWrapper queryWrapper = QueryWrapper.create()
                 .where(EnumListTableDef.ENUM_LIST.ENUM_ID.eq(enumId))
                 .and(EnumListTableDef.ENUM_LIST.SEQ.eq(seq));
         EnumList enumInfo = getOne(queryWrapper);
+        logger.info("根据enumID,seq查询到枚举信息，enumInfo:{}", enumInfo);
         if (ObjectUtil.isNotEmpty(enumInfo)) {
             if (StringUtils.equals(TransConsts.RECD_STAT_0, enumInfo.getRecdStat())) {
                 logger.error("枚举值已存在");
                 throw new TransException(ResultCodeEnum.ENUM_ALREADY_EXIST);
             }
+            BigInteger id = enumInfo.getId();
             BeanUtils.copyProperties(vo, enumInfo);
+            enumInfo.setId(id);
+            enumInfo.setRecdStat(TransConsts.RECD_STAT_0);
             updateById(enumInfo, true);
         } else {
             enumInfo = new EnumList();
@@ -96,5 +106,55 @@ public class EnumListServiceImpl extends ServiceImpl<EnumListMapper, EnumList> i
             enumInfo.setRecdStat(TransConsts.RECD_STAT_0);
             save(enumInfo);
         }
+    }
+
+    /**
+     * 修改枚举值
+     *
+     * @param vo
+     */
+    @Override
+    public void enumMdf(EnumListVo vo) {
+        BigInteger id = vo.getId();
+        String enumId = vo.getEnumId();
+        int seq = vo.getSeq();
+        if (StringUtils.isBlank(enumId)) {
+            logger.error("枚举ID不能为空");
+            throw new TransException(ResultCodeEnum.NULL_ERROR, "枚举ID不能为空");
+        }
+        QueryWrapper queryWrapper = QueryWrapper.create()
+                .where(EnumListTableDef.ENUM_LIST.ENUM_ID.eq(enumId))
+                .and(EnumListTableDef.ENUM_LIST.SEQ.eq(seq));
+        EnumList enumInfo = getOne(queryWrapper);
+        if (ObjectUtil.isNotEmpty(enumInfo)) {
+            if (StringUtils.equals(TransConsts.RECD_STAT_0, enumInfo.getRecdStat())) {
+                if (!Objects.equals(enumInfo.getId(), id)) {
+                    logger.error("枚举值已存在");
+                    throw new TransException(ResultCodeEnum.ENUM_ALREADY_EXIST);
+                }
+            } else {
+                removeById(enumInfo);
+            }
+
+        }
+        enumInfo = new EnumList();
+        BeanUtils.copyProperties(vo, enumInfo);
+        updateById(enumInfo, true);
+    }
+
+    @Override
+    public void enumDel(EnumListVo vo) {
+        BigInteger id = vo.getId();
+        if (ObjectUtil.isEmpty(id)) {
+            logger.error("ID不能为空");
+            throw new TransException(ResultCodeEnum.NULL_ERROR, "ID不能为空");
+        }
+        EnumList enumInfo = getById(id);
+        if (ObjectUtil.isEmpty(enumInfo)) {
+            logger.error("字典不存在，id：{}", id);
+            throw new TransException(ResultCodeEnum.ENUM_NOT_EXIST);
+        }
+        enumInfo.setRecdStat(TransConsts.RECD_STAT_1);
+        updateById(enumInfo, true);
     }
 }

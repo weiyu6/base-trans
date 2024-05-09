@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
 @ToString
 public class EnumListVo {
 
+    private BigInteger id;
     /**
      * 枚举名称
      */
