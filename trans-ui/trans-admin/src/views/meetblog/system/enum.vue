@@ -4,27 +4,27 @@
     <div>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-input v-model="searobj.remark" clearable placeholder="字典名称"/>
+          <el-input v-model="searobj.remark" clearable placeholder="字典名称" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="searobj.enumId" clearable placeholder="字典类型"/>
+          <el-input v-model="searobj.enumId" clearable placeholder="字典类型" />
         </el-form-item>
-        <el-button v-permission="'/role/list'" type="primary" icon="el-icon-search" @click="enumList()">查询</el-button>
+        <el-button v-permission="'/role/list'" type="primary" icon="el-icon-search" :loading="loading" @click="enumList()">查询</el-button>
         <el-button v-permission="'/role/add'" type="primary" icon="el-icon-document-add" @click="enumAdd">新增
         </el-button>
-        <el-button v-permission="'/role/add'" type="primary" icon="el-icon-document-add" @click="batchImp">批量导入
+        <el-button v-permission="'/role/add'" type="primary" icon="el-icon-upload" @click="batchImp">批量导入
         </el-button>
       </el-form>
     </div>
     <!--数据显示-->
     <div>
-      <el-table :data="enumListInfo" style="width: 100%">
-        <el-table-column fixed type="index" align="center" width="50" label="序号"/>
-        <el-table-column prop="remark" align="center" label="字典名称" width="180"/>
-        <el-table-column prop="enumId" align="center" label="字典类型" width="180"/>
-        <el-table-column prop="seq" align="center" label="排序" width="80"/>
-        <el-table-column prop="keyNm" align="center" label="字典键" width="120"/>
-        <el-table-column prop="keyId" align="center" label="字典值" width="80"/>
+      <el-table v-loading="loading" :data="enumListInfo" style="width: 100%">
+        <el-table-column fixed type="index" align="center" width="50" label="序号" />
+        <el-table-column prop="remark" align="center" label="字典名称" width="180" />
+        <el-table-column prop="enumId" align="center" label="字典类型" width="180" />
+        <el-table-column prop="seq" align="center" label="排序" width="80" />
+        <el-table-column prop="keyNm" align="center" label="字典键" width="120" />
+        <el-table-column prop="keyId" align="center" label="字典值" width="80" />
         <el-table-column prop="enumStat" align="center" label="字典状态" width="80">
           <template v-slot="scope">
             <el-switch
@@ -37,15 +37,15 @@
             />
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" align="center" label="创建时间" width="180"/>
-        <el-table-column prop="updateTime" align="center" label="修改时间" width="180"/>
+        <el-table-column prop="createTime" align="center" label="创建时间" width="180" />
+        <el-table-column prop="updateTime" align="center" label="修改时间" width="180" />
         <el-table-column fixed="right" align="left" label="操作" width="120">
           <template v-slot="scope">
             <el-tooltip v-permission="'/tag/mdf'" class="item" effect="light" content="修改" placement="top">
-              <el-button type="primary" icon="el-icon-edit" size="mini" @click="enumMdf(scope.row)"/>
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="enumMdf(scope.row)" />
             </el-tooltip>
             <el-tooltip v-permission="'/tag/del'" class="item" effect="light" content="删除" placement="top">
-              <el-button type="danger" icon="el-icon-delete" size="mini" @click="enumDel(scope.row.id)"/>
+              <el-button type="danger" icon="el-icon-delete" size="mini" @click="enumDel(scope.row.id)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -64,10 +64,11 @@
           class="upload-demo"
           drag
           action="https://jsonplaceholder.typicode.com/posts/"
-          multiple>
-          <i class="el-icon-upload"></i>
+          multiple
+        >
+          <i class="el-icon-upload" />
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-          <div class="el-upload__tip" slot="tip">只能上传xls/xlsx文件</div>
+          <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
         </el-upload>
       </el-dialog>
     </div>
@@ -81,13 +82,12 @@
       >
         <el-form>
           <el-form-item label="字典名称：" label-width="120px">
-            <el-input v-model="enumInfo.remark" style="width: 80%"/>
+            <el-input v-model="enumInfo.remark" style="width: 80%" />
           </el-form-item>
           <el-form-item label="字典类型：" label-width="120px">
-            <el-input v-model="enumInfo.enumId" style="width: 80%"/>
+            <el-input v-model="enumInfo.enumId" style="width: 80%" />
           </el-form-item>
           <el-form-item label="排序：" label-width="120px">
-            <!--            :max="10"-->
             <el-input-number
               v-model="enumInfo.seq"
               controls-position="right"
@@ -96,10 +96,10 @@
             />
           </el-form-item>
           <el-form-item label="字典键：" label-width="120px">
-            <el-input v-model="enumInfo.keyNm" style="width: 80%"/>
+            <el-input v-model="enumInfo.keyNm" style="width: 80%" />
           </el-form-item>
           <el-form-item label="字典值：" label-width="120px">
-            <el-input v-model="enumInfo.keyId" style="width: 80%"/>
+            <el-input v-model="enumInfo.keyId" style="width: 80%" />
           </el-form-item>
           <el-form-item label="字典状态：" label-width="120px">
             <el-switch
@@ -122,11 +122,13 @@
       <el-pagination
         :current-page="current"
         :page-size="limit"
+        :page-sizes="[10, 20, 30, 50]"
         :total="total"
         style="padding: 30px;
         text-align: left"
-        layout="total,prev,pager,next,jumper"
+        layout="total,sizes,prev,pager,next,jumper"
         @current-change="enumList"
+        @size-change="handleSizeChange"
       />
     </div>
   </div>
@@ -144,7 +146,7 @@ export default {
       limit: 10, // 每页记录数
       total: 0, // 总页数
       enumListInfo: [],
-
+      loading: false,
       title: '', // 弹窗标题
       dialogVisible: false, // 弹窗开关标志
       fileTitle: '',
@@ -163,12 +165,18 @@ export default {
   methods: {
     // eslint-disable-next-line vue/no-dupe-keys
     enumList(page = 1) {
+      this.loading = true
       this.searobj.pageNum = page
       this.searobj.pageSize = this.limit
       enumjs.enumList(this.searobj).then(res => {
         this.enumListInfo = res.data.records
         this.total = res.data.totalRow
+        this.loading = false
       })
+    },
+    handleSizeChange(val) {
+      this.limit = val
+      this.enumList()
     },
     /* 打开弹窗添加角色*/
     enumAdd() {
@@ -186,7 +194,7 @@ export default {
     closeDialog() {
       this.operFlg = ''
       this.dialogVisible = false
-      this.enumInfo = {seq: 0}
+      this.enumInfo = { seq: 0 }
     },
     closeFileDialog() {
       this.fileuploadDialog = false
@@ -194,7 +202,7 @@ export default {
     /* 新增或者修改*/
     saveOrUpdate() {
       if (this.operFlg === '1') {
-        enumjs.enumMdf(this.enumInfo).then(res => {
+        enumjs.enumMdf(this.enumInfo).then(() => {
           this.$message({
             type: 'success',
             message: '修改成功!'
@@ -203,7 +211,7 @@ export default {
           this.closeDialog()
         })
       } else if (this.operFlg === '2') {
-        enumjs.enumAdd(this.enumInfo).then(res => {
+        enumjs.enumAdd(this.enumInfo).then(() => {
           this.$message({
             type: 'success',
             message: '新增成功!'
@@ -229,9 +237,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        var obj = {}
+        const obj = {}
         obj.id = id
-        enumjs.enumDel(obj).then(res => {
+        enumjs.enumDel(obj).then(() => {
           // 提示
           this.$message({
             type: 'success',
