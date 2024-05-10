@@ -1,12 +1,12 @@
 package com.wybase.trans.serve.controller;
 
-import com.alibaba.excel.EasyExcel;
 import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.TransConsts;
-import com.wybase.trans.common.excel.DefaultExcelListener;
+import com.wybase.trans.common.excel.ExcelResult;
+import com.wybase.trans.common.util.ExcelUtil;
 import com.wybase.trans.serve.model.dto.EnumOutput;
 import com.wybase.trans.serve.model.entity.generate.EnumList;
 import com.wybase.trans.serve.model.vo.Dict;
@@ -18,11 +18,7 @@ import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -127,9 +123,9 @@ public class EnumListController {
         logger.debug("EnumListController.enumBatchImp begin >>>>>>>>>>>>>>>>>>>");
         logger.debug("file:{}", file);
         try {
-            DefaultExcelListener listener = new DefaultExcelListener();
-            EasyExcel.read(file.getInputStream(), Dict.class, listener).sheet().doRead();
-            List<Dict> list = listener.getList();
+            ExcelResult<Dict> excelResult = ExcelUtil.importExcel(file.getInputStream(), Dict.class);
+            System.out.println(excelResult.getList());
+            System.out.println(excelResult.getErrorList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

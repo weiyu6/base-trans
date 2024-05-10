@@ -3,6 +3,8 @@ package com.wybase.trans.serve.model.vo;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
+import java.math.BigInteger;
+
 /**
  * @author weiyu
  * @date 2024/5/9
@@ -16,4 +18,6 @@ public class Dict {
     private String enumId;
     @ExcelProperty(value = "字典键")
     private String keyNm;
+    @ExcelProperty(value = "ID")
+    private BigInteger id;
 }

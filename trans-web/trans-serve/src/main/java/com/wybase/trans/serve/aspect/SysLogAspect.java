@@ -25,6 +25,7 @@ import java.util.Arrays;
 
 /**
  * 自定义日志
+ *
  * @author weiyu
  * @date 2023/10/15
  */
@@ -71,30 +72,32 @@ public class SysLogAspect {
 
     /**
      * 错误日志
+     *
      * @param point
      * @param methodName
      * @param e
      */
     @AfterThrowing(value = "@annotation(methodName)", throwing = "e")
     public void AfterThrowing(JoinPoint point, MethodName methodName, Throwable e) {
-        // 记录日志
-        SysLog sysLog = new SysLog();
-        logInfoInit(methodName, sysLog);
-        String reqJson = JSONObject.toJSONString(point.getArgs());
-        // 请求类路径
-        String methodClas = point.getTarget().getClass().getName();
-        // 请求方法
-        String method = point.getSignature().getName();
-
-        String errormsg = e.toString() + " " + Arrays.toString(e.getStackTrace());
-        sysLog.setClassPath(methodClas);
-        sysLog.setMethod(method);
-        sysLog.setParams(reqJson);
-        sysLog.setErrormsg(errormsg);
-        sysLog.setTransStatus(TransConsts.TRANS_STATUS_0);
-        logger.info("sysLogFail:{}", sysLog);
-        // 记录日志标志为true时，进行日志记录
         if (methodName.save()) {
+            // 记录日志
+            SysLog sysLog = new SysLog();
+            logInfoInit(methodName, sysLog);
+            String reqJson = JSONObject.toJSONString(point.getArgs());
+            // 请求类路径
+            String methodClas = point.getTarget().getClass().getName();
+            // 请求方法
+            String method = point.getSignature().getName();
+
+            String errormsg = e.toString() + " " + Arrays.toString(e.getStackTrace());
+            sysLog.setClassPath(methodClas);
+            sysLog.setMethod(method);
+            sysLog.setParams(reqJson);
+            sysLog.setErrormsg(errormsg);
+            sysLog.setTransStatus(TransConsts.TRANS_STATUS_0);
+            logger.info("sysLogFail:{}", sysLog);
+            // 记录日志标志为true时，进行日志记录
+
             threadPoolTaskExecutor.execute(() -> sysLogService.save(sysLog));
         }
 
@@ -102,6 +105,7 @@ public class SysLogAspect {
 
     /**
      * 日志信息初始化
+     *
      * @param methodName
      * @param sysLog
      */
