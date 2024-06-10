@@ -92,7 +92,7 @@ public class TransContext implements ApplicationContextAware {
         } else if (object instanceof Integer) {
             return (Integer) object;
         } else if (object instanceof String) {
-            return ((String) object).isEmpty() ? null : new Integer((String) object);
+            return ((String) object).isEmpty() ? null : Integer.parseInt((String) object);
         } else if (object instanceof Number) {
             return ((Number) object).intValue();
         } else {
@@ -110,7 +110,7 @@ public class TransContext implements ApplicationContextAware {
         } else if (object instanceof Long) {
             return (Long) object;
         } else if (object instanceof String) {
-            return ((String) object).isEmpty() ? null : new Long((String) object);
+            return ((String) object).isEmpty() ? null : Long.parseLong((String) object);
         } else if (object instanceof Number) {
             return ((Number) object).longValue();
         } else {

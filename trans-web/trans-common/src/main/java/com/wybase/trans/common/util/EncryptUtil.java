@@ -1,6 +1,8 @@
 package com.wybase.trans.common.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -14,12 +16,12 @@ import java.security.SecureRandom;
  * @date 2023/8/5
  */
 public class EncryptUtil {
+    private static final Logger logger = LoggerFactory.getLogger(EncryptUtil.class);
     private static final String defaultCharset = "UTF-8";
     private static final String KEY_AES = "AES";
 
     /**
      * 加密
-     *
      * @param data 需要加密的内容
      * @param secretKey 秘钥
      * @return
@@ -30,7 +32,6 @@ public class EncryptUtil {
 
     /**
      * 解密
-     *
      * @param data 待解密内容
      * @param secretKey 秘钥
      * @return
@@ -41,7 +42,6 @@ public class EncryptUtil {
 
     /**
      * 加解密
-     *
      * @param data 待处理数据
      * @param mode 加解密mode
      * @return
@@ -51,51 +51,50 @@ public class EncryptUtil {
             if (StringUtils.isBlank(data) || StringUtils.isBlank(key)) {
                 return null;
             }
-            //判断是加密还是解密
+            // 判断是加密还是解密
             boolean encrypt = mode == Cipher.ENCRYPT_MODE;
             byte[] content;
-            //true 加密内容 false 解密内容
+            // true 加密内容 false 解密内容
             if (encrypt) {
                 content = data.getBytes(defaultCharset);
             } else {
                 content = parseHexStr2Byte(data);
             }
 
-            //1.构造密钥生成器，指定为AES算法,不区分大小写
+            // 1.构造密钥生成器，指定为AES算法,不区分大小写
             KeyGenerator keyGenerator = KeyGenerator.getInstance(KEY_AES);
-            //2.根据ecnodeRules规则初始化密钥生成器
-            //生成一个128位的随机源,根据传入的字节数组
+            // 2.根据ecnodeRules规则初始化密钥生成器
+            // 生成一个128位的随机源,根据传入的字节数组
             SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
             secureRandom.setSeed(key.getBytes());
             keyGenerator.init(128, secureRandom);
-            //3.产生原始对称密钥
+            // 3.产生原始对称密钥
             SecretKey secretKey = keyGenerator.generateKey();
-            //4.获得原始对称密钥的字节数组
+            // 4.获得原始对称密钥的字节数组
             byte[] enCodeFormat = secretKey.getEncoded();
-            //5.根据字节数组生成AES密钥
+            // 5.根据字节数组生成AES密钥
             SecretKeySpec keySpec = new SecretKeySpec(enCodeFormat, KEY_AES);
-            //6.根据指定算法AES自成密码器
+            // 6.根据指定算法AES自成密码器
             // 创建密码器
             Cipher cipher = Cipher.getInstance(KEY_AES);
-            //7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密解密(Decrypt_mode)操作，第二个参数为使用的KEY
+            // 7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密解密(Decrypt_mode)操作，第二个参数为使用的KEY
             // 初始化
             cipher.init(mode, keySpec);
             byte[] result = cipher.doFinal(content);
             if (encrypt) {
-                //将二进制转换成16进制
+                // 将二进制转换成16进制
                 return parseByte2HexStr(result);
             } else {
                 return new String(result, defaultCharset);
             }
         } catch (Exception e) {
-
+            logger.error("数据加密处理失败！！！");
         }
         return null;
     }
 
     /**
      * 将二进制转换成16进制
-     *
      * @param buf
      * @return
      */
@@ -110,9 +109,9 @@ public class EncryptUtil {
         }
         return sb.toString();
     }
+
     /**
      * 将16进制转换为二进制
-     *
      * @param hexStr
      * @return
      */
@@ -130,7 +129,7 @@ public class EncryptUtil {
     }
 
     public static void main(String[] args) {
-        String secret = "MEET_BLOG_SECRET_KEY_"+"u252015231142727680";
+        String secret = "MEET_BLOG_SECRET_KEY_" + "u252015231142727680";
         String encrypt = encrypt("123456", secret);
         System.out.println(encrypt);
         System.out.println(decrypt(encrypt, secret));
