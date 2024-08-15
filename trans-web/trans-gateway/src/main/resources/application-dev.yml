@@ -17,7 +17,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://124.223.89.90:3306/trans?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
       username: root
-      password: root
+      password: meetblog-wy
   cloud:
     gateway:
       discovery:

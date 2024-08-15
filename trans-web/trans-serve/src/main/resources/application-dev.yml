@@ -10,7 +10,7 @@ logging:
     root: info
     com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty: warn
     com.alibaba.nacos.client.naming: warn
-publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIPGePY8JoOdvU/iCsKpZwbVwOQnTiQwtmfew8xyLxXRrq/unldOLZJbQAqgxK0UojoBSb4XTOQl8EVd2MRhbckCAwEAAQ==
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJShk4j9L0Floe+oBOSpoz6/eo3uK6c2ZcaP2ejgNuLvGKqCU0HFrRmo2eIvFjb2P9LAmvuMdCZqNG3ek0uDtk8CAwEAAQ==
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -19,7 +19,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://124.223.89.90:3306/trans?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
       username: root
-      password: fbPACn4+c4di04TbY5cwpMc4BgLvp19JBZvol1zHtH223pBJDd32GYWXuXd1kszMX6jXCZR6Ks8rVXwjNlv0gA==
+      password: RzBAlK75SYr5B0nM2W5wd+3ZrQxBylNNt2u5gRBWOGtexoyge4q7aEzFOLMgFGTpR9qpUMViwaH6bkPUwOzA8g==
       # 启用内置过滤器 stat
       filters: stat
       filter:
