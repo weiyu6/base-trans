@@ -45,26 +45,30 @@ public class SysLogAspect {
         logger.debug("SysLogAspect.around begin >>>>>>>>>>>>>>>>>>>");
         // 执行任务
         Object result = point.proceed();
-        if (methodName.save()) {
-            // 记录日志
-            SysLog sysLog = new SysLog();
-            logInfoInit(methodName, sysLog);
-            String reqJson = JSONObject.toJSONString(point.getArgs());
-            // 请求类路径
-            String methodClas = point.getTarget().getClass().getName();
-            // 请求方法
-            String method = point.getSignature().getName();
-            // 获取返回信息
-            String resultparams = JSONObject.toJSONString(result);
+        try {
+            if (methodName.save()) {
+                // 记录日志
+                SysLog sysLog = new SysLog();
+                logInfoInit(methodName, sysLog);
+                String reqJson = JSONObject.toJSONString(point.getArgs());
+                // 请求类路径
+                String methodClas = point.getTarget().getClass().getName();
+                // 请求方法
+                String method = point.getSignature().getName();
+                // 获取返回信息
+                String resultparams = JSONObject.toJSONString(result);
 
-            sysLog.setClassPath(methodClas);
-            sysLog.setMethod(method);
-            sysLog.setParams(reqJson);
-            sysLog.setResultparams(resultparams);
-            sysLog.setTransStatus(TransConsts.TRANS_STATUS_1);
-            logger.info("sysLogSucc:{}", sysLog);
-            // 记录日志标志为true时，进行日志记录
-            threadPoolTaskExecutor.execute(() -> sysLogService.save(sysLog));
+                sysLog.setClassPath(methodClas);
+                sysLog.setMethod(method);
+                sysLog.setParams(reqJson);
+                sysLog.setResultparams(resultparams);
+                sysLog.setTransStatus(TransConsts.TRANS_STATUS_1);
+                logger.info("sysLogSucc:{}", sysLog);
+                // 记录日志标志为true时，进行日志记录
+                threadPoolTaskExecutor.execute(() -> sysLogService.save(sysLog));
+            }
+        } catch (Exception e) {
+            logger.info("解析失败：", e);
         }
         logger.debug("SysLogAspect.around end:<<<<<<<<<<<<<<<<<");
         return result;
@@ -72,13 +76,9 @@ public class SysLogAspect {
 
     /**
      * 错误日志
-     *
-     * @param point
-     * @param methodName
-     * @param e
      */
     @AfterThrowing(value = "@annotation(methodName)", throwing = "e")
-    public void AfterThrowing(JoinPoint point, MethodName methodName, Throwable e) {
+    public void afterThrowing(JoinPoint point, MethodName methodName, Throwable e) {
         if (methodName.save()) {
             // 记录日志
             SysLog sysLog = new SysLog();
@@ -105,21 +105,25 @@ public class SysLogAspect {
 
     /**
      * 日志信息初始化
-     *
-     * @param methodName
-     * @param sysLog
      */
     private void logInfoInit(MethodName methodName, SysLog sysLog) {
         logger.debug("SysLogAspect.saveLog begin >>>>>>>>>>>>>>>>>>>");
         String userId = TransContext.getString(TransHeardConsts.TOKEN_USER_ID);
         String userName = TransContext.getString(TransHeardConsts.TOKEN_USER_NAME);
-        String chnl = TransContext.getString(TransHeardConsts.CHNL);// 请求渠道
-        String ipAddr = TransContext.getString(TransHeardConsts.IP_ADDR);// IP地址
-        String url = TransContext.getString(TransHeardConsts.URL);// 请求url
-        String type = TransContext.getString(TransHeardConsts.TYPE);// 请求方式
-        String os = TransContext.getString(TransHeardConsts.OS);// 操作系统
-        String browser = TransContext.getString(TransHeardConsts.BROWSER);// 浏览器
-        String transRecdNum = TransContext.getString(TransHeardConsts.TRANS_RECD_NUM);// 交易流水号
+        // 请求渠道
+        String chnl = TransContext.getString(TransHeardConsts.CHNL);
+        // IP地址
+        String ipAddr = TransContext.getString(TransHeardConsts.IP_ADDR);
+        // 请求url
+        String url = TransContext.getString(TransHeardConsts.URL);
+        // 请求方式
+        String type = TransContext.getString(TransHeardConsts.TYPE);
+        // 操作系统
+        String os = TransContext.getString(TransHeardConsts.OS);
+        // 浏览器
+        String browser = TransContext.getString(TransHeardConsts.BROWSER);
+        // 交易流水号
+        String transRecdNum = TransContext.getString(TransHeardConsts.TRANS_RECD_NUM);
 
         // 请求方法中文描述
         String methodNm = methodName.value();
@@ -136,7 +140,8 @@ public class SysLogAspect {
         sysLog.setIp(ipAddr);
         sysLog.setUrl(url);
         sysLog.setIpSrc("");
-        sysLog.setTransType(methodName.transType());// 交易类型
+        // 交易类型
+        sysLog.setTransType(methodName.transType());
         sysLog.setReqType(type);
         sysLog.setMethodNm(methodNm);
         sysLog.setModuleId("");

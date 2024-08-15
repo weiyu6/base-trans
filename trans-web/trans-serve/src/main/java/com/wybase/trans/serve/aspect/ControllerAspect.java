@@ -11,6 +11,8 @@ import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.model.entity.generate.TransRecord;
 import com.wybase.trans.serve.service.ITransRecordService;
 import com.wybase.trans.serve.util.IPUtils;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -19,14 +21,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -41,10 +41,10 @@ import java.util.Map;
 @Order(0) // 通过@Order注解设置切面的运行优先级，数值越小越先执行
 public class ControllerAspect {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
-    @Autowired
+    @Resource
     private ITransRecordService transRecordService;
 
-    @Autowired
+    @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     /**
@@ -59,9 +59,12 @@ public class ControllerAspect {
             String method = signature.getName();
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
-            String ipAddr = IPUtils.getIpAddr(request) == null ? "" : IPUtils.getIpAddr(request);// 请求ip地址
-            String url = request.getRequestURI() == null ? "" : request.getRequestURI();// 请求url地址
-            String type = request.getMethod() == null ? "" : request.getMethod();// 请求方式
+            // 请求ip地址
+            String ipAddr = IPUtils.getIpAddr(request) == null ? "" : IPUtils.getIpAddr(request);
+            // 请求url地址
+            String url = request.getRequestURI() == null ? "" : request.getRequestURI();
+            // 请求方式
+            String type = request.getMethod() == null ? "" : request.getMethod();
             Map<String, String> map = IPUtils.getOsAndBrowserInfo(request);
             // 操作系统
             String os = map.get("OS") == null ? "" : map.get("OS");
@@ -111,23 +114,27 @@ public class ControllerAspect {
      */
     @AfterReturning(TransConsts.AOP_POINTCUT_EXPRESSION)
     public void afterReturning() {
-        logger.info("ControllerAspect.afterReturning");
-        // 获取当前时间设为此交易结束时间
-        LocalDateTime endDateTime = LocalDateTime.now();
-        LocalDateTime startDateTime = (LocalDateTime) TransContext.getField(TransHeardConsts.START_DATE_TIME);
-        Duration between = LocalDateTimeUtil.between(startDateTime, endDateTime);
-        Long consumTime = between.toMillis();
-        logger.info("交易开始时间:{}，交易结束时间:{}，交易耗时:{}", startDateTime, endDateTime, consumTime);
-        TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
-        if (ObjectUtil.isNotEmpty(transRecord)) {
-            transRecord.setConsumTime(consumTime.intValue());
-            transRecord.setErrorCode(ResultCodeEnum.SUCCESS.getCode());
-            transRecord.setErrorMsg(ResultCodeEnum.SUCCESS.getMsg());
-            transRecord.setTransStatus(TransConsts.TRANS_STATUS_1);
-            threadPoolTaskExecutor.execute(() -> {
-                logger.info("异步更新交易流水状态");
-                transRecordService.updateById(transRecord, true);
-            });
+        try {
+            logger.info("ControllerAspect.afterReturning");
+            // 获取当前时间设为此交易结束时间
+            LocalDateTime endDateTime = LocalDateTime.now();
+            LocalDateTime startDateTime = (LocalDateTime) TransContext.getField(TransHeardConsts.START_DATE_TIME);
+            Duration between = LocalDateTimeUtil.between(startDateTime, endDateTime);
+            Long consumTime = between.toMillis();
+            logger.info("交易开始时间:{}，交易结束时间:{}，交易耗时:{}", startDateTime, endDateTime, consumTime);
+            TransRecord transRecord = (TransRecord) TransContext.getField(TransHeardConsts.TRANS_RECORD);
+            if (ObjectUtil.isNotEmpty(transRecord)) {
+                transRecord.setConsumTime(consumTime.intValue());
+                transRecord.setErrorCode(ResultCodeEnum.SUCCESS.getCode());
+                transRecord.setErrorMsg(ResultCodeEnum.SUCCESS.getMsg());
+                transRecord.setTransStatus(TransConsts.TRANS_STATUS_1);
+                threadPoolTaskExecutor.execute(() -> {
+                    logger.info("异步更新交易流水状态");
+                    transRecordService.updateById(transRecord, true);
+                });
+            }
+        } catch (Exception e) {
+            logger.info("解析失败：", e);
         }
         TransContext.init();
     }
