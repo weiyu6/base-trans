@@ -75,6 +75,12 @@ public enum ResultCodeEnum {
      */
     ROUTE_ID_MDF("300003", "不允许修改路由ID"),
 
+    // 4xx quartz定时任务相关信息
+    /**
+     * 400001-无相关路由参数
+     */
+    QUZRTZ_CREATE_ERROR("400001", "定时任务创建失败"),
+
     ;
 
     // 响应码
