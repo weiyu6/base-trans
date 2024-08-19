@@ -44,9 +44,9 @@ public class JobExecutionUtils {
             // 通过上下文获取任务对应的bean
             Object bean = TransApplicationContext.getBean(cronJobConfig.getBeanTarget());
             // 获取bean对应的方法
-            Method method = bean.getClass().getMethod(cronJobConfig.getBeanMethodTarget());
+            Method method = bean.getClass().getMethod(cronJobConfig.getBeanMethodTarget(), CronJobConfig.class);
             // 调用方法
-            method.invoke(bean);
+            method.invoke(bean, cronJobConfig);
         } catch (Exception e) {
             // 捕获异常，记录并抛出
             logger.error("定时任务信息映射失败！", e);
