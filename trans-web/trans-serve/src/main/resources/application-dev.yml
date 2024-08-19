@@ -57,7 +57,7 @@ spring:
     #配置的job是否覆盖已经存在的JOB信息
     overwrite-existing-jobs: false
     jdbc:
-      initialize-schema: never #不初始化表结构
+      initialize-schema: always #不初始化表结构
     properties:
       org:
         quartz:

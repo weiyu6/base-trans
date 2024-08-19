@@ -164,25 +164,27 @@ CREATE TABLE QRTZ_LOCKS
     PRIMARY KEY (SCHED_NAME, LOCK_NAME)
 );
 
-create table if not exists b_cron_task_config
+create table if not exists b_cron_job_config
 (
-    task_id             varchar(32)  not null comment '任务id',
-    task_name           varchar(256) not null comment '任务名称',
-    bean_target         varchar(32)  not null comment '目标bean名称',
-    bean_method_target  varchar(32)  not null comment '目标bean中对应的方法',
-    task_stat           varchar(2)   not null default '0' comment '任务状态：0-开启，1-关闭',
+    job_id             varchar(32)  not null comment '任务id',
+    job_name           varchar(512) not null comment '任务名称',
+    bean_target         varchar(128) not null comment '目标bean名称',
+    bean_method_target  varchar(128) not null comment '目标bean中对应的方法',
+    job_stat           varchar(2)   not null default '0' comment '任务状态：0-开启，1-关闭',
+    concurrent          varchar(2)   not null default '0' comment '任务是否允许并发：0-允许，1-不允许',
+    misfire_policy      varchar(2)   not null default '1' comment '任务执行失败策略：1-放弃执行，2-执行一次，3-全部执行',
     cron_type           varchar(2)   not null default '0' comment '任务配置方式：0-simpl，1-cron表达式',
-    cron_expression     varchar(32)  null     default null comment 'cron表达式',
-    expression_count    varchar(32)  null     default null comment '执行次数',
-    expression_interval varchar(32)  null     default null comment '执行间隔时间（秒）',
-    task_type           varchar(2)   not null default '0' comment '任务类型',
-    task_rela_ids       text comment '任务关联的id集合',
+    cron_expression     varchar(32) comment 'cron表达式',
+    expression_count    int comment '执行次数',
+    expression_interval int comment '执行间隔时间（秒）',
+    job_type           varchar(2)   not null default '0' comment '任务类型',
+    job_rela_ids       text comment '任务关联的id集合',
     remark              varchar(512) comment '备注',
     create_user         varchar(32)  not null comment '创建人',
     update_user         varchar(32)  not null comment '更新人',
     create_time         datetime     not null default current_timestamp comment '创建时间',
     update_time         datetime     not null default current_timestamp on update current_timestamp(0) comment '更新时间',
     recd_stat           varchar(2)   not null default '0' comment '记录状态：0-正常，1-删除',
-    primary key (task_id) using btree
+    primary key (job_id) using btree
 ) engine = innodb
   default charset = utf8mb4 comment = '定时任务配置表';

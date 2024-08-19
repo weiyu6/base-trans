@@ -3,6 +3,7 @@ package com.wybase.trans.serve.config;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * TransApplicationContext 类实现了 BeanFactoryPostProcessor 接口，用于在 Spring 应用上下文中进行转换操作。
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * @author weiyu
  * @date 2024/8/19
  */
+@Component
 public class TransApplicationContext implements BeanFactoryPostProcessor {
     private static ConfigurableListableBeanFactory beanFactory;
 
