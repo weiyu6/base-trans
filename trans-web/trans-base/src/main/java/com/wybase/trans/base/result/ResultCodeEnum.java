@@ -58,7 +58,6 @@ public enum ResultCodeEnum {
      */
     ENUM_DEL("100709", "字典已被删除"),
 
-
     // 3xx 路由相关信息
     /**
      * 300001-无相关路由参数
@@ -77,11 +76,29 @@ public enum ResultCodeEnum {
 
     // 4xx quartz定时任务相关信息
     /**
-     * 400001-无相关路由参数
+     * 400001-创建定时任务失败
      */
-    QUZRTZ_CREATE_ERROR("400001", "定时任务创建失败"),
+    QUARTZ_CREATE_FAIL("400001", "创建定时任务失败"),
 
-    ;
+    /**
+     * 400002-更新定时任务失败
+     */
+    QUARTZ_UPDATE_FAIL("400002", "创建定时任务失败"),
+
+    /**
+     * 400003-删除定时任务失败
+     */
+    QUARTZ_DELETE_FAIL("400003", "删除定时任务失败"),
+
+    /**
+     * 400004-暂停定时任务失败
+     */
+    QUARTZ_PAUSE_FAIL("400004", "暂停定时任务失败"),
+
+    /**
+     * 400005-恢复定时任务失败
+     */
+    QUARTZ_RESUME_FAIL("400005", "恢复定时任务失败");
 
     // 响应码
     private String code;
