@@ -17,7 +17,7 @@ import java.util.List;
  * 定时任务配置表 实体类。
  *
  * @author weiyu
- * @since 2024-08-19
+ * @since 2024-08-20
  */
 @Data
 @Builder
@@ -83,6 +83,16 @@ public class CronJobConfig implements Serializable {
      * 执行间隔时间（秒）
      */
     private Integer expressionInterval;
+
+    /**
+     * 任务开始时间
+     */
+    private LocalDateTime startTime;
+
+    /**
+     * 任务结束时间
+     */
+    private LocalDateTime endTime;
 
     /**
      * 任务类型
