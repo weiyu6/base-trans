@@ -98,7 +98,13 @@ public enum ResultCodeEnum {
     /**
      * 400005-恢复定时任务失败
      */
-    QUARTZ_RESUME_FAIL("400005", "恢复定时任务失败");
+    QUARTZ_RESUME_FAIL("400005", "恢复定时任务失败"),
+
+    /**
+     * 400006-定时任务配置信息为空
+     */
+    JOB_CONFIG_NULL("400006", "定时任务配置信息为空")
+    ;
 
     // 响应码
     private String code;

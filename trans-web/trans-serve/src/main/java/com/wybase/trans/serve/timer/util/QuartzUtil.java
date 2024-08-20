@@ -1,5 +1,6 @@
 package com.wybase.trans.serve.timer.util;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
@@ -39,6 +40,10 @@ public class QuartzUtil {
      * @throws TransException 当创建任务失败时抛出业务异常
      */
     public static void createJob(Scheduler scheduler, CronJobConfig cronJobConfig) {
+        if (ObjectUtil.isEmpty(cronJobConfig)) {
+            logger.error("创建定时任务失败，任务配置为空");
+            throw new TransException(ResultCodeEnum.JOB_CONFIG_NULL);
+        }
         try {
             // 根据配置获取任务类
             Class<? extends Job> jobClass = getJobClass(cronJobConfig);
@@ -166,12 +171,15 @@ public class QuartzUtil {
         // 根据传入的jobName生成Trigger的唯一标识
         TriggerBuilder<Trigger> triggerTriggerBuilder = TriggerBuilder.newTrigger()
                 .withIdentity(jobName);
+        if (cronJobConfig.getStartTime() != null && cronJobConfig.getEndTime() != null) {
+            triggerTriggerBuilder
+                    .startAt(Date.from(cronJobConfig.getStartTime().atZone(ZoneId.systemDefault()).toInstant()))
+                    .endAt(Date.from(cronJobConfig.getEndTime().atZone(ZoneId.systemDefault()).toInstant()));
+        }
         // 根据不同的Cron类型设置Trigger的调度方式
         if (StringUtils.equals(QuartzConsts.CRON_TYPE_0, cronJobConfig.getCronType())) {
             // 对于简单调度类型，设置Trigger的开始时间、结束时间和重复次数
             triggerTriggerBuilder
-                    .startAt(Date.from(cronJobConfig.getStartTime().atZone(ZoneId.systemDefault()).toInstant()))
-                    .endAt(Date.from(cronJobConfig.getEndTime().atZone(ZoneId.systemDefault()).toInstant()))
                     .withSchedule(SimpleScheduleBuilder
                             .simpleSchedule()
                             .withIntervalInSeconds(cronJobConfig.getExpressionInterval())
