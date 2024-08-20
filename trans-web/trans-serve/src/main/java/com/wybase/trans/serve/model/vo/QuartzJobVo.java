@@ -1,5 +1,8 @@
 package com.wybase.trans.serve.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,6 +16,7 @@ import java.util.List;
  */
 @Data
 @ToString
+@AutoMapper(target = CronJobConfig.class)
 public class QuartzJobVo {
     /**
      * 任务id
@@ -62,11 +66,13 @@ public class QuartzJobVo {
     /**
      * 任务开始时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     /**
      * 任务结束时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
     /**

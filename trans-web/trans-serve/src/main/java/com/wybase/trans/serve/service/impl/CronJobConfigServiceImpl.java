@@ -1,18 +1,22 @@
 package com.wybase.trans.serve.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.common.consts.TransHeardConsts;
+import com.wybase.trans.common.util.MapstructUtils;
+import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.mapper.generate.CronJobConfigMapper;
 import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
 import com.wybase.trans.serve.model.vo.QuartzJobVo;
 import com.wybase.trans.serve.service.ICronJobConfigService;
 import com.wybase.trans.serve.timer.util.QuartzUtil;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 /**
  * 定时任务配置表 服务层实现。
@@ -31,46 +35,23 @@ public class CronJobConfigServiceImpl extends ServiceImpl<CronJobConfigMapper, C
      */
     @Override
     public void addJob(QuartzJobVo quartzJobVo) {
-        CronJobConfig cronJobConfig = new CronJobConfig();
-        cronJobConfig.setJobId("1");
-        cronJobConfig.setJobName("任务测试");
-        cronJobConfig.setBeanTarget("task1");
-        cronJobConfig.setBeanMethodTarget("handle");
-        cronJobConfig.setJobStat("0");
-        cronJobConfig.setConcurrent("0");
-        cronJobConfig.setMisfirePolicy("");
-        cronJobConfig.setCronType("1");
-        cronJobConfig.setCronExpression("0/5 * * * * ?");
-        cronJobConfig.setExpressionCount(0);
-        cronJobConfig.setExpressionInterval(0);
-        cronJobConfig.setJobType("1");
-        cronJobConfig.setRemark("cececece");
-        cronJobConfig.setCreateUser("1");
-        cronJobConfig.setUpdateUser("1");
-        cronJobConfig.setCreateTime(LocalDateTime.now());
-        cronJobConfig.setUpdateTime(LocalDateTime.now());
-        cronJobConfig.setRecdStat("0");
-        save(cronJobConfig);
-        QuartzUtil.createJob(scheduler, cronJobConfig);
-
-        cronJobConfig.setJobId("2");
-        cronJobConfig.setJobName("222任务测试");
-        cronJobConfig.setBeanTarget("task2");
-        cronJobConfig.setBeanMethodTarget("handle");
-        cronJobConfig.setJobStat("0");
-        cronJobConfig.setConcurrent("1");
-        cronJobConfig.setMisfirePolicy("");
-        cronJobConfig.setCronType("0");
-        cronJobConfig.setCronExpression("0/5 * * * * ?");
-        cronJobConfig.setExpressionCount(10);
-        cronJobConfig.setExpressionInterval(10);
-        cronJobConfig.setJobType("1");
-        cronJobConfig.setRemark("testesttest");
-        cronJobConfig.setCreateUser("1");
-        cronJobConfig.setUpdateUser("1");
-        cronJobConfig.setCreateTime(LocalDateTime.now());
-        cronJobConfig.setUpdateTime(LocalDateTime.now());
-        cronJobConfig.setRecdStat("0");
+        String userId = TransContext.getString(TransHeardConsts.TOKEN_USER_ID);
+        long flakeId = IdUtil.getSnowflakeNextId();
+        String jobId = String.format("q%s", flakeId);
+        logger.debug("定时任务ID:{}", jobId);
+        CronJobConfig cronJobConfig = MapstructUtils.convert(quartzJobVo, CronJobConfig.class);
+        String jobType = cronJobConfig.getJobType();
+        if(StringUtils.equals(jobType, "1")){
+            cronJobConfig.setBeanTarget("task1");
+            cronJobConfig.setBeanMethodTarget("handle");
+        }else {
+            cronJobConfig.setBeanTarget("task2");
+            cronJobConfig.setBeanMethodTarget("handle");
+        }
+        cronJobConfig.setJobId(jobId);
+        cronJobConfig.setCreateUser(userId);
+        cronJobConfig.setUpdateUser(userId);
+        cronJobConfig.setRecdStat(TransConsts.RECD_STAT_0);
         save(cronJobConfig);
         QuartzUtil.createJob(scheduler, cronJobConfig);
     }
