@@ -182,13 +182,15 @@ public class QuartzUtil {
             triggerTriggerBuilder
                     .withSchedule(SimpleScheduleBuilder
                             .simpleSchedule()
+                            .withMisfireHandlingInstructionNowWithExistingCount()
                             .withIntervalInSeconds(cronJobConfig.getExpressionInterval())
                             .withRepeatCount(cronJobConfig.getExpressionCount()));
         } else if (StringUtils.equals(QuartzConsts.CRON_TYPE_1, cronJobConfig.getCronType())) {
             // 对于复杂Cron表达式类型，设置Trigger的调度规则
             triggerTriggerBuilder
                     .withSchedule(CronScheduleBuilder
-                            .cronSchedule(cronJobConfig.getCronExpression()));
+                            .cronSchedule(cronJobConfig.getCronExpression())
+                            .withMisfireHandlingInstructionDoNothing());
         }
 
         // 创建触发器，与任务绑定
