@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import enumlist from '@/api/meetblog/enumlist'
+import enumlist from '@/api/meetblog/system/enumlist'
 import Cookies from 'js-cookie'
 import transRecd from '@/api/meetblog/transRecd'
 

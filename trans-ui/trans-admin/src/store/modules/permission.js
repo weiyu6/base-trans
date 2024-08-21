@@ -1,7 +1,7 @@
 import { constantRoutes } from '@/router'
 import { getToken } from '@/utils/auth'
 import Layout from '@/layout'
-import menu from '@/api/meetblog/menu'
+import menu from '@/api/meetblog/auth/menu'
 
 /**
  * Use meta.role to determine if the current user has permission

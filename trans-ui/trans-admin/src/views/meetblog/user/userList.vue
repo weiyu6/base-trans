@@ -349,9 +349,9 @@
 </template>
 
 <script>
-import userInfo from '@/api/meetblog/userInfo'
-import enumlist from '@/api/meetblog/enumlist'
-import role from '@/api/meetblog/role'
+import userInfo from '@/api/meetblog/user/userInfo'
+import enumlist from '@/api/meetblog/system/enumlist'
+import role from '@/api/meetblog/auth/role'
 
 export default {
   name: 'UserList',

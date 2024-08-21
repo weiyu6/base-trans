@@ -193,8 +193,8 @@
 </template>
 
 <script>
-import menu from '@/api/meetblog/menu'
-import enumlist from '@/api/meetblog/enumlist'
+import menu from '@/api/meetblog/auth/menu'
+import enumlist from '@/api/meetblog/system/enumlist'
 import IconsDialog from '@/components/IconsDialog'
 
 export default {

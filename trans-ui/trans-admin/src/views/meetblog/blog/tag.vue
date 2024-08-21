@@ -96,8 +96,8 @@
 
 <script>
 
-import tagclassfc from '@/api/meetblog/tagclassfc'
-import role from '@/api/meetblog/role'
+import tagclassfc from '@/api/meetblog/blog/tagclassfc'
+import role from '@/api/meetblog/auth/role'
 
 export default {
   name: 'Tag',

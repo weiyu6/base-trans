@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import tagclassfc from '@/api/meetblog/tagclassfc'
+import tagclassfc from '@/api/meetblog/blog/tagclassfc'
 
 export default {
   name: 'Classfc',

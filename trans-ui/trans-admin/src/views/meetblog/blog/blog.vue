@@ -295,9 +295,9 @@
 
 <script>
 import wangeditor from '@/components/WangEditor/wangeditor'
-import tagclassfc from '@/api/meetblog/tagclassfc'
-import blog from '@/api/meetblog/blog'
-import enumlist from '@/api/meetblog/enumlist'
+import tagclassfc from '@/api/meetblog/blog/tagclassfc'
+import blog from '@/api/meetblog/blog/blog'
+import enumlist from '@/api/meetblog/system/enumlist'
 
 export default {
   name: 'Blog',

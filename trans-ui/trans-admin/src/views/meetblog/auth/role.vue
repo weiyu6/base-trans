@@ -118,8 +118,8 @@
 </template>
 
 <script>
-import role from '@/api/meetblog/role'
-import menu from '@/api/meetblog/menu'
+import role from '@/api/meetblog/auth/role'
+import menu from '@/api/meetblog/auth/menu'
 
 export default {
   name: 'Role',

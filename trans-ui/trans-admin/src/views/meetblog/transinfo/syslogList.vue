@@ -178,7 +178,7 @@
 <script>
 import syslog from '@/api/meetblog/syslog'
 import transRecd from '@/api/meetblog/transRecd'
-import enumlist from '@/api/meetblog/enumlist'
+import enumlist from '@/api/meetblog/system/enumlist'
 
 export default {
   name: 'SyslogList',

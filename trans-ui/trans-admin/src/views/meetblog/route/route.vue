@@ -163,7 +163,7 @@
 
 <script>
 import route from '@/api/meetblog/route'
-import menu from '@/api/meetblog/menu'
+import menu from '@/api/meetblog/auth/menu'
 
 export default {
   name: 'Role',
