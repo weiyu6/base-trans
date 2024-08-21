@@ -4,6 +4,8 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -13,6 +15,7 @@ import java.security.PublicKey;
  * @author weiyu
  * @date 2023/8/5
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PwdUtil {
     public boolean pwdChk(String privateKey) {
         RSA rsa = new RSA(privateKey,null);

@@ -8,6 +8,8 @@ import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
 import com.wybase.trans.serve.timer.consts.QuartzConsts;
 import com.wybase.trans.serve.timer.domain.QuartzJobConcurrentExecution;
 import com.wybase.trans.serve.timer.domain.QuartzJobExecution;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
@@ -30,6 +32,7 @@ import java.util.Date;
  * @author weiyu
  * @date 2024/8/19
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QuartzUtil {
     private static final Logger logger = LoggerFactory.getLogger(QuartzUtil.class);
 

@@ -6,9 +6,11 @@ import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.xml.bind.DatatypeConverter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.crypto.spec.SecretKeySpec;
-import jakarta.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 
@@ -17,6 +19,7 @@ import java.util.Date;
  * @author weiyu
  * @date 2023/9/14
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtUtil {
 
     public static String createToken(String userId, String userName, String tokenSignKey, long tokenExpiration) {

@@ -3,6 +3,8 @@ package com.wybase.trans.common.util;
 import com.alibaba.excel.EasyExcel;
 import com.wybase.trans.common.excel.DefaultExcelListener;
 import com.wybase.trans.common.excel.ExcelResult;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.InputStream;
 
@@ -12,6 +14,7 @@ import java.io.InputStream;
  * @author weiyu
  * @date 2024/5/10
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExcelUtil {
     /**
      * 从Excel中导入数据。

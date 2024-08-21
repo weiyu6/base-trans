@@ -7,6 +7,8 @@ import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.serve.config.TransApplicationContext;
 import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
 import com.wybase.trans.serve.timer.consts.QuartzConsts;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import java.lang.reflect.Method;
  * @author weiyu
  * @date 2024/8/19
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JobExecutionUtils {
     private static final Logger logger = LoggerFactory.getLogger(JobExecutionUtils.class);
 

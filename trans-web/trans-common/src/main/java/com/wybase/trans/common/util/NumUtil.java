@@ -1,5 +1,8 @@
 package com.wybase.trans.common.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -8,6 +11,7 @@ import java.util.Random;
  * @author weiyu
  * @date 2023/07/29
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NumUtil {
 
     private static final Random random = new Random();

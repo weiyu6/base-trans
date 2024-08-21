@@ -1,5 +1,7 @@
 package com.wybase.trans.common.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import java.security.SecureRandom;
  * @author weiyu
  * @date 2023/8/5
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EncryptUtil {
     private static final Logger logger = LoggerFactory.getLogger(EncryptUtil.class);
     private static final String defaultCharset = "UTF-8";
