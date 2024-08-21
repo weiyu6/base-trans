@@ -1,6 +1,8 @@
 package com.wybase.trans.serve.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wybase.trans.common.consts.TransConsts;
 import com.wybase.trans.common.consts.TransHeardConsts;
@@ -8,6 +10,7 @@ import com.wybase.trans.common.util.MapstructUtils;
 import com.wybase.trans.serve.config.TransContext;
 import com.wybase.trans.serve.mapper.generate.CronJobConfigMapper;
 import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
+import com.wybase.trans.serve.model.entity.generate.table.CronJobConfigTableDef;
 import com.wybase.trans.serve.model.vo.QuartzJobVo;
 import com.wybase.trans.serve.service.ICronJobConfigService;
 import com.wybase.trans.serve.timer.util.QuartzUtil;
@@ -54,5 +57,19 @@ public class CronJobConfigServiceImpl extends ServiceImpl<CronJobConfigMapper, C
         cronJobConfig.setRecdStat(TransConsts.RECD_STAT_0);
         save(cronJobConfig);
         QuartzUtil.createJob(scheduler, cronJobConfig);
+    }
+
+    /**
+     * 查询定时任务配置表。
+     * @param quartzJobVo
+     */
+    @Override
+    public Page<CronJobConfig> jobListQry(QuartzJobVo quartzJobVo) {
+        QueryWrapper wrapper = QueryWrapper.create()
+                .from(CronJobConfig.class)
+                .where(CronJobConfigTableDef.CRON_JOB_CONFIG.RECD_STAT.eq(TransConsts.RECD_STAT_0))
+                .orderBy(CronJobConfigTableDef.CRON_JOB_CONFIG.JOB_ID, false);
+        Page<CronJobConfig> page = new Page<>(quartzJobVo.getPageNum(), quartzJobVo.getPageSize());
+        return page(page, wrapper);
     }
 }

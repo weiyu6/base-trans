@@ -66,13 +66,13 @@ public class QuartzJobVo {
     /**
      * 任务开始时间
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     /**
      * 任务结束时间
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
     /**
@@ -89,4 +89,14 @@ public class QuartzJobVo {
      * 备注
      */
     private String remark;
+
+    /**
+     * 页码
+     */
+    private int pageNum;
+
+    /**
+     * 每页显示数量
+     */
+    private int pageSize;
 }

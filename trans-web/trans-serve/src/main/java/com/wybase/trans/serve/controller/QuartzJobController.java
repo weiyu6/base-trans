@@ -1,11 +1,13 @@
 package com.wybase.trans.serve.controller;
 
+import com.mybatisflex.core.paginate.Page;
 import com.wybase.trans.base.aspect.MethodName;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.Result;
 import com.wybase.trans.base.result.ResultCodeEnum;
 import com.wybase.trans.common.consts.CronJobConsts;
 import com.wybase.trans.common.consts.TransConsts;
+import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
 import com.wybase.trans.serve.model.vo.QuartzJobVo;
 import com.wybase.trans.serve.service.ICronJobConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +47,17 @@ public class QuartzJobController {
         service.addJob(quartzJobVo);
         logger.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
+    }
+
+    @MethodName(value = "定时任务查询", transType = TransConsts.TRANS_TYPE_1)
+    @Operation(summary = "定时任务查询")
+    @PostMapping("/jobListQry")
+    public Result jobListQry(@RequestBody QuartzJobVo quartzJobVo) {
+        logger.info("QuartzJobController.jobListQry begin >>>>>>>>>>>>>>>>>>>");
+        logger.info("quartzJobVo:{}", quartzJobVo);
+        Page<CronJobConfig> blogPage = service.jobListQry(quartzJobVo);
+        logger.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
+        return Result.ok(blogPage);
     }
 
     private void cronJobInfoChk(QuartzJobVo quartzJobVo) {
