@@ -4,8 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
+import com.wybase.trans.common.consts.CronJobConsts;
 import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
-import com.wybase.trans.serve.timer.consts.QuartzConsts;
 import com.wybase.trans.serve.timer.domain.QuartzJobConcurrentExecution;
 import com.wybase.trans.serve.timer.domain.QuartzJobExecution;
 import lombok.AccessLevel;
@@ -160,7 +160,7 @@ public class QuartzUtil {
                 .withDescription(cronJobConfig.getRemark())
                 .build();
         // 将任务配置信息序列化后存入任务的DataMap中，以便在任务执行时使用
-        jobDetail.getJobDataMap().put(QuartzConsts.QUARTZ_JOB_DETAILS, JSON.toJSONString(cronJobConfig));
+        jobDetail.getJobDataMap().put(CronJobConsts.QUARTZ_JOB_DETAILS, JSON.toJSONString(cronJobConfig));
         return jobDetail;
     }
 
@@ -180,7 +180,7 @@ public class QuartzUtil {
                     .endAt(Date.from(cronJobConfig.getEndTime().atZone(ZoneId.systemDefault()).toInstant()));
         }
         // 根据不同的Cron类型设置Trigger的调度方式
-        if (StringUtils.equals(QuartzConsts.CRON_TYPE_0, cronJobConfig.getCronType())) {
+        if (StringUtils.equals(CronJobConsts.CRON_TYPE_SIMPL, cronJobConfig.getCronType())) {
             // 对于简单调度类型，设置Trigger的开始时间、结束时间和重复次数
             triggerTriggerBuilder
                     .withSchedule(SimpleScheduleBuilder
@@ -188,7 +188,7 @@ public class QuartzUtil {
                             .withMisfireHandlingInstructionNowWithExistingCount()
                             .withIntervalInSeconds(cronJobConfig.getExpressionInterval())
                             .withRepeatCount(cronJobConfig.getExpressionCount()));
-        } else if (StringUtils.equals(QuartzConsts.CRON_TYPE_1, cronJobConfig.getCronType())) {
+        } else if (StringUtils.equals(CronJobConsts.CRON_TYPE_CRON, cronJobConfig.getCronType())) {
             // 对于复杂Cron表达式类型，设置Trigger的调度规则
             triggerTriggerBuilder
                     .withSchedule(CronScheduleBuilder
@@ -211,7 +211,7 @@ public class QuartzUtil {
         // 根据并发配置选择合适的任务执行类
         Class<? extends Job> jobClass = QuartzJobExecution.class;
         // 如果任务不允许并发执行，则使用禁止并发的任务执行类
-        if (StringUtils.equals(QuartzConsts.CONCURRENT_1, concurrent)) {
+        if (StringUtils.equals(CronJobConsts.CONCURRENT_1, concurrent)) {
             jobClass = QuartzJobConcurrentExecution.class;
         }
         return jobClass;

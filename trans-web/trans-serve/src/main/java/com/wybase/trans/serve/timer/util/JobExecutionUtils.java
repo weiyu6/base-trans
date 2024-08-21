@@ -4,9 +4,9 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wybase.trans.base.exception.TransException;
 import com.wybase.trans.base.result.ResultCodeEnum;
+import com.wybase.trans.common.consts.CronJobConsts;
 import com.wybase.trans.serve.config.TransApplicationContext;
 import com.wybase.trans.serve.model.entity.generate.CronJobConfig;
-import com.wybase.trans.serve.timer.consts.QuartzConsts;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.quartz.JobDetail;
@@ -36,14 +36,14 @@ public class JobExecutionUtils {
             logger.error("定时任务信息为空");
             throw new TransException(ResultCodeEnum.ERROR, "定时任务信息为空");
         }
-        Object object = jobDetail.getJobDataMap().get(QuartzConsts.QUARTZ_JOB_DETAILS);
+        Object object = jobDetail.getJobDataMap().get(CronJobConsts.QUARTZ_JOB_DETAILS);
         if (ObjectUtil.isEmpty(object)) {
             logger.error("定时任务信息为空");
             throw new TransException(ResultCodeEnum.ERROR, "定时任务信息为空");
         }
         try {
             CronJobConfig cronJobConfig = JSON.parseObject(object.toString(), CronJobConfig.class);
-            // 将定时任务信息转换为JobDetails对象
+            logger.info("定时任务配置信息：{}", cronJobConfig);
             // 通过上下文获取任务对应的bean
             Object bean = TransApplicationContext.getBean(cronJobConfig.getBeanTarget());
             // 获取bean对应的方法

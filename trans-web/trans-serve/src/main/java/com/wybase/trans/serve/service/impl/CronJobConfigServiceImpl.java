@@ -41,10 +41,10 @@ public class CronJobConfigServiceImpl extends ServiceImpl<CronJobConfigMapper, C
         logger.debug("定时任务ID:{}", jobId);
         CronJobConfig cronJobConfig = MapstructUtils.convert(quartzJobVo, CronJobConfig.class);
         String jobType = cronJobConfig.getJobType();
-        if(StringUtils.equals(jobType, "1")){
+        if (StringUtils.equals(jobType, "1")) {
             cronJobConfig.setBeanTarget("task1");
             cronJobConfig.setBeanMethodTarget("handle");
-        }else {
+        } else {
             cronJobConfig.setBeanTarget("task2");
             cronJobConfig.setBeanMethodTarget("handle");
         }
