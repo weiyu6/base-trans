@@ -31,9 +31,9 @@ import java.time.LocalDateTime;
  */
 @Tag(name = "定时任务")
 @RestController
-@RequestMapping("/online/quartz")
-public class QuartzJobController {
-    private static final Logger logger = LoggerFactory.getLogger(QuartzJobController.class);
+@RequestMapping("/online/cronJob")
+public class CronJobController {
+    private static final Logger logger = LoggerFactory.getLogger(CronJobController.class);
     @Resource
     private ICronJobConfigService service;
 
@@ -45,7 +45,7 @@ public class QuartzJobController {
         logger.info("quartzJobVo:{}", quartzJobVo);
         cronJobInfoChk(quartzJobVo);
         service.addJob(quartzJobVo);
-        logger.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
+        logger.debug("LoginController.addJob end:<<<<<<<<<<<<<<<<<");
         return Result.ok();
     }
 
@@ -56,7 +56,7 @@ public class QuartzJobController {
         logger.info("QuartzJobController.jobListQry begin >>>>>>>>>>>>>>>>>>>");
         logger.info("quartzJobVo:{}", quartzJobVo);
         Page<CronJobConfig> blogPage = service.jobListQry(quartzJobVo);
-        logger.debug("LoginController.login end:<<<<<<<<<<<<<<<<<");
+        logger.debug("LoginController.jobListQry end:<<<<<<<<<<<<<<<<<");
         return Result.ok(blogPage);
     }
 

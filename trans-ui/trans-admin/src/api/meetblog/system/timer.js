@@ -3,7 +3,7 @@ export default {
 
   getJobList(searchObj) {
     return request({
-      url: `/online/quartz/jobListQry`,
+      url: `/online/cronJob/jobListQry`,
       method: 'post',
       data: searchObj
     })
