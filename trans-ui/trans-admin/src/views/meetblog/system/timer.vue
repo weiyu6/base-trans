@@ -203,7 +203,7 @@ export default {
     /* 新增或者修改*/
     saveOrUpdate() {
       if (this.operFlg === '1') {
-        enumjs.enumMdf(this.jobInfo).then(() => {
+        timerjs.enumMdf(this.jobInfo).then(() => {
           this.$message({
             type: 'success',
             message: '修改成功!'
@@ -212,7 +212,7 @@ export default {
           this.closeDialog()
         })
       } else if (this.operFlg === '2') {
-        enumjs.enumAdd(this.jobInfo).then(() => {
+        timerjs.enumAdd(this.jobInfo).then(() => {
           this.$message({
             type: 'success',
             message: '新增成功!'
@@ -240,7 +240,7 @@ export default {
       }).then(() => {
         const obj = {}
         obj.id = id
-        enumjs.enumDel(obj).then(() => {
+        timerjs.enumDel(obj).then(() => {
           // 提示
           this.$message({
             type: 'success',
